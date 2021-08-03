@@ -1,19 +1,21 @@
 <!doctype html>
 <html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
+<head th:replace="/usr/common/common :: head"></head>
 <body>
-<div th:each="article : ${articles}" th:object="${article}">
-    <div th:text="*{id}"></div>
-    <div th:text="*{regDate}"></div>
-    <div th:text="*{updateDate}"></div>
-    <div th:text="*{title}"></div>
-    <hr>
+<div class="site-wrap">
+    <header th:replace="/usr/common/common :: header"></header>
+
+    <main>
+        <div th:each="article : ${articles}" th:object="${article}">
+            <div th:text="*{id}"></div>
+            <div th:text="*{regDate}"></div>
+            <div th:text="*{updateDate}"></div>
+            <div th:text="*{title}"></div>
+            <hr>
+        </div>
+    </main>
+
+    <footer th:replace="/usr/common/common :: footer"></footer>
 </div>
 </body>
 </html>
