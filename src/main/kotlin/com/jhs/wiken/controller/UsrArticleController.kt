@@ -3,6 +3,8 @@ package com.jhs.wiken.controller
 import com.jhs.wiken.service.ArticleService
 import com.jhs.wiken.vo.Article
 import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
+import org.springframework.ui.set
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
 
@@ -10,7 +12,16 @@ import org.springframework.web.bind.annotation.ResponseBody
 class UsrArticleController(private val articleService: ArticleService) {
     @RequestMapping("/usr/article/getArticles")
     @ResponseBody
-    fun showMain(): List<Article> {
+    fun getArticles(): List<Article> {
         return articleService.getArticles()
+    }
+
+    @RequestMapping("/usr/article/list")
+    fun showList(model: Model): String {
+        val articles = articleService.getArticles()
+
+        model.set("articles", articles)
+
+        return "usr/article/list"
     }
 }
