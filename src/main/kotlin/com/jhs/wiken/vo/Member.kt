@@ -1,9 +1,9 @@
 package com.jhs.wiken.vo
 
-data class Article(
+data class Member(
     val id: Int,
     val regDate: String,
     val updateDate: String,
-    val title: String,
-    val body: String,
+    val loginId: String,
+    val loginPw: String,
 )
