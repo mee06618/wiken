@@ -6,7 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <title>[[#{common.logoText}]]</title>
+    <title layout:title-pattern="$LAYOUT_TITLE | $CONTENT_TITLE">[[#{common.logoText}]]</title>
 
     <!-- 폰트어썸 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -27,8 +27,8 @@
     <script src="/resource/common.js" defer></script>
 </head>
 <body>
-<div class="site-wrap">
-    <header>
+<div class="site-wrap min-h-screen flex flex-col">
+    <header class="bg-gray-200 flex-shrink-0">
         <div class="container mx-auto px-3 h-[50px] flex">
             <a href="/usr/home/main" class="logo bg-red-500 flex items-center">
                 로고
@@ -43,11 +43,11 @@
         </div>
     </header>
 
-    <main layout:fragment="main">
+    <main class="flex-grow" layout:fragment="main">
 
     </main>
 
-    <footer>
+    <footer class="bg-gray-200 flex-shrink-0">
         푸터
     </footer>
 </div>
