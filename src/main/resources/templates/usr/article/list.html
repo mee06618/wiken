@@ -6,6 +6,13 @@
 </head>
 
 <main layout:fragment="main">
+    <th:block th:if="${rq.logined}">
+        [[${rq.loginedMember}]]
+    </th:block>
+    <th:block th:unless="${rq.logined}">
+        로그인 안됨
+    </th:block>
+
     <div th:each="article : ${articles}" th:object="${article}">
         <div th:text="*{id}"></div>
         <div th:text="*{regDate}"></div>

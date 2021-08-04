@@ -2,6 +2,7 @@ package com.jhs.wiken.controller
 
 import com.jhs.wiken.service.ArticleService
 import com.jhs.wiken.vo.Article
+import com.jhs.wiken.vo.Rq
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.ui.set
