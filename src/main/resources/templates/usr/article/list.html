@@ -1,23 +1,17 @@
 <!doctype html>
-<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
-<head th:replace="/usr/common/common :: head">
-    <title id="pageTitle"><fragment th:remove="tag" th:text="#{common.logoText}"></fragment> | 리스트</title>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{usr/common/layout}">
+<head>
+    <title>위켄 | 리스트</title>
 </head>
-<body>
-<div class="site-wrap">
-    <header th:replace="/usr/common/common :: header"></header>
 
-    <main>
-        <div th:each="article : ${articles}" th:object="${article}">
-            <div th:text="*{id}"></div>
-            <div th:text="*{regDate}"></div>
-            <div th:text="*{updateDate}"></div>
-            <div th:text="*{title}"></div>
-            <hr>
-        </div>
-    </main>
-
-    <footer th:replace="/usr/common/common :: footer"></footer>
-</div>
-</body>
+<main layout:fragment="main">
+    <div th:each="article : ${articles}" th:object="${article}">
+        <div th:text="*{id}"></div>
+        <div th:text="*{regDate}"></div>
+        <div th:text="*{updateDate}"></div>
+        <div th:text="*{title}"></div>
+        <hr>
+    </div>
+</main>
 </html>
