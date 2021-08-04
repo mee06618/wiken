@@ -1,17 +1,13 @@
-<!doctype html>
-<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
-<head th:replace="/usr/common/common :: head">
-    <title id="pageTitle"><fragment th:remove="tag" th:text="#{common.logoText}"></fragment> | 메인</title>
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{usr/common/layout}">
+<head>
+    <title>Content page</title>
+    <script src="content-script.js"></script>
 </head>
 <body>
-<div class="site-wrap">
-    <header th:replace="/usr/common/common :: header"></header>
-
-    <main>
-        <div th:text="${name}"></div>
-    </main>
-
-    <footer th:replace="/usr/common/common :: footer"></footer>
-</div>
+<section layout:fragment="content">
+    <p>This is a paragraph from the content page</p>
+</section>
 </body>
 </html>
