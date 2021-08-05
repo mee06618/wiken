@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse
 @Component
 class BeforeActionInterceptor : HandlerInterceptor {
     override fun preHandle(req: HttpServletRequest, resp: HttpServletResponse, handler: Any): Boolean {
+        println("로그인 안됨")
+
         val rq = Rq()
 
         rq.setLoginInfo(req.session)
