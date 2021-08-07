@@ -1,9 +1,8 @@
 package com.jhs.wiken.repository
 
-import org.apache.ibatis.annotations.Insert
-import org.apache.ibatis.annotations.Mapper
-import org.apache.ibatis.annotations.Param
-import org.apache.ibatis.annotations.Select
+import com.jhs.wiken.vo.Article
+import com.jhs.wiken.vo.Ken
+import org.apache.ibatis.annotations.*
 
 @Mapper
 interface KenRepository {
@@ -33,4 +32,34 @@ interface KenRepository {
     """
     )
     fun getLastInsertId(): Int
+
+    @Select(
+        """
+        SELECT *
+        FROM ken
+        WHERE id = #{id}
+    """
+    )
+    fun getKen(@Param("id") id: Int): Ken?
+
+    @Update(
+        """
+        <script>
+        UPDATE ken
+        <set>
+            updateDate = NOW(),
+            title = #{title},
+            `source` = #{source},
+            result = #{result},
+        </set>
+        WHERE id = #{id}
+        </script>
+    """
+    )
+    fun modify(
+        @Param("id") id: Int,
+        @Param("title") title: String,
+        @Param("source") source: String,
+        @Param("result") result: String
+    )
 }

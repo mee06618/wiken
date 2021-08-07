@@ -1,6 +1,8 @@
 package com.jhs.wiken.service
 
 import com.jhs.wiken.repository.KenRepository
+import com.jhs.wiken.vo.Article
+import com.jhs.wiken.vo.Ken
 import com.jhs.wiken.vo.ResultData
 import org.springframework.stereotype.Service
 
@@ -10,7 +12,15 @@ class KenService(private val kenRepository: KenRepository) {
         kenRepository.write(memberId, title, source, result)
         val id = kenRepository.getLastInsertId()
 
-        println("id : ${id}")
+        return ResultData.from("S-1", "${id}번 켄이 생성되었습니다.", "id", id)
+    }
+
+    fun getKen(id: Int): Ken? {
+        return kenRepository.getKen(id)
+    }
+
+    fun modify(id: Int, title: String, source: String, result: String): ResultData<Int> {
+        kenRepository.modify(id, title, source, result)
 
         return ResultData.from("S-1", "${id}번 켄이 생성되었습니다.", "id", id)
     }
