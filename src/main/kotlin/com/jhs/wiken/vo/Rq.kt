@@ -1,8 +1,13 @@
 package com.jhs.wiken.vo
 
 import com.jhs.wiken.util.Ut
+import org.springframework.context.annotation.Scope
+import org.springframework.context.annotation.ScopedProxyMode
+import org.springframework.stereotype.Component
 import javax.servlet.http.HttpSession
 
+@Component("rq")
+@Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
 class Rq() {
     private var isLogined: Boolean = false
     private var loginedMember: Member? = null;
