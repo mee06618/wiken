@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
 class UsrHomeController {
-    @RequestMapping("/usr/home/main")
+    @RequestMapping("/home/main")
     fun showMain(model: Model): String {
         model.addAttribute("rq", Rq())
         model.addAttribute("name", "홍길동")

@@ -89,7 +89,7 @@ SET memberId = 2
 WHERE memberId = 0;
 
 # 문서 테이블
-CREATE TABLE document (
+CREATE TABLE ken (
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     regDate DATETIME NOT NULL,
     updateDate DATETIME NOT NULL,
@@ -107,7 +107,7 @@ CREATE TABLE document (
 );
 
 # 문서 테이블
-INSERT INTO document
+INSERT INTO ken
 SET regDate = NOW(),
 updateDate = NOW(),
 memberId = 1,
@@ -117,7 +117,7 @@ result = '<h1>내용1</h1>',
 typeCode = 'common',
 type2Code = 'markdown';
 
-INSERT INTO document
+INSERT INTO ken
 SET regDate = NOW(),
 updateDate = NOW(),
 memberId = 2,
