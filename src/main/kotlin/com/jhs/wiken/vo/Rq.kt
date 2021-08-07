@@ -30,4 +30,18 @@ class Rq() {
         isLogined = true
         loginedMember = Ut.getObjFromJsonStr(loginedMemberJsonStr)
     }
+
+    fun replaceJs(msg: String, uri: String): String {
+        return """
+            <script>
+            const msg = '${msg}'.trim();
+            
+            if ( msg.length > 0 ) {
+                alert(msg);
+            }
+            
+            location.replace('${uri}');
+            </script>
+        """.trimIndent()
+    }
 }
