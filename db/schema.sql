@@ -87,3 +87,42 @@ ALTER TABLE article ADD COLUMN memberId INT(10) UNSIGNED NOT NULL AFTER `updateD
 UPDATE article
 SET memberId = 2
 WHERE memberId = 0;
+
+# 문서 테이블
+CREATE TABLE document (
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME NOT NULL,
+    updateDate DATETIME NOT NULL,
+    memberId INT(10) UNSIGNED NOT NULL,
+    title CHAR(100) NOT NULL,
+    `source` MEDIUMTEXT NOT NULL,
+    result MEDIUMTEXT NOT NULL,
+    typeCode CHAR(20) NOT NULL COMMENT '종류 코드',
+    type2Code CHAR(20) NOT NULL COMMENT '종류2 코드',
+    `docTypeVersion` SMALLINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '문서버전',
+    publishDate DATETIME COMMENT '공개된 날짜',
+    publishStatus TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '공개여부(0=미공개,1=공개)',
+    delDate DATETIME COMMENT '삭제된 날짜',
+    delStatus TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '삭제여부(0=미삭제,1=삭제)'
+);
+
+# 문서 테이블
+INSERT INTO document
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 1,
+title = '무제 1',
+`source` = '# 내용1',
+result = '<h1>내용1</h1>',
+typeCode = 'common',
+type2Code = 'markdown';
+
+INSERT INTO document
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 2,
+title = '무제 2',
+`source` = '# 내용2',
+result = '<h1>내용2</h1>',
+typeCode = 'common',
+type2Code = 'markdown';
