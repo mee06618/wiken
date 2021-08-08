@@ -40,4 +40,11 @@ class UsrKenController(private val kenService: KenService) {
         model.addAttribute("ken", ken)
         return "usr/ken/write"
     }
+
+    @RequestMapping("/ken/{id}")
+    fun showDetail(@PathVariable("id") id: Int, model: Model): String {
+        val ken = kenService.getKen(id)
+        model.addAttribute("ken", ken)
+        return "usr/ken/detail"
+    }
 }

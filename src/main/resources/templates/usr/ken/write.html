@@ -33,12 +33,6 @@
       form.submit();
     }
   </script>
-  <style>
-    html .toastui-editor-contents,
-    html .ProseMirror {
-      font-size:18px;
-    }
-  </style>
   <form name="ken-write-form" action="/ken/doWrite" method="POST" onsubmit="KenWrite__submit(); return false;"
         class="h-full flex flex-col">
     <input type="hidden" name="id" th:value="${ken != null ? ken.id : 0}">

@@ -1,0 +1,18 @@
+<!doctype html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{usr/common/layout}">
+<head>
+  <title>Ken [[${ken.id}]]</title>
+</head>
+
+<main layout:fragment="main">
+  <div class="container h-full mx-auto px-3">
+    <div class="toast-ui-viewer h-full" data-toast-editor-height="100%;">
+      <script type="text/x-template">
+[(${ken.source})]
+      </script>
+    </div>
+  </div>
+  </form>
+</main>
+</html>
