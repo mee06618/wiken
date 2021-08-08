@@ -1,70 +1,64 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <title layout:title-pattern="$LAYOUT_TITLE | $CONTENT_TITLE">[[#{common.logoText}]]</title>
+  <title layout:title-pattern="$LAYOUT_TITLE | $CONTENT_TITLE">[[#{common.logoText}]]</title>
 
-    <!-- 폰트어썸 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <!-- 폰트어썸 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
-    <!-- 제이쿼리 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <!-- 제이쿼리 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-    <!-- 테일윈드 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.7/tailwind.min.css">
+  <!-- 사이트 공통 CSS -->
+  <link rel="stylesheet" href="/resource/dist.css">
 
-    <!-- 데이지 UI -->
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@1.10.0/dist/full.css" rel="stylesheet" type="text/css"/>
+  <!-- 제이쿼리 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" defer></script>
 
-    <!-- 사이트 공통 CSS -->
-    <link rel="stylesheet" href="/resource/common.css">
+  <!-- 토스트 에디터, 뷰어 시작 -->
 
-    <!-- 제이쿼리 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.0/purify.min.js"></script>
 
-    <!-- 토스트 에디터, 뷰어 시작 -->
+  <!-- 토스트 UI 에디터 코어 -->
+  <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+  <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css"/>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.0/purify.min.js"></script>
+  <!-- 토스트 UI 에디터 플러그인, 컬러피커 -->
+  <link rel="stylesheet" href="https://uicdn.toast.com/tui-color-picker/latest/tui-color-picker.css"/>
+  <script src="https://uicdn.toast.com/tui-color-picker/latest/tui-color-picker.min.js"></script>
 
-    <!-- 토스트 UI 에디터 코어 -->
-    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
-    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css"/>
+  <link rel="stylesheet"
+        href="https://uicdn.toast.com/editor-plugin-color-syntax/latest/toastui-editor-plugin-color-syntax.min.css"/>
+  <script src="https://uicdn.toast.com/editor-plugin-color-syntax/latest/toastui-editor-plugin-color-syntax.min.js"></script>
 
-    <!-- 토스트 UI 에디터 플러그인, 컬러피커 -->
-    <link rel="stylesheet" href="https://uicdn.toast.com/tui-color-picker/latest/tui-color-picker.css"/>
-    <script src="https://uicdn.toast.com/tui-color-picker/latest/tui-color-picker.min.js"></script>
+  <!-- 토스트 UI 차트 -->
+  <link rel="stylesheet" href="https://uicdn.toast.com/chart/latest/toastui-chart.css">
+  <script src="https://uicdn.toast.com/chart/latest/toastui-chart.js"></script>
+  <!-- 토스트 UI 차트와 토스트 UI 에디터를 연결  -->
+  <script src="https://uicdn.toast.com/editor-plugin-chart/latest/toastui-editor-plugin-chart.min.js"></script>
 
-    <link rel="stylesheet"
-          href="https://uicdn.toast.com/editor-plugin-color-syntax/latest/toastui-editor-plugin-color-syntax.min.css"/>
-    <script src="https://uicdn.toast.com/editor-plugin-color-syntax/latest/toastui-editor-plugin-color-syntax.min.js"></script>
+  <!-- 토스트 UI 에디터 플러그인, 코드 신텍스 하이라이터 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css">
+  <link rel="stylesheet"
+        href="https://uicdn.toast.com/editor-plugin-code-syntax-highlight/latest/toastui-editor-plugin-code-syntax-highlight.min.css">
+  <script src="https://uicdn.toast.com/editor-plugin-code-syntax-highlight/latest/toastui-editor-plugin-code-syntax-highlight-all.min.js"></script>
 
-    <!-- 토스트 UI 차트 -->
-    <link rel="stylesheet" href="https://uicdn.toast.com/chart/latest/toastui-chart.css">
-    <script src="https://uicdn.toast.com/chart/latest/toastui-chart.js"></script>
-    <!-- 토스트 UI 차트와 토스트 UI 에디터를 연결  -->
-    <script src="https://uicdn.toast.com/editor-plugin-chart/latest/toastui-editor-plugin-chart.min.js"></script>
+  <!-- 토스트 UI 에디터 플러그인, 테이블 셀 병합 -->
+  <script src="https://uicdn.toast.com/editor-plugin-table-merged-cell/latest/toastui-editor-plugin-table-merged-cell.min.js"></script>
 
-    <!-- 토스트 UI 에디터 플러그인, 코드 신텍스 하이라이터 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css">
-    <link rel="stylesheet"
-          href="https://uicdn.toast.com/editor-plugin-code-syntax-highlight/latest/toastui-editor-plugin-code-syntax-highlight.min.css">
-    <script src="https://uicdn.toast.com/editor-plugin-code-syntax-highlight/latest/toastui-editor-plugin-code-syntax-highlight-all.min.js"></script>
+  <!-- 토스트 UI 에디터 플러그인, katex -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.13/katex.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.13/katex.min.css">
 
-    <!-- 토스트 UI 에디터 플러그인, 테이블 셀 병합 -->
-    <script src="https://uicdn.toast.com/editor-plugin-table-merged-cell/latest/toastui-editor-plugin-table-merged-cell.min.js"></script>
+  <!-- 토스트 UI 에디터 플러그인, UML -->
+  <script src="https://uicdn.toast.com/editor-plugin-uml/latest/toastui-editor-plugin-uml.min.js"></script>
 
-    <!-- 토스트 UI 에디터 플러그인, katex -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.13/katex.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.13/katex.min.css">
-
-    <!-- 토스트 UI 에디터 플러그인, UML -->
-    <script src="https://uicdn.toast.com/editor-plugin-uml/latest/toastui-editor-plugin-uml.min.js"></script>
-
-    <script>
+  <script>
     function getUriParams(uri) {
       uri = uri.trim();
       uri = uri.replaceAll('&amp;', '&');
@@ -285,37 +279,39 @@
       ToastEditor__init();
       ToastEditorView__init();
     });
+
   </script>
 
-    <!-- 토스트 에디터, 뷰어 끝 -->
+  <!-- 토스트 에디터, 뷰어 끝 -->
 
-    <!-- 사이트 공통 JS -->
-    <script src="/resource/common.js" defer></script>
+  <!-- 사이트 공통 JS -->
+  <script src="/resource/common.js" defer></script>
 </head>
 <body>
 <div class="site-wrap min-h-screen flex flex-col">
-    <header class="bg-gray-200 flex-shrink-0">
-        <div class="container mx-auto px-3 h-[50px] flex">
-            <a href="/usr/home/main" class="logo bg-red-500 flex items-center">
-                로고
-            </a>
+  <header class="bg-gray-200 flex-shrink-0">
+    <div class="container mx-auto px-3 h-[50px] flex">
+      <a href="/usr/home/main" class="logo bg-red-500 flex items-center">
+        로고
+      </a>
 
-            <div class="flex-grow"></div>
+      <div class="flex-grow"></div>
 
-            <ul class="flex">
-                <li><a href="/usr/home/main" class="h-full flex items-center hover:bg-red-500 px-2">홈</a></li>
-                <li><a href="/usr/article/list" class="h-full flex items-center hover:bg-red-500 px-2">리스트</a></li>
-            </ul>
-        </div>
-    </header>
+      <ul class="flex">
+        <li><a href="/usr/home/main" class="h-full flex items-center hover:bg-red-500 px-2">홈</a></li>
+        <li><a href="/usr/article/list" class="h-full flex items-center hover:bg-red-500 px-2">리스트</a></li>
+      </ul>
+    </div>
+  </header>
 
-    <main class="flex-grow" layout:fragment="main">
+  <main class="flex-grow" layout:fragment="main">
 
-    </main>
+  </main>
 
-    <footer class="bg-gray-200 flex-shrink-0">
-        푸터
-    </footer>
+  <footer class="bg-red-200 flex-shrink-0">
+    <button class="btn btn-link">버튼</button>
+    푸터
+  </footer>
 </div>
 </body>
 </html>
