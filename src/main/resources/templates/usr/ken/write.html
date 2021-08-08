@@ -8,16 +8,9 @@
 <main layout:fragment="main">
   <script>
     let KenWrite__submitDone = false;
-    function KenWrite__submit(form) {
+    function KenWrite__submit() {
+      const form = document['ken-write-form'];
       if ( KenWrite__submitDone ) {
-        return;
-      }
-
-      form.title.value = form.title.value.trim();
-
-      if ( form.title.value.length == 0 ) {
-        alert('제목을 입력해주세요.');
-        form.title.focus();
         return;
       }
 
@@ -43,14 +36,27 @@
   <style>
     html .toastui-editor-contents,
     html .ProseMirror {
-      font-size:19px;
+      font-size:18px;
     }
   </style>
-  <form action="../ken/doWrite" method="POST" onsubmit="KenWrite__submit(this); return false;" class="h-full flex flex-col">
+  <form name="ken-write-form" action="../ken/doWrite" method="POST" onsubmit="KenWrite__submit(); return false;"
+        class="h-full flex flex-col">
+    <input type="hidden" name="id" value="0">
     <input type="hidden" name="source">
     <input type="hidden" name="result">
     <div class="flex-grow">
-      <div class="toast-ui-editor toast-ui-editor--body h-full" data-toast-editor-height="100%;" data-toast-editor-placeholder="note ..">
+      <div class="toast-ui-editor toast-ui-editor--body h-full" data-toast-editor-height="100%;"
+           data-toast-editor-placeholder="note ..">
+        <script type="text/x-template">
+$$config
+title: untitled
+keywords:
+  - IT
+  - ...
+$$
+
+# 주제1
+        </script>
       </div>
     </div>
   </form>

@@ -70,6 +70,7 @@
       display:block;
       padding-top:calc(100% / 9 * 16);
     }
+
   </style>
 
   <script>
@@ -85,6 +86,16 @@
 
       uri.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { params[key] = value; });
       return params;
+    }
+
+    function configPlugin() {
+      const toHTMLRenderers = {
+        config(node) {
+          return [];
+        }
+      }
+
+      return { toHTMLRenderers }
     }
 
     function codepenPlugin() {
@@ -252,7 +263,8 @@
             toastui.Editor.plugin.uml,
             katexPlugin,
             youtubePlugin,
-            codepenPlugin
+            codepenPlugin,
+            configPlugin
           ],
           customHTMLSanitizer: html => {
             return DOMPurify.sanitize(html, { ADD_TAGS: ["iframe"], ADD_ATTR: ['width', 'height', 'allow', 'allowfullscreen', 'frameborder', 'scrolling', 'style', 'title', 'loading', 'allowtransparency'] }) || ''
@@ -282,7 +294,8 @@
             toastui.Editor.plugin.uml,
             katexPlugin,
             youtubePlugin,
-            codepenPlugin
+            codepenPlugin,
+            configPlugin
           ],
           customHTMLSanitizer: html => {
             return DOMPurify.sanitize(html, { ADD_TAGS: ["iframe"], ADD_ATTR: ['width', 'height', 'allow', 'allowfullscreen', 'frameborder', 'scrolling', 'style', 'title', 'loading', 'allowtransparency'] }) || ''
@@ -297,6 +310,7 @@
       ToastEditor__init();
       ToastEditorView__init();
     });
+
   </script>
 
   <!-- 토스트 에디터, 뷰어 끝 -->
@@ -315,26 +329,31 @@
         <span>&nbsp;</span>
         <span>WIKEN</span>
       </a>
+      <a class="h-full flex items-center hover:underline px-3 cursor-pointer" onclick="if ( KenWrite__submit ) KenWrite__submit();">
+        <span><i class="far fa-save"></i></span>
+        <span>&nbsp;</span>
+        <span>SAVE</span>
+      </a>
 
       <div class="flex-grow"></div>
 
       <ul class="flex">
         <li>
-          <a href="/usr/home/main" class="h-full flex items-center hover:underline px-2">
+          <a href="/usr/home/main" class="h-full flex items-center hover:underline px-3">
             <span><i class="far fa-list-alt"></i></span>
             <span>&nbsp;</span>
             <span>ALL KENS</span>
           </a>
         </li>
         <li>
-          <a href="/usr/home/main" class="h-full flex items-center hover:underline px-2">
+          <a href="/usr/home/main" class="h-full flex items-center hover:underline px-3">
             <span><i class="fas fa-user-edit"></i></span>
             <span>&nbsp;</span>
             <span>MY KENS</span>
           </a>
         </li>
         <li>
-          <a href="/usr/article/list" class="h-full flex items-center hover:underline px-2">
+          <a href="/usr/article/list" class="h-full flex items-center hover:underline px-3">
             <span><i class="fas fa-pen"></i></span>
             <span>&nbsp;</span>
             <span>NEW KEN</span>
