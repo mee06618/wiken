@@ -58,6 +58,20 @@
   <!-- 토스트 UI 에디터 플러그인, UML -->
   <script src="https://uicdn.toast.com/editor-plugin-uml/latest/toastui-editor-plugin-uml.min.js"></script>
 
+  <style>
+    .ratio-16\/9::after {
+      content:"";
+      display:block;
+      padding-top:calc(100% / 16 * 9);
+    }
+
+    .ratio-9\/16::after {
+      content:"";
+      display:block;
+      padding-top:calc(100% / 9 * 16);
+    }
+  </style>
+
   <script>
     function getUriParams(uri) {
       uri = uri.trim();
