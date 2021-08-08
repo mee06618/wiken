@@ -4,13 +4,17 @@ import com.jhs.wiken.util.Ut
 import org.springframework.context.annotation.Scope
 import org.springframework.context.annotation.ScopedProxyMode
 import org.springframework.stereotype.Component
+import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpSession
 
 @Component("rq")
 @Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
-class Rq() {
+class Rq {
+    private var currentPageCanGoEditCurrentKen: Boolean = false
+    private lateinit var req: HttpServletRequest
     private var isLogined: Boolean = false
-    private var loginedMember: Member? = null;
+    private var loginedMember: Member? = null
+    private var currentPageCanSaveKen = false
 
     fun isLogined(): Boolean {
         return this.isLogined
@@ -18,6 +22,14 @@ class Rq() {
 
     fun getLoginedMember(): Member? {
         return loginedMember
+    }
+
+    fun setCurrentPageCanSaveKen(can: Boolean) {
+        this.currentPageCanSaveKen = can
+    }
+
+    fun isCurrentPageCanSaveKen(): Boolean {
+        return currentPageCanSaveKen
     }
 
     fun setLoginInfo(session: HttpSession) {
@@ -43,5 +55,19 @@ class Rq() {
             location.replace('${uri}');
             </script>
         """.trimIndent()
+    }
+
+    fun setReq(req: HttpServletRequest) {
+        this.req = req
+
+        setLoginInfo(req.session)
+    }
+
+    fun setCurrentPageCanGoEditCurrentKen(can: Boolean) {
+        this.currentPageCanGoEditCurrentKen = can
+    }
+
+    fun isCurrentPageCanGoEditCurrentKen(): Boolean {
+        return this.currentPageCanGoEditCurrentKen
     }
 }

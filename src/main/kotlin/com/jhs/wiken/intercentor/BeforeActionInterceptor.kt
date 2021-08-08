@@ -14,7 +14,7 @@ class BeforeActionInterceptor : HandlerInterceptor {
     private lateinit var rq: Rq;
 
     override fun preHandle(req: HttpServletRequest, resp: HttpServletResponse, handler: Any): Boolean {
-        rq.setLoginInfo(req.session)
+        rq.setReq(req)
 
         return super.preHandle(req, resp, handler)
     }

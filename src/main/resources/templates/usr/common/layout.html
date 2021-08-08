@@ -345,13 +345,29 @@
         <span>&nbsp;</span>
         <span>WIKEN</span>
       </a>
-      <a class="h-full flex items-center hover:underline px-3 cursor-pointer" onclick="if ( KenWrite__submit ) KenWrite__submit();">
+      <a th:if="${@rq.currentPageCanSaveKen && ken != null}" th:href="|||/ken/${ken.id}|||" class="h-full flex items-center hover:underline px-3 cursor-pointer" >
+        <span><i class="far fa-eye"></i></span>
+        <span>&nbsp;</span>
+        <span>VIEW</span>
+      </a>
+
+      <a th:if="${@rq.currentPageCanSaveKen}" class="h-full flex items-center hover:underline px-3 cursor-pointer" onclick="if ( KenWrite__submit ) KenWrite__submit();">
         <span><i class="far fa-save"></i></span>
         <span>&nbsp;</span>
         <span>SAVE</span>
       </a>
 
-      <div class="flex-grow"></div>
+      <a th:if="${@rq.currentPageCanGoEditCurrentKen}" th:href="|||/ken/${ken.id}/edit|||" class="h-full flex items-center hover:underline px-3 cursor-pointer">
+        <span><i class="far fa-edit"></i></span>
+        <span>&nbsp;</span>
+        <span>EDIT</span>
+      </a>
+
+
+
+      <div class="flex-grow">
+
+      </div>
 
       <ul class="flex">
         <li>

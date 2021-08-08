@@ -17,6 +17,7 @@ class UsrKenController(private val kenService: KenService) {
 
     @RequestMapping("/ken")
     fun showWrite(): String {
+        rq.setCurrentPageCanSaveKen(true)
         return "usr/ken/write"
     }
 
@@ -36,6 +37,7 @@ class UsrKenController(private val kenService: KenService) {
 
     @RequestMapping("/ken/{id}/edit")
     fun showEdit(@PathVariable("id") id: Int, model: Model): String {
+        rq.setCurrentPageCanSaveKen(true)
         val ken = kenService.getKen(id)
         model.addAttribute("ken", ken)
         return "usr/ken/write"
@@ -43,6 +45,7 @@ class UsrKenController(private val kenService: KenService) {
 
     @RequestMapping("/ken/{id}")
     fun showDetail(@PathVariable("id") id: Int, model: Model): String {
+        rq.setCurrentPageCanGoEditCurrentKen(true)
         val ken = kenService.getKen(id)
         model.addAttribute("ken", ken)
         return "usr/ken/detail"
