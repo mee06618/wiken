@@ -289,22 +289,43 @@
 </head>
 <body>
 <div class="site-wrap min-h-screen flex flex-col">
-  <header class="bg-gray-200 flex-shrink-0">
+  <header class="flex-shrink-0 shadow font-bold">
     <div class="container mx-auto px-3 h-[50px] flex">
-      <a href="/usr/home/main" class="logo bg-red-500 flex items-center">
-        로고
+      <a href="/usr/home/main" class="logo flex items-center">
+        <span><i class="fas fa-file-alt"></i></span>
+        <span>&nbsp;</span>
+        <span>WIKEN</span>
       </a>
 
       <div class="flex-grow"></div>
 
       <ul class="flex">
-        <li><a href="/usr/home/main" class="h-full flex items-center hover:bg-red-500 px-2">홈</a></li>
-        <li><a href="/usr/article/list" class="h-full flex items-center hover:bg-red-500 px-2">리스트</a></li>
+        <li>
+          <a href="/usr/home/main" class="h-full flex items-center hover:underline px-2">
+            <span><i class="far fa-list-alt"></i></span>
+            <span>&nbsp;</span>
+            <span>ALL KENS</span>
+          </a>
+        </li>
+        <li>
+          <a href="/usr/home/main" class="h-full flex items-center hover:underline px-2">
+            <span><i class="fas fa-user-edit"></i></span>
+            <span>&nbsp;</span>
+            <span>MY KENS</span>
+          </a>
+        </li>
+        <li>
+          <a href="/usr/article/list" class="h-full flex items-center hover:underline px-2">
+            <span><i class="fas fa-pen"></i></span>
+            <span>&nbsp;</span>
+            <span>NEW KEN</span>
+          </a>
+        </li>
       </ul>
     </div>
   </header>
 
-  <main class="flex-grow" layout:fragment="main">
+  <main class="flex-grow mt-2" layout:fragment="main">
 
   </main>
 
