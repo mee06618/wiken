@@ -38,14 +38,6 @@ class UsrKenController(private val kenService: KenService) {
     fun showEdit(@PathVariable("id") id: Int, model: Model): String {
         val ken = kenService.getKen(id)
         model.addAttribute("ken", ken)
-        return "usr/ken/modify"
-    }
-
-    @RequestMapping("/ken/doModify")
-    @ResponseBody
-    fun doModify(id: Int, title: String, source: String, result: String): String {
-        val resultData = kenService.modify(id, title, source, result)
-
-        return rq.replaceJs("", "../ken/${id}/edit")
+        return "usr/ken/write"
     }
 }

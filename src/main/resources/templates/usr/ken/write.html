@@ -39,15 +39,18 @@
       font-size:18px;
     }
   </style>
-  <form name="ken-write-form" action="../ken/doWrite" method="POST" onsubmit="KenWrite__submit(); return false;"
+  <form name="ken-write-form" action="/ken/doWrite" method="POST" onsubmit="KenWrite__submit(); return false;"
         class="h-full flex flex-col">
-    <input type="hidden" name="id" value="0">
+    <input type="hidden" name="id" th:value="${ken != null ? ken.id : 0}">
     <input type="hidden" name="source">
     <input type="hidden" name="result">
     <div class="flex-grow">
       <div class="toast-ui-editor toast-ui-editor--body h-full" data-toast-editor-height="100%;"
            data-toast-editor-placeholder="note ..">
-        <script type="text/x-template">
+        <script th:if="${ken != null}" type="text/x-template">
+[(${ken.source})]
+        </script>
+        <script th:unless="${ken != null}" type="text/x-template">
 $$config
 title: untitled
 keywords:
