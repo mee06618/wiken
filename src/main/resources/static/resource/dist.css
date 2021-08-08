@@ -1432,6 +1432,22 @@ html{
   content: attr(data-title);
 }
 
+.form-control{
+  display: flex;
+  flex-direction: column;
+}
+
+.label{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  padding: .5rem .25rem;
+}
+
 .input{
   flex-shrink: 1;
   transition-property: background-color,border-color,color,fill,stroke,opacity,box-shadow,transform;
@@ -1662,6 +1678,24 @@ html{
   box-shadow: 0 0 0 2px currentColor;
 }
 
+.label-text{
+  font-size: .875rem;
+  line-height: 1.25rem;
+  --tw-text-opacity: 1;
+  color: hsla(215 27.9% 16.9%/1);
+  color: hsla(var(--bc)/var(--tw-text-opacity,1));
+}
+
+.label a:hover{
+  --tw-text-opacity: 1;
+  color: hsla(215 27.9% 16.9%/1);
+  color: hsla(var(--bc)/var(--tw-text-opacity,1));
+}
+
+.input-bordered{
+  --tw-border-opacity: 0.2;
+}
+
 .input-disabled,.input[disabled]{
   --tw-bg-opacity: 1;
   background-color: hsla(210 20% 98%/1);
@@ -1755,6 +1789,15 @@ html{
   }
 }
 
+.input-sm{
+  height: 2rem;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  line-height: 2rem;
+  padding-left: .75rem;
+  padding-right: .75rem;
+}
+
 .absolute{
   position: absolute;
 }
@@ -1798,6 +1841,10 @@ html{
 
 .h-full{
   height: 100%;
+}
+
+.h-0{
+  height: 0px;
 }
 
 .min-h-screen{

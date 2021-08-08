@@ -222,11 +222,14 @@
         const $initialValueEl = $node.find(' > script');
         const initialValue = $initialValueEl.length == 0 ? '' : $initialValueEl.html().trim();
 
+        const height = $node.attr('data-toast-editor-height') ?? '500px';
+        const placeholder = $node.attr('data-toast-editor-placeholder') ?? '';
         const editor = new toastui.Editor({
           el: node,
           previewStyle: 'vertical',
           initialValue: initialValue,
-          height:'600px',
+          height:height,
+          placeholder: placeholder,
           plugins: [
             [toastui.Editor.plugin.chart, ToastEditor__chartOptions],
             [toastui.Editor.plugin.codeSyntaxHighlight, {highlighter:Prism}],
@@ -258,6 +261,7 @@
           initialValue: initialValue,
           viewer:true,
           plugins: [
+            [toastui.Editor.plugin.chart, ToastEditor__chartOptions],
             [toastui.Editor.plugin.codeSyntaxHighlight, {highlighter:Prism}],
             toastui.Editor.plugin.colorSyntax,
             toastui.Editor.plugin.tableMergedCell,
@@ -279,7 +283,6 @@
       ToastEditor__init();
       ToastEditorView__init();
     });
-
   </script>
 
   <!-- 토스트 에디터, 뷰어 끝 -->
@@ -287,11 +290,13 @@
   <!-- 사이트 공통 JS -->
   <script src="/resource/common.js" defer></script>
 </head>
+
 <body>
+
 <div class="site-wrap min-h-screen flex flex-col">
   <header class="flex-shrink-0 shadow font-bold">
     <div class="container mx-auto px-3 h-[50px] flex">
-      <a href="/usr/home/main" class="logo flex items-center">
+      <a th:fragment="logo" href="/usr/home/main" class="logo flex items-center">
         <span><i class="fas fa-file-alt"></i></span>
         <span>&nbsp;</span>
         <span>WIKEN</span>
@@ -325,14 +330,19 @@
     </div>
   </header>
 
-  <main class="flex-grow mt-2" layout:fragment="main">
+  <main class="flex-grow h-0" layout:fragment="main">
 
   </main>
 
-  <footer class="bg-red-200 flex-shrink-0">
-    <button class="btn btn-link">버튼</button>
-    푸터
+  <!--
+  <footer class="flex-shrink-0 shadow font-bold">
+    <div class="container mx-auto px-3 h-[50px] flex">
+      <div class="flex-grow"></div>
+      <th:block th:replace="~{usr/common/layout :: logo}"></th:block>
+      <div class="flex-grow"></div>
+    </div>
   </footer>
+  -->
 </div>
 </body>
 </html>
