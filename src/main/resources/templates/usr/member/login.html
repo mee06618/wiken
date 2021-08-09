@@ -1,18 +1,39 @@
 <!doctype html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
       layout:decorate="~{usr/common/layout}">
 
 <head>
     <title>로그인</title>
 </head>
 
-<main layout:fragment="main" class="bg-red-500">
-    <form action="/member/doLogin" method="POST" class="flex flex-col">
-        <input type="hidden" name="replaceUri" th:value="${param.afterLoginUri}">
-        <input type="text" name="loginId" placeholder="로그인아이디를 입력해주세요.">
-        <input type="password" name="loginPw" placeholder="로그인비밀번호를 입력해주세요.">
-        <input type="submit" value="로그인">
-    </form>
+<main layout:fragment="main">
+    <section class="section section-login h-full flex items-center justify-center">
+
+        <div class="flex-grow max-w-md px-3">
+            <h1>Sign in</h1>
+            <form action="/member/doLogin" method="POST" class="flex flex-col">
+                <input type="hidden" name="replaceUri" th:value="${param.afterLoginUri}">
+
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Username</span>
+                    </label>
+                    <input type="text" name="loginId" placeholder="username" class="input input-bordered">
+                </div>
+
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Password</span>
+                    </label>
+                    <input type="password" name="loginPw" placeholder="password" class="input input-bordered">
+                </div>
+
+                <div class="btns">
+                    <input class="btn btn-link" type="submit" value="SIGN IN">
+                </div>
+            </form>
+        </div>
+    </section>
 </main>
 
 </html>
