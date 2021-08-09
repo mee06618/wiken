@@ -24,4 +24,8 @@ class KenService(private val kenRepository: KenRepository) {
 
         return ResultData.from("S-1", "${id}번 켄이 생성되었습니다.", "id", id)
     }
+
+    fun getKensByMemberId(memberId: Int): List<Ken> {
+        return kenRepository.getKensByMemberId(memberId)
+    }
 }

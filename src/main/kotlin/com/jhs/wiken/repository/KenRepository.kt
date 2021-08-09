@@ -3,6 +3,7 @@ package com.jhs.wiken.repository
 import com.jhs.wiken.vo.Article
 import com.jhs.wiken.vo.Ken
 import org.apache.ibatis.annotations.*
+import org.springframework.http.HttpHeaders.FROM
 
 @Mapper
 interface KenRepository {
@@ -62,4 +63,14 @@ interface KenRepository {
         @Param("source") source: String,
         @Param("result") result: String
     )
+
+    @Select(
+        """
+        SELECT *
+        FROM ken AS K
+        WHERE K.memberId = #{memberId}
+        ORDER BY id DESC
+    """
+    )
+    fun getKensByMemberId(@Param("memberId") memberId: Int): List<Ken>
 }

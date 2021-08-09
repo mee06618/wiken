@@ -1,0 +1,17 @@
+<!doctype html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{usr/common/layout}">
+<head>
+    <title>내 ken 리스트</title>
+</head>
+
+<main layout:fragment="main">
+    <div th:each="ken : ${kens}" th:object="${ken}">
+        <a class="block" th:href="|||/ken/*{id}|||" th:text="*{id}"></a>
+        <div th:text="*{regDate}"></div>
+        <div th:text="*{updateDate}"></div>
+        <a class="block" th:href="|||/ken/*{id}|||" th:text="*{title}"></a>
+        <hr>
+    </div>
+</main>
+</html>

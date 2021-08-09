@@ -22,6 +22,16 @@ class UsrKenController(private val kenService: KenService) {
         return "usr/ken/write"
     }
 
+    // ken 작성/편집 화면 보여줌
+    @RequestMapping("/ken/mine")
+    fun showMyList(model: Model): String {
+        val kens = kenService.getKensByMemberId(rq.getLoginedMemberId())
+
+        model.addAttribute("kens", kens)
+
+        return "usr/ken/my-list"
+    }
+
     // ken 작성 처리
     @RequestMapping("/ken/doWrite")
     @ResponseBody
