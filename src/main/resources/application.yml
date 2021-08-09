@@ -12,10 +12,6 @@ custom:
   logging:
     dir: log
     level: debug
-server:
-  servlet:
-    session:
-      persistent: true
   error:
     include-exception: true
     include-stacktrace: always
@@ -41,6 +37,15 @@ spring:
     password: sbslocal123414
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://127.0.0.1:3306/wikenProduction?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull
+  redis:
+    host: 127.0.0.1
+    port: 6379
+  session:
+    timeout: 6000
+    store-type: redis
+    redis:
+      flush-mode: on-save
+      namespace: spring:session
 custom:
   genFileDirPath: /opt/tomcat/latest/wiken.io-file
   logging:
