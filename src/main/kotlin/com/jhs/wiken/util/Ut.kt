@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
+import java.net.URLEncoder
 
 
 class Ut {
@@ -25,6 +26,14 @@ class Ut {
             mapper.findAndRegisterModules()
 
             return mapper.readValue<T>(ymlStr)
+        }
+
+        fun getUriEncoded(uri: String): String {
+            return try {
+                URLEncoder.encode(uri, "UTF-8")
+            } catch (e: Exception) {
+                uri
+            }
         }
     }
 }

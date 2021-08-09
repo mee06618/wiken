@@ -15,21 +15,22 @@ class UsrKenController(private val kenService: KenService) {
     @Autowired
     private lateinit var rq: Rq;
 
+    // ken 작성/편집 화면 보여줌
     @RequestMapping("/ken")
     fun showWrite(): String {
         rq.setCurrentPageCanSaveKen(true)
         return "usr/ken/write"
     }
 
+    // ken 작성/편집 처리
     @RequestMapping("/ken/doWrite")
     @ResponseBody
     fun doWrite(id: Int, source: String, result: String): String {
+        // 켄 소스 해석기 생성
         val kenSourceInterpreter = KenSourceInterpreter.from(source)
-
+        // 해석기에서 제목 가져옴
         val title = kenSourceInterpreter.getTitle()
-
-        val resultData = kenService.write(1, title, source, result)
-
+        val resultData = kenService.write(rq.getLoginedMemberId(), title, source, result)
         val id = resultData.getData()
 
         return rq.replaceJs("", "../ken/${id}/edit")

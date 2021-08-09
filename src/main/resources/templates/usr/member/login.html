@@ -8,6 +8,7 @@
 
 <main layout:fragment="main" class="bg-red-500">
     <form action="/member/doLogin" method="POST" class="flex flex-col">
+        <input type="hidden" name="replaceUri" th:value="${param.afterLoginUri}">
         <input type="text" name="loginId" placeholder="로그인아이디를 입력해주세요.">
         <input type="password" name="loginPw" placeholder="로그인비밀번호를 입력해주세요.">
         <input type="submit" value="로그인">

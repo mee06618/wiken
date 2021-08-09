@@ -20,7 +20,7 @@ class BeforeActionInterceptor : HandlerInterceptor {
     // 모든 액션이 실행되기 전에 실행
     override fun preHandle(req: HttpServletRequest, resp: HttpServletResponse, handler: Any): Boolean {
         // rq 객체를 세팅
-        rq.initWithReq(req)
+        rq.initWith(req, resp)
 
         return super.preHandle(req, resp, handler)
     }

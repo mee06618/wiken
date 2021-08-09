@@ -5,7 +5,9 @@ import org.springframework.context.annotation.Scope
 import org.springframework.context.annotation.ScopedProxyMode
 import org.springframework.stereotype.Component
 import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 import javax.servlet.http.HttpSession
+
 
 // 역할 : req, session 을 조금 더 쉽게 다룰 수 있게 도와줌
 // 컴포넌트로 등록, 이름 : rq
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpSession
 @Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
 class Rq {
     private lateinit var req: HttpServletRequest
+    private lateinit var resp: HttpServletResponse
 
     // 로그인 된 회원
     private var loginedMember: Member? = null
@@ -30,8 +33,9 @@ class Rq {
     // 현재 페이지에서 현재 Ken의 상세페이지를 보러 갈 수 있는 버튼이 노출될 수 있는지 여부
     private var currentPageCanGoViewCurrentKen = false
 
-    fun initWithReq(req: HttpServletRequest) {
+    fun initWith(req: HttpServletRequest, resp: HttpServletResponse) {
         this.req = req
+        this.resp = resp
 
         setCurrentLoginInfo(req.session)
     }
@@ -52,6 +56,11 @@ class Rq {
     // 로그인이 안되어 있을 경우, 호출하면 안됨
     fun getLoginedMember(): Member {
         return loginedMember!!
+    }
+
+    // 현재 로그인된 회원객체의 번호 반환
+    fun getLoginedMemberId(): Int {
+        return getLoginedMember().id
     }
 
     // 로그인 되어 있는지 여부 체크
@@ -114,8 +123,17 @@ class Rq {
         """.trimIndent()
     }
 
+    fun printReplaceJs(msg: String, uri: String) {
+        this.print(replaceJs(msg, uri))
+    }
+
+    private fun print(str: String) {
+        resp.writer.print(str)
+    }
+
     fun historyBackJs(msg: String): String {
         return """
+            <meta charset="UTF-8">
             <script>
             const msg = '${msg}'.trim();
             
@@ -126,5 +144,42 @@ class Rq {
             history.back();
             </script>
         """.trimIndent()
+    }
+
+    fun getCurrentUri(): String {
+        var uri = req.requestURI
+        val queryStr = req.queryString
+        if (queryStr != null && queryStr.length > 0) {
+            uri += "?$queryStr"
+        }
+        return uri
+    }
+
+    fun getEncodedCurrentUri(): String {
+        return Ut.getUriEncoded(getCurrentUri())
+    }
+
+    fun getEncodedAfterLoginUri(): String {
+        return Ut.getUriEncoded(getAfterLoginUri())
+    }
+
+    fun getAfterLoginUri(): String {
+        val afterLoginUri: String = getStrParam("afterLoginUri", "")
+        return if (afterLoginUri.length > 0) {
+            afterLoginUri
+        } else getCurrentUri()
+    }
+
+    private fun getStrParam(paramName: String, default: String): String {
+        if ( req.getParameter(paramName) == null ) {
+            return default
+        }
+
+        return req.getParameter(paramName)
+    }
+
+    fun respUtf8() {
+        resp.characterEncoding = "UTF-8"
+        resp.contentType = "text/html; charset=UTF-8"
     }
 }
