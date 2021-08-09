@@ -363,8 +363,6 @@
         <span>EDIT</span>
       </a>
 
-
-
       <div class="flex-grow">
 
       </div>
@@ -377,20 +375,47 @@
             <span>ALL KENS</span>
           </a>
         </li>
-        <li>
+
+        <li th:unless="${@rq.logined}">
+          <a href="/member/join" class="h-full flex items-center hover:underline px-3">
+            <span><i class="fas fa-user-plus"></i></span>
+            <span>&nbsp;</span>
+            <span>JOIN</span>
+          </a>
+        </li>
+
+        <li th:unless="${@rq.logined}">
+          <a href="/member/login" class="h-full flex items-center hover:underline px-3">
+            <span><i class="fas fa-sign-in-alt"></i></span>
+            <span>&nbsp;</span>
+            <span>LOGIN</span>
+          </a>
+        </li>
+
+        <li th:if="${@rq.logined}">
+          <a href="/ken" class="h-full flex items-center hover:underline px-3">
+            <span><i class="fas fa-sign-out-alt"></i></span>
+            <span>&nbsp;</span>
+            <span>LOGOUT</span>
+          </a>
+        </li>
+
+        <li th:if="${@rq.logined}">
           <a href="/ken/mine" class="h-full flex items-center hover:underline px-3">
             <span><i class="fas fa-user-edit"></i></span>
             <span>&nbsp;</span>
             <span>MY KENS</span>
           </a>
         </li>
-        <li>
+
+        <li th:if="${@rq.logined}">
           <a href="/ken" class="h-full flex items-center hover:underline px-3">
             <span><i class="fas fa-pen"></i></span>
             <span>&nbsp;</span>
             <span>NEW KEN</span>
           </a>
         </li>
+
       </ul>
     </div>
   </header>
