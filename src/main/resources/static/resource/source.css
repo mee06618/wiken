@@ -5,6 +5,14 @@
 @tailwind components;
 @tailwind utilities;
 
-html > body {
+html > body,
+html > body .toastui-editor-contents {
   font-family: 'Noto Sans KR', sans-serif;
+}
+
+.toastui-editor-contents dir,
+.toastui-editor-contents menu,
+.toastui-editor-contents ol,
+.toastui-editor-contents ul {
+  margin-top:12px;
 }
