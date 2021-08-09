@@ -5,20 +5,26 @@ import com.jhs.wiken.util.Ut
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class KenConfig(
+    val isExists: Boolean = true,
     val title: String,
     val keywords: List<String>
 ) {
+    var source:String = ""
+
     companion object {
         fun from(configSource: String): KenConfig {
             if ( configSource.isEmpty() ) {
                 return fromEmpty()
             }
 
-            return Ut.getObjFromYmlStr<KenConfig>(configSource)
+            val kenConfig = Ut.getObjFromYmlStr<KenConfig>(configSource)
+            kenConfig.source = configSource
+
+            return kenConfig
         }
 
         fun fromEmpty(): KenConfig {
-            return KenConfig("", arrayListOf())
+            return KenConfig(false, "", arrayListOf())
         }
     }
 }

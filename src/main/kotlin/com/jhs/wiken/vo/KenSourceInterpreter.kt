@@ -4,6 +4,7 @@ import com.jhs.wiken.util.Ut
 
 // Ken 소스 해석기
 class KenSourceInterpreter(
+    val hasConfig: Boolean,
     private val source: String,
     private val kenConfig: KenConfig
 ) {
@@ -20,11 +21,15 @@ class KenSourceInterpreter(
             }
 
             val kenConfig = KenConfig.from(sourceConfig)
-            return KenSourceInterpreter(source, kenConfig)
+            return KenSourceInterpreter(kenConfig.isExists, source, kenConfig)
         }
     }
 
     fun getTitle(): String {
         return kenConfig.title
+    }
+
+    fun getKenConfigSource(): String {
+        return kenConfig.source
     }
 }

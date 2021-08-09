@@ -8,4 +8,10 @@ data class Ken(
     val title: String,
     val source: String,
     val result: String,
-)
+) {
+    fun genKenConfigSource(): String {
+        val kenSourceInterpreter = KenSourceInterpreter.from(source)
+
+        return kenSourceInterpreter.getKenConfigSource()
+    }
+}

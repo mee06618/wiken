@@ -133,7 +133,6 @@ class Rq {
 
     fun historyBackJs(msg: String): String {
         return """
-            <meta charset="UTF-8">
             <script>
             const msg = '${msg}'.trim();
             
@@ -181,5 +180,12 @@ class Rq {
     fun respUtf8() {
         resp.characterEncoding = "UTF-8"
         resp.contentType = "text/html; charset=UTF-8"
+    }
+
+    fun historyBackJsOnTemplate(msg: String): String {
+        req.setAttribute("historyBack", true)
+        req.setAttribute("msg", msg)
+
+        return "common/js"
     }
 }

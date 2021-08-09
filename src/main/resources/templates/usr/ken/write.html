@@ -33,7 +33,7 @@
       form.submit();
     }
   </script>
-  <form name="ken-write-form" action="/ken/doWrite" method="POST" onsubmit="KenWrite__submit(); return false;"
+  <form name="ken-write-form" th:action="${ken == null ? '/ken/doWrite' : '/ken/doModify'}" method="POST" onsubmit="KenWrite__submit(); return false;"
         class="h-full flex flex-col">
     <input type="hidden" name="id" th:value="${ken != null ? ken.id : 0}">
     <input type="hidden" name="source">

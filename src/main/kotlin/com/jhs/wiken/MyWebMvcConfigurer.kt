@@ -27,6 +27,8 @@ class MyWebMvcConfigurer(
             .addPathPatterns("/member/findLoginPw")
             .addPathPatterns("/member/doFindLoginPw")
             .addPathPatterns("/ken")
+            .addPathPatterns("/ken/{id}/edit")
             .addPathPatterns("/ken/doWrite")
+            .addPathPatterns("/ken/doModify")
     }
 }
