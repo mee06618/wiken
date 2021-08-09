@@ -79,14 +79,30 @@ class UsrKenController(private val kenService: KenService) {
         return rq.replaceJs("", "../ken/${id}/edit")
     }
 
-    @RequestMapping("/ken/{id}/edit")
-    fun showEdit(@PathVariable("id") id: Int, model: Model): String {
+    // ken 삭제
+    @RequestMapping("/ken/doDelete")
+    @ResponseBody
+    fun doDelete(id: Int): String {
         val ken = kenService.getKen(id) ?: return rq.historyBackJs("존재하지 않는 ken 입니다.")
+
+        if (ken.memberId != rq.getLoginedMemberId()) {
+            return rq.historyBackJs("권한이 없습니다.")
+        }
+
+        val resultData = kenService.delete(id)
+
+        return rq.replaceJs(resultData.getMsg(), "../ken")
+    }
+
+    @RequestMapping("/ken/{id}/edit")
+    fun showModify(@PathVariable("id") id: Int, model: Model): String {
+        val ken = kenService.getKen(id) ?: return rq.historyBackJsOnTemplate("존재하지 않는 ken 입니다.")
 
         if (ken.memberId != rq.getLoginedMemberId()) {
             return rq.historyBackJsOnTemplate("권한이 없습니다.")
         }
 
+        rq.currentPageCanDeleteCurrentKen = true
         rq.setCurrentPageCanGoViewCurrentKen(true)
         rq.setCurrentPageCanSaveKen(true)
 

@@ -372,6 +372,13 @@
                 <span class="hidden sm:block">EDIT</span>
             </a>
 
+            <a th:if="${@rq.currentPageCanDeleteCurrentKen}" th:href="|||/ken/doDelete?id=${ken.id}|||"
+               class="h-full flex items-center hover:underline px-3 cursor-pointer" onclick="if ( confirm('정말로 삭제하시겠습니까?') == false ) return false;">
+                <span><i class="far fa-trash-alt"></i></span>
+                <span class="hidden sm:block">&nbsp;</span>
+                <span class="hidden sm:block">DELETE</span>
+            </a>
+
             <div class="flex-grow">
 
             </div>

@@ -1,7 +1,6 @@
 package com.jhs.wiken.service
 
 import com.jhs.wiken.repository.KenRepository
-import com.jhs.wiken.vo.Article
 import com.jhs.wiken.vo.Ken
 import com.jhs.wiken.vo.ResultData
 import org.springframework.stereotype.Service
@@ -27,5 +26,11 @@ class KenService(private val kenRepository: KenRepository) {
 
     fun getKensByMemberId(memberId: Int): List<Ken> {
         return kenRepository.getKensByMemberId(memberId)
+    }
+
+    fun delete(id: Int): ResultData<Int> {
+        kenRepository.delete(id)
+
+        return ResultData.from("S-1", "${id}번 글을 삭제하였습니다.", "id", id)
     }
 }

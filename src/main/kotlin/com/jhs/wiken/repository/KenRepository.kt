@@ -73,4 +73,12 @@ interface KenRepository {
     """
     )
     fun getLastInsertId(): Int
+
+    @Delete(
+        """
+        DELETE FROM ken
+        WHERE id = #{id}
+    """
+    )
+    fun delete(id: Int)
 }

@@ -33,6 +33,8 @@ class Rq {
     // 현재 페이지에서 현재 Ken의 상세페이지를 보러 갈 수 있는 버튼이 노출될 수 있는지 여부
     private var currentPageCanGoViewCurrentKen = false
 
+    public var currentPageCanDeleteCurrentKen = false
+
     fun initWith(req: HttpServletRequest, resp: HttpServletResponse) {
         this.req = req
         this.resp = resp
