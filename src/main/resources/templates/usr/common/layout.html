@@ -346,7 +346,7 @@
 <div class="site-wrap min-h-screen flex flex-col">
     <header class="flex-shrink-0 shadow font-bold">
         <div class="container mx-auto px-3 h-[50px] flex">
-            <a th:fragment="logo" href="/usr/home/main" class="logo flex items-center">
+            <a th:fragment="logo" href="/" class="logo flex items-center">
                 <span><i class="fas fa-file-alt"></i></span>
                 <span>&nbsp;</span>
                 <span>WIKEN</span>
@@ -377,7 +377,7 @@
             </div>
 
             <ul class="flex">
-                <li>
+                <li th:if="false">
                     <a href="/usr/home/main" class="h-full flex items-center hover:underline px-3">
                         <span><i class="far fa-list-alt"></i></span>
                         <span>&nbsp;</span>
@@ -413,7 +413,7 @@
                     <a href="/ken/mine" class="h-full flex items-center hover:underline px-3">
                         <span><i class="fas fa-user-edit"></i></span>
                         <span>&nbsp;</span>
-                        <span>MY KENS</span>
+                        <span>[[${@rq.loginedMember.nickname}]]'s KENS</span>
                     </a>
                 </li>
 

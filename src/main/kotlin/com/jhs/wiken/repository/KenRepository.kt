@@ -29,13 +29,6 @@ interface KenRepository {
 
     @Select(
         """
-        SELECT LAST_INSERT_ID()
-    """
-    )
-    fun getLastInsertId(): Int
-
-    @Select(
-        """
         SELECT *
         FROM ken
         WHERE id = #{id}
@@ -73,4 +66,11 @@ interface KenRepository {
     """
     )
     fun getKensByMemberId(@Param("memberId") memberId: Int): List<Ken>
+
+    @Select(
+        """
+        SELECT LAST_INSERT_ID()
+    """
+    )
+    fun getLastInsertId(): Int
 }

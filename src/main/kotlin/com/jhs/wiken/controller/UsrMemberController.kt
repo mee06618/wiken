@@ -14,6 +14,34 @@ class UsrMemberController(private val memberService: MemberService) {
     @Autowired
     private lateinit var rq: Rq;
 
+    @RequestMapping("/member/join")
+    fun showJoin(): String {
+        return "usr/member/join"
+    }
+
+    @RequestMapping("/member/doJoin")
+    @ResponseBody
+    fun doJoin(loginId: String, loginPw: String, @RequestParam(defaultValue = "/ken") replaceUri: String): String {
+        val oldMember = memberService.getMemberByLoginId(loginId)
+
+        if ( oldMember != null ) {
+            return rq.historyBackJs("이미 사용중인 로그인 아이디 입니다.")
+        }
+
+        val name = loginId
+        val nickname = loginId
+        val cellphoneNo = loginId
+        val email = loginId
+
+        val joinRd = memberService.join(loginId, loginPw, name, nickname, cellphoneNo, email)
+        val id = joinRd.getData()
+        val member = memberService.getMemberById(id)!!
+
+        rq.login(member)
+
+        return rq.replaceJs(joinRd.getMsg(), replaceUri)
+    }
+
     @RequestMapping("/member/login")
     fun showLogin(): String {
         return "usr/member/login"

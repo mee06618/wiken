@@ -1,0 +1,39 @@
+<!doctype html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{usr/common/layout}">
+
+<head>
+    <title>회원가입</title>
+</head>
+
+<main layout:fragment="main">
+    <section class="section section-login h-full flex items-center justify-center">
+
+        <div class="flex-grow max-w-md px-3">
+            <h1>Sign up</h1>
+            <form action="/member/doJoin" method="POST" class="flex flex-col">
+                <input type="hidden" name="replaceUri" th:value="${param.afterLoginUri}">
+
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Username</span>
+                    </label>
+                    <input type="text" name="loginId" placeholder="username" class="input input-bordered">
+                </div>
+
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Password</span>
+                    </label>
+                    <input type="password" name="loginPw" placeholder="password" class="input input-bordered">
+                </div>
+
+                <div class="btns">
+                    <input class="btn btn-link" type="submit" value="SIGN IN">
+                </div>
+            </form>
+        </div>
+    </section>
+</main>
+
+</html>

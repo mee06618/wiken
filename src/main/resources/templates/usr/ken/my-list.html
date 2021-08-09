@@ -6,12 +6,37 @@
 </head>
 
 <main layout:fragment="main">
-    <div th:each="ken : ${kens}" th:object="${ken}">
-        <a class="block" th:href="|||/ken/*{id}|||" th:text="*{id}"></a>
-        <div th:text="*{regDate}"></div>
-        <div th:text="*{updateDate}"></div>
-        <a class="block" th:href="|||/ken/*{id}|||" th:text="*{title}"></a>
-        <hr>
-    </div>
+    <section class="section section-my-list">
+        <div class="container mx-auto px-3 pt-3">
+            <div class="overflow-x-auto">
+                <table class="table w-full">
+                    <colgroup>
+                        <col width="30">
+                        <col>
+                        <col width="100">
+                        <col width="100">
+                    </colgroup>
+                    <thead>
+                    <tr class="text-center">
+                        <th>ID</th>
+                        <th>제목</th>
+                        <th>수정날짜</th>
+                        <th>수정날짜</th>
+                    </tr>
+                    </thead>
+                    <tr th:each="ken : ${kens}" th:object="${ken}">
+                        <td>
+                            <a class="btn btn-link" th:href="|||/ken/*{id}|||" th:text="*{id}"></a>
+                        </td>
+                        <td>
+                            <a class="btn btn-link" th:href="|||/ken/*{id}|||" th:text="*{title}"></a>
+                        </td>
+                        <td th:text="*{regDate.substring(2, 16)}"></td>
+                        <td th:text="*{updateDate.substring(2, 16)}"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </section>
 </main>
 </html>
