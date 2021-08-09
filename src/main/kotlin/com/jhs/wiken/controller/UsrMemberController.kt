@@ -1,29 +1,44 @@
 package com.jhs.wiken.controller
 
-import com.jhs.wiken.util.Ut
-import com.jhs.wiken.vo.Member
+import com.jhs.wiken.service.MemberService
+import com.jhs.wiken.vo.Rq
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
 import javax.servlet.http.HttpSession
 
 @Controller
-class UsrMemberController {
+class UsrMemberController(private val memberService: MemberService) {
+    @Autowired
+    private lateinit var rq: Rq;
+
+    @RequestMapping("/member/login")
+    fun showLogin(): String {
+        return "usr/member/login"
+    }
+
     @RequestMapping("/member/doLogin")
     @ResponseBody
-    fun doLogin(loginId: String, loginPw: String, session: HttpSession): String {
-        val member = Member(1, "2021-12-12 12:12:12", "2021-12-12 12:12:12", "user1", "user1")
+    fun doLogin(loginId: String, loginPw: String, @RequestParam(defaultValue = "/ken") replaceUri: String): String {
+        val member = memberService.getMemberByLoginId(loginId)
+            ?: return rq.historyBackJs("${loginId}(은)는 존재하지 않는 로그인아이디 입니다.")
 
-        session.setAttribute("loginedMemberJsonStr", Ut.getJsonStrFromObj(member))
+        if ( member.loginPw != loginPw ) {
+            return rq.historyBackJs("비밀번호가 일치하지 않습니다.")
+        }
 
-        return "로그인 성공"
+        rq.login(member)
+
+        return rq.replaceJs("${member.nickname}님 환영합니다.", replaceUri)
     }
 
     @RequestMapping("/member/doLogout")
     @ResponseBody
     fun doLogout(session: HttpSession): String {
-        session.removeAttribute("loginedMemberJsonStr")
+        rq.logout()
 
-        return "로그아웃 성공"
+        return rq.replaceJs("", "/ken")
     }
 }

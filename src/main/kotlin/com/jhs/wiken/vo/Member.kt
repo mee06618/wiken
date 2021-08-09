@@ -6,4 +6,8 @@ data class Member(
     val updateDate: String,
     val loginId: String,
     val loginPw: String,
+    val name: String,
+    val nickname: String,
+    val cellphoneNo: String,
+    val email: String,
 )

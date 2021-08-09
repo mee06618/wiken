@@ -57,6 +57,20 @@ class Rq {
         """.trimIndent()
     }
 
+    fun historyBackJs(msg: String): String {
+        return """
+            <script>
+            const msg = '${msg}'.trim();
+            
+            if ( msg.length > 0 ) {
+                alert(msg);
+            }
+            
+            history.back();
+            </script>
+        """.trimIndent()
+    }
+
     fun setReq(req: HttpServletRequest) {
         this.req = req
 
@@ -69,5 +83,13 @@ class Rq {
 
     fun isCurrentPageCanGoEditCurrentKen(): Boolean {
         return this.currentPageCanGoEditCurrentKen
+    }
+
+    fun login(member: Member) {
+        req.session.setAttribute("loginedMemberJsonStr", Ut.getJsonStrFromObj(member))
+    }
+
+    fun logout() {
+        req.session.removeAttribute("loginedMemberJsonStr")
     }
 }
