@@ -348,28 +348,28 @@
         <div class="container mx-auto px-3 h-[50px] flex">
             <a th:fragment="logo" href="/" class="logo flex items-center">
                 <span><i class="fas fa-file-alt"></i></span>
-                <span>&nbsp;</span>
-                <span>WIKEN</span>
+                <span class="hidden sm:block">&nbsp;</span>
+                <span class="hidden sm:block">WIKEN</span>
             </a>
             <a th:if="${@rq.currentPageCanGoViewCurrentKen}" th:href="|||/ken/${ken.id}|||"
                class="h-full flex items-center hover:underline px-3 cursor-pointer">
                 <span><i class="far fa-eye"></i></span>
-                <span>&nbsp;</span>
-                <span>VIEW</span>
+                <span class="hidden sm:block">&nbsp;</span>
+                <span class="hidden sm:block">VIEW</span>
             </a>
 
             <a th:if="${@rq.currentPageCanSaveKen}" class="h-full flex items-center hover:underline px-3 cursor-pointer"
                onclick="if ( KenWrite__submit ) KenWrite__submit();">
                 <span><i class="far fa-save"></i></span>
-                <span>&nbsp;</span>
-                <span>SAVE</span>
+                <span class="hidden sm:block">&nbsp;</span>
+                <span class="hidden sm:block">SAVE</span>
             </a>
 
             <a th:if="${@rq.currentPageCanGoEditCurrentKen}" th:href="|||/ken/${ken.id}/edit|||"
                class="h-full flex items-center hover:underline px-3 cursor-pointer">
                 <span><i class="far fa-edit"></i></span>
-                <span>&nbsp;</span>
-                <span>EDIT</span>
+                <span class="hidden sm:block">&nbsp;</span>
+                <span class="hidden sm:block">EDIT</span>
             </a>
 
             <div class="flex-grow">
@@ -380,48 +380,48 @@
                 <li th:if="false">
                     <a href="/usr/home/main" class="h-full flex items-center hover:underline px-3">
                         <span><i class="far fa-list-alt"></i></span>
-                        <span>&nbsp;</span>
-                        <span>ALL KENS</span>
+                        <span class="hidden sm:block">&nbsp;</span>
+                        <span class="hidden sm:block">ALL KENS</span>
                     </a>
                 </li>
 
                 <li th:unless="${@rq.logined}">
                     <a href="/member/join" class="h-full flex items-center hover:underline px-3">
                         <span><i class="fas fa-user-plus"></i></span>
-                        <span>&nbsp;</span>
-                        <span>JOIN</span>
+                        <span class="hidden sm:block">&nbsp;</span>
+                        <span class="hidden sm:block">JOIN</span>
                     </a>
                 </li>
 
                 <li th:unless="${@rq.logined}">
                     <a href="/member/login" class="h-full flex items-center hover:underline px-3">
                         <span><i class="fas fa-sign-in-alt"></i></span>
-                        <span>&nbsp;</span>
-                        <span>LOGIN</span>
+                        <span class="hidden sm:block">&nbsp;</span>
+                        <span class="hidden sm:block">LOGIN</span>
                     </a>
                 </li>
 
                 <li th:if="${@rq.logined}">
                     <a href="/member/doLogout" class="h-full flex items-center hover:underline px-3">
                         <span><i class="fas fa-sign-out-alt"></i></span>
-                        <span>&nbsp;</span>
-                        <span>LOGOUT</span>
+                        <span class="hidden sm:block">&nbsp;</span>
+                        <span class="hidden sm:block">LOGOUT</span>
                     </a>
                 </li>
 
                 <li th:if="${@rq.logined}">
                     <a href="/ken/mine" class="h-full flex items-center hover:underline px-3">
                         <span><i class="fas fa-user-edit"></i></span>
-                        <span>&nbsp;</span>
-                        <span>[[${@rq.loginedMember.nickname}]]'s KENS</span>
+                        <span class="hidden sm:block">&nbsp;</span>
+                        <span class="hidden sm:block">[[${@rq.loginedMember.nickname}]]'s KENS</span>
                     </a>
                 </li>
 
                 <li th:if="${@rq.logined}">
                     <a href="/ken" class="h-full flex items-center hover:underline px-3">
                         <span><i class="fas fa-pen"></i></span>
-                        <span>&nbsp;</span>
-                        <span>NEW KEN</span>
+                        <span class="hidden sm:block">&nbsp;</span>
+                        <span class="hidden sm:block">NEW KEN</span>
                     </a>
                 </li>
 
