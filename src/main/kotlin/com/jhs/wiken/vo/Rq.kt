@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpSession
 
-// 역할 : req, session 을 조금 더 쉽게 다룸
+// 역할 : req, session 을 조금 더 쉽게 다룰 수 있게 도와줌
 // 컴포넌트로 등록, 이름 : rq
 // 이름을 정한 이유는, 타임리프에서, ${@rq} 와 같은식으로 접근 할 수 있도록
 @Component("rq")
@@ -30,14 +30,14 @@ class Rq {
     // 현재 페이지에서 현재 Ken의 상세페이지를 보러 갈 수 있는 버튼이 노출될 수 있는지 여부
     private var currentPageCanGoViewCurrentKen = false
 
-    fun setReq(req: HttpServletRequest) {
+    fun initWithReq(req: HttpServletRequest) {
         this.req = req
 
-        setLoginInfo(req.session)
+        setCurrentLoginInfo(req.session)
     }
 
     // 로그인 정보를 세션에서 꺼내와서, rq객체에 정보를 세팅
-    fun setLoginInfo(session: HttpSession) {
+    fun setCurrentLoginInfo(session: HttpSession) {
         if (session.getAttribute("loginedMemberJsonStr") == null) {
             return
         }
