@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSession
 class Rq {
     private lateinit var req: HttpServletRequest
     private lateinit var resp: HttpServletResponse
+    var siteHeaderType = "common"
 
     // 로그인 된 회원
     private var loginedMember: Member? = null

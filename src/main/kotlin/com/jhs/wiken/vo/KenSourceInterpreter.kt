@@ -6,7 +6,7 @@ import com.jhs.wiken.util.Ut
 class KenSourceInterpreter(
     val hasConfig: Boolean,
     private val source: String,
-    private val kenConfig: KenConfig
+    val kenConfig: KenConfig
 ) {
     companion object {
         fun from(source: String): KenSourceInterpreter {
@@ -31,5 +31,17 @@ class KenSourceInterpreter(
 
     fun getKenConfigSource(): String {
         return kenConfig.source
+    }
+
+    fun getCssSource(i: Int): String {
+        val has = source.contains("```css")
+
+        if (!has) {
+            return ""
+        }
+
+        var bit = source.split("```css", limit = 2)[1]
+
+        return bit.split("```", limit = 2)[0]
     }
 }

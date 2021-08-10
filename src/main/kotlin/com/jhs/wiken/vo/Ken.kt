@@ -14,4 +14,12 @@ data class Ken(
 
         return kenSourceInterpreter.getKenConfigSource()
     }
+
+    fun getKenConfig(): KenConfig {
+        return genSourceInterpreter().kenConfig
+    }
+
+    fun genSourceInterpreter(): KenSourceInterpreter {
+        return KenSourceInterpreter.from(source)
+    }
 }

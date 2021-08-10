@@ -24,12 +24,12 @@
                         <th>수정날짜</th>
                     </tr>
                     </thead>
-                    <tr th:each="ken : ${kens}" th:object="${ken}">
+                    <tr th:each="ken : ${articles}" th:object="${ken}">
                         <td>
-                            <a class="btn btn-link" th:href="|||/ken/*{id}|||" th:text="*{id}"></a>
+                            <a class="btn btn-link" th:href="|||/b/${ken.id}/*{id}|||" th:text="*{id}"></a>
                         </td>
                         <td>
-                            <a class="btn btn-link" th:href="|||/ken/*{id}|||" th:text="*{title}"></a>
+                            <a class="btn btn-link" th:href="|||/b/${ken.id}/*{id}|||" th:text="*{title}"></a>
                         </td>
                         <td th:text="*{regDate.substring(2, 16)}"></td>
                         <td th:text="*{updateDate.substring(2, 16)}"></td>

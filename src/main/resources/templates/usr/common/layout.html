@@ -339,13 +339,17 @@
 
     <!-- 사이트 공통 JS -->
     <script src="/resource/common.js" defer></script>
+
+    <style>
+        [[${blogCss}]]
+    </style>
 </head>
 
 <body>
 
 <div class="site-wrap min-h-screen flex flex-col">
     <header class="flex-shrink-0 shadow font-bold">
-        <div class="container mx-auto px-3 h-[50px] flex">
+        <div th:if="${@rq.siteHeaderType == 'common'}" class="container mx-auto px-3 h-[50px] flex">
             <a th:fragment="logo" href="/" class="logo flex items-center">
                 <span><i class="fas fa-file-alt"></i></span>
                 <span class="hidden sm:block">&nbsp;</span>
@@ -433,6 +437,10 @@
                 </li>
 
             </ul>
+        </div>
+
+        <div th:if="${@rq.siteHeaderType == 'blog'}" class="container mx-auto px-3 h-[50px] flex">
+            블로그
         </div>
     </header>
 
