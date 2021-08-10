@@ -138,7 +138,7 @@
                 <configuration>
                     <server>cent1__manager_text</server>
                     <url>https://wiken.io/manager/text</url>
-                    <path>/ROOT</path>
+                    <path>/ROOT##2</path>
                 </configuration>
             </plugin>
 
