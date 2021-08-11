@@ -105,20 +105,6 @@
       return params;
     }
 
-    function configPlugin() {
-      const toHTMLRenderers = {
-        config(node) {
-          return [
-            { type: 'openTag', tagName: 'div', outerNewLine: true },
-            { type: 'html', content: '' },
-            { type: 'closeTag', tagName: 'div', outerNewLine: true }
-          ];
-        }
-      }
-
-      return { toHTMLRenderers }
-    }
-
     function codepenPlugin() {
       const toHTMLRenderers = {
         codepen(node) {
@@ -162,7 +148,36 @@
 
         return '<iframe height="' + height + '" style="width: ' + width + ';" scrolling="no" title="" src="' + iframeUri + '" frameborder="no" allowtransparency="true" allowfullscreen="true"></iframe>';
       }
-      // 유튜브 플러그인 끝
+
+      return { toHTMLRenderers }
+    }
+    // 유튜브 플러그인 끝
+
+    // repl 플러그인 시작
+    function replPlugin() {
+      const toHTMLRenderers = {
+        repl(node) {
+          const html = renderRepl(node.literal);
+
+          return [
+            { type: 'openTag', tagName: 'div', outerNewLine: true },
+            { type: 'html', content: html },
+            { type: 'closeTag', tagName: 'div', outerNewLine: true }
+          ];
+        }
+      }
+
+      function renderRepl(uri) {
+        var uriParams = getUriParams(uri);
+
+        var height = 400;
+
+        if ( uriParams.height ) {
+          height = uriParams.height;
+        }
+
+        return '<iframe frameborder="0" width="100%" height="' + height +'px" src="' + uri + '"></iframe>';
+      }
 
       return { toHTMLRenderers }
     }
@@ -262,20 +277,32 @@
       maxHeight: 300
     };
 
+    // config 플러그인
+    function configPlugin() {
+      const toHTMLRenderers = {
+        config(node) {
+          return [
+            { type: 'openTag', tagName: 'div', outerNewLine: true },
+            { type: 'html', content: '' },
+            { type: 'closeTag', tagName: 'div', outerNewLine: true }
+          ];
+        }
+      }
+
+      return { toHTMLRenderers }
+    }
+
     function ToastEditor__init() {
       $('.toast-ui-editor').each(function(index, node) {
         const $node = $(node);
         const $initialValueEl = $node.find(' > script');
         const initialValue = $initialValueEl.length == 0 ? '' : $initialValueEl.html().trim();
 
-        const height = $node.attr('data-toast-editor-height') ?? '500px';
-        const placeholder = $node.attr('data-toast-editor-placeholder') ?? '';
         const editor = new toastui.Editor({
           el: node,
           previewStyle: 'vertical',
           initialValue: initialValue,
-          height:height,
-          placeholder: placeholder,
+          height:'600px',
           plugins: [
             [toastui.Editor.plugin.chart, ToastEditor__chartOptions],
             [toastui.Editor.plugin.codeSyntaxHighlight, {highlighter:Prism}],
@@ -285,6 +312,7 @@
             katexPlugin,
             youtubePlugin,
             codepenPlugin,
+            replPlugin,
             configPlugin
           ],
           customHTMLSanitizer: html => {
@@ -308,7 +336,6 @@
           initialValue: initialValue,
           viewer:true,
           plugins: [
-            [toastui.Editor.plugin.chart, ToastEditor__chartOptions],
             [toastui.Editor.plugin.codeSyntaxHighlight, {highlighter:Prism}],
             toastui.Editor.plugin.colorSyntax,
             toastui.Editor.plugin.tableMergedCell,
@@ -316,6 +343,7 @@
             katexPlugin,
             youtubePlugin,
             codepenPlugin,
+            replPlugin,
             configPlugin
           ],
           customHTMLSanitizer: html => {
@@ -331,8 +359,6 @@
       ToastEditor__init();
       ToastEditorView__init();
     });
-
-
     </script>
 
     <!-- 토스트 에디터, 뷰어 끝 -->
