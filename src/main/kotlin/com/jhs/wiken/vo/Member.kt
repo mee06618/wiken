@@ -10,4 +10,8 @@ data class Member(
     val nickname: String,
     val cellphoneNo: String,
     val email: String,
-)
+) {
+    companion object {
+        fun empty() = Member(0, "", "", "", "", "", "", "", "")
+    }
+}

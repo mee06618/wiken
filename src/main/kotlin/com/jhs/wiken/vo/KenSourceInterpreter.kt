@@ -1,7 +1,5 @@
 package com.jhs.wiken.vo
 
-import com.jhs.wiken.util.Ut
-
 // Ken 소스 해석기
 class KenSourceInterpreter(
     val hasConfig: Boolean,
@@ -25,9 +23,10 @@ class KenSourceInterpreter(
         }
     }
 
-    fun getTitle(): String {
-        return kenConfig.title
-    }
+    val title: String
+        get() {
+            return kenConfig.title
+        }
 
     fun getKenConfigSource(): String {
         return kenConfig.source

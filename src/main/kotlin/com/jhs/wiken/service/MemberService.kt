@@ -15,7 +15,14 @@ class MemberService(private val memberRepository: MemberRepository) {
         return memberRepository.getMemberById(id)
     }
 
-    fun join(loginId: String, loginPw: String, name: String, nickname: String, cellphoneNo: String, email: String): ResultData<Int> {
+    fun join(
+        loginId: String,
+        loginPw: String,
+        name: String,
+        nickname: String,
+        cellphoneNo: String,
+        email: String
+    ): ResultData<Int> {
         memberRepository.join(loginId, loginPw, name, nickname, cellphoneNo, email)
         val id = memberRepository.getLastInsertId()
 

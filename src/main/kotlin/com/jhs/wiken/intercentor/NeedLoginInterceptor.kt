@@ -14,9 +14,12 @@ class NeedLoginInterceptor : HandlerInterceptor {
     private lateinit var rq: Rq;
 
     override fun preHandle(req: HttpServletRequest, resp: HttpServletResponse, handler: Any): Boolean {
-        if (rq.isLogined() == false) {
+        if (!rq.isLogined) {
             rq.respUtf8()
-            rq.printReplaceJs("", "/member/login?afterLoginUri=${rq.getEncodedAfterLoginUri()}&toastMsg=Please Sign In First.")
+            rq.printReplaceJs(
+                "",
+                "/member/login?afterLoginUri=${rq.encodedAfterLoginUri}&toastMsg=Please Sign In First."
+            )
 
             return false
         }

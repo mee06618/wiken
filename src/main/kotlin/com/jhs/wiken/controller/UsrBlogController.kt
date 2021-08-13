@@ -2,22 +2,18 @@ package com.jhs.wiken.controller
 
 import com.jhs.wiken.service.BlogService
 import com.jhs.wiken.service.KenService
-import com.jhs.wiken.vo.KenSourceInterpreter
 import com.jhs.wiken.vo.Rq
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.ResponseBody
 
 @Controller
 class UsrBlogController(
     private val kenService: KenService,
-    private val blogService: BlogService
+    private val blogService: BlogService,
+    private val rq: Rq
 ) {
-    @Autowired
-    private lateinit var rq: Rq;
 
     @RequestMapping("/b/{id}")
     fun showArticles(@PathVariable("id") id: Int, model: Model): String {
@@ -38,7 +34,7 @@ class UsrBlogController(
         model.addAttribute("ken", ken)
         model.addAttribute("articles", articles)
 
-        rq.setCurrentPageCanGoEditCurrentKen(true)
+        rq.currentPageCanGoEditCurrentKen = true
 
         return "usr/blog/article-list"
     }
