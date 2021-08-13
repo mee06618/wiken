@@ -126,3 +126,7 @@ title = '무제 2',
 result = '<h1>내용2</h1>',
 typeCode = 'common',
 type2Code = 'markdown';
+
+# 비밀번호 암호화
+UPDATE `member`
+SET loginPw = SHA2(loginPw, 256);

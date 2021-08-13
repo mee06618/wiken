@@ -3,6 +3,8 @@
       layout:decorate="~{usr/common/layout}">
 
 <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
+
     <title>로그인</title>
 </head>
 
@@ -12,7 +14,43 @@
         <div class="flex-grow max-w-md px-2">
             <h1 class="font-bold text-lg">Sign in</h1>
 
-            <form action="/member/doLogin" method="POST" class="flex flex-col">
+            <script>
+                let MemberLogin__submitDone = false;
+                function MemberLogin__submit(form) {
+                    if ( MemberLogin__submitDone ) {
+                        return;
+                    }
+
+                    form.loginId.value = form.loginId.value.trim();
+
+                    if ( form.loginId.value.length == 0 ) {
+                        alert('로그인아이디를 입력해주세요.');
+                        form.loginId.focus();
+
+                        return;
+                    }
+
+                    form.loginPwInput.value = form.loginPwInput.value.trim();
+
+                    if ( form.loginPwInput.value.length == 0 ) {
+                        alert('로그인비밀번호를 입력해주세요.');
+                        form.loginPwInput.focus();
+
+                        return;
+                    }
+
+                    form.loginPw.value = sha256(form.loginPwInput.value);
+		            form.loginPwInput.value = '';
+
+		            alert(form.loginPw.value);
+
+		            form.submit();
+		            MemberLogin__submitDone = true;
+                }
+            </script>
+
+            <form action="/member/doLogin" method="POST" class="flex flex-col" onsubmit="MemberLogin__submit(this); return false;">
+                <input type="hidden" name="loginPw">
                 <input type="hidden" name="replaceUri" th:value="${param.afterLoginUri}">
 
                 <div class="form-control">
@@ -26,7 +64,7 @@
                     <label class="label">
                         <span class="label-text">Password</span>
                     </label>
-                    <input type="password" name="loginPw" placeholder="Password" class="input input-bordered" maxlength="20">
+                    <input type="password" name="loginPwInput" placeholder="Password" class="input input-bordered" maxlength="20">
                 </div>
 
                 <div class="btns mt-3 flex justify-center px-1">
