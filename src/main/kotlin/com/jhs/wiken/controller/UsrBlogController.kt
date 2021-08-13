@@ -5,6 +5,7 @@ import com.jhs.wiken.service.KenService
 import com.jhs.wiken.vo.Rq
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
+import org.springframework.ui.set
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 
@@ -24,15 +25,18 @@ class UsrBlogController(
         val blogCss = kenSourceInterpreter.getCssSource(0)
         val kenConfig = ken.getKenConfig()
 
+        val kenConfigBlog = kenConfig.blog
+
         val blogName = kenConfig.title
         val articleIds = kenConfig.articles
 
         val articles = blogService.getArticlesByKenIds(articleIds)
 
-        model.addAttribute("blogCss", blogCss)
-        model.addAttribute("blogName", blogName)
-        model.addAttribute("ken", ken)
-        model.addAttribute("articles", articles)
+        model["blogCss"] = blogCss
+        model["blogName"] = blogName
+        model["ken"] = ken
+        model["articles"] = articles
+        model["kenConfigBlog"] = kenConfigBlog
 
         rq.currentPageCanGoEditCurrentKen = true
 

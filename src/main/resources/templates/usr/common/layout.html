@@ -82,6 +82,7 @@
     .toast-ui-viewer {
       padding-top:10px;
     }
+
     </style>
 
     <script>
@@ -353,6 +354,7 @@
       ToastEditor__init();
       ToastEditorView__init();
     });
+
     </script>
 
     <!-- 토스트 에디터, 뷰어 끝 -->
@@ -370,10 +372,12 @@
                 toastr["success"](params.toastMsg, 'Notification', {showDuration: 100, hideDuration: 100, timeOut:2000});
              }, 500);
         }
+
     </script>
 
     <style>
         [(${blogCss})]
+
     </style>
 </head>
 
@@ -394,7 +398,8 @@
                 <span class="hidden sm:block">VIEW</span>
             </a>
 
-            <a th:if="${@rq.currentPageCanSaveKen}" class="h-full flex items-center hover:underline px-[10px] cursor-pointer"
+            <a th:if="${@rq.currentPageCanSaveKen}"
+               class="h-full flex items-center hover:underline px-[10px] cursor-pointer"
                onclick="if ( KenWrite__submit ) KenWrite__submit();">
                 <span><i class="far fa-save"></i></span>
                 <span class="hidden sm:block">&nbsp;</span>
@@ -409,7 +414,8 @@
             </a>
 
             <a th:if="${@rq.currentPageCanDeleteCurrentKen}" th:href="|||/ken/doDelete?id=${ken.id}|||"
-               class="h-full flex items-center hover:underline px-[10px] cursor-pointer" onclick="if ( confirm('정말로 삭제하시겠습니까?') == false ) return false;">
+               class="h-full flex items-center hover:underline px-[10px] cursor-pointer"
+               onclick="if ( confirm('정말로 삭제하시겠습니까?') == false ) return false;">
                 <span><i class="far fa-trash-alt"></i></span>
                 <span class="hidden sm:block">&nbsp;</span>
                 <span class="hidden sm:block">DELETE</span>

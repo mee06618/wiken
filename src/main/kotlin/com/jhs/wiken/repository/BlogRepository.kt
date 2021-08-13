@@ -17,7 +17,12 @@ interface BlogRepository {
     <foreach collection="kenIds" item="kenId" index="index" separator="," open="(" close=")">
         #{kenId}
     </foreach>
-    ORDER BY K.id DESC
+    ORDER BY FIELD (
+        K.id,
+        <foreach collection="kenIds" item="kenId" index="index" separator=",">
+            #{kenId}
+        </foreach>
+    ) DESC
     </script>
     """
     )

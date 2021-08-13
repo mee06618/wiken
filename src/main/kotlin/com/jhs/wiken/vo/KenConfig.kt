@@ -9,7 +9,8 @@ data class KenConfig(
     val title: String,
     val keywords: List<String>,
     val typeCode: String = "doc", // doc, blog, series
-    val articles: List<Int> = arrayListOf()
+    val articles: List<Int> = arrayListOf(),
+    val blog: KenConfigBlog = KenConfigBlog()
 ) {
     var source:String = ""
 
