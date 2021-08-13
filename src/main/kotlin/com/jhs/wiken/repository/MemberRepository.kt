@@ -24,7 +24,7 @@ interface MemberRepository {
         updateDate = NOW(),
         loginId = #{loginId},
         loginPw = #{loginPw},
-        `name` = #{loginPw},
+        `name` = #{name},
         nickname = #{nickname},
         cellphoneNo = #{cellphoneNo},
         email = #{email}

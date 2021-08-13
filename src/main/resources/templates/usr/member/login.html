@@ -42,8 +42,6 @@
                     form.loginPw.value = sha256(form.loginPwInput.value);
 		            form.loginPwInput.value = '';
 
-		            alert(form.loginPw.value);
-
 		            form.submit();
 		            MemberLogin__submitDone = true;
                 }
@@ -70,7 +68,7 @@
                 <div class="btns mt-3 flex justify-center px-1">
                     <input class="btn btn-primary w-1/2" type="submit" value="SIGN IN">
                     <div class="w-2 flex-shrink-0"></div>
-                    <a class="btn  btn-secondary btn-outline w-1/2">SIGN UP</a>
+                    <a href="/member/join" class="btn btn-secondary btn-outline w-1/2">SIGN UP</a>
                 </div>
 
                 <div class="btns mt-3 flex justify-center">

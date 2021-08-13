@@ -3,33 +3,72 @@
       layout:decorate="~{usr/common/layout}">
 
 <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
+
     <title>회원가입</title>
 </head>
 
 <main layout:fragment="main">
-    <section class="section section-login h-full flex items-center justify-center">
+    <section class="section section-login flex-grow flex items-center justify-center">
 
-        <div class="flex-grow max-w-md px-3">
-            <h1>Sign up</h1>
-            <form action="/member/doJoin" method="POST" class="flex flex-col">
+        <div class="flex-grow max-w-md px-2">
+            <h1 class="font-bold text-lg">Sign up</h1>
+
+            <script>
+                let MemberJoin__submitDone = false;
+                function MemberJoin__submit(form) {
+                    if ( MemberJoin__submitDone ) {
+                        return;
+                    }
+
+                    form.loginId.value = form.loginId.value.trim();
+
+                    if ( form.loginId.value.length == 0 ) {
+                        alert('로그인아이디를 입력해주세요.');
+                        form.loginId.focus();
+
+                        return;
+                    }
+
+                    form.loginPwInput.value = form.loginPwInput.value.trim();
+
+                    if ( form.loginPwInput.value.length == 0 ) {
+                        alert('로그인비밀번호를 입력해주세요.');
+                        form.loginPwInput.focus();
+
+                        return;
+                    }
+
+                    form.loginPw.value = sha256(form.loginPwInput.value);
+		            form.loginPwInput.value = '';
+
+		            form.submit();
+		            MemberJoin__submitDone = true;
+                }
+            </script>
+
+            <form action="/member/doJoin" method="POST" class="flex flex-col" onsubmit="MemberJoin__submit(this); return false;">
+                <input type="hidden" name="loginPw">
                 <input type="hidden" name="replaceUri" th:value="${param.afterLoginUri}">
 
                 <div class="form-control">
                     <label class="label">
                         <span class="label-text">Username</span>
                     </label>
-                    <input type="text" name="loginId" placeholder="username" class="input input-bordered">
+                    <input type="text" name="loginId" placeholder="Username" class="input input-bordered">
                 </div>
 
                 <div class="form-control">
                     <label class="label">
                         <span class="label-text">Password</span>
                     </label>
-                    <input type="password" name="loginPw" placeholder="password" class="input input-bordered">
+                    <input type="password" name="loginPwInput" placeholder="Password" class="input input-bordered">
                 </div>
 
-                <div class="btns">
-                    <input class="btn btn-link" type="submit" value="SIGN IN">
+                <div class="btns mt-3 flex justify-center px-1">
+                    <input class="btn btn-primary w-1/2" type="submit" value="SIGN UP">
+                    <div class="w-2 flex-shrink-0"></div>
+                    <a href="/member/login" class="btn  btn-secondary btn-outline w-1/2">SIGN IN</a>
                 </div>
             </form>
         </div>
