@@ -128,5 +128,7 @@ typeCode = 'common',
 type2Code = 'markdown';
 
 # 비밀번호 암호화
+ALTER TABLE `member` MODIFY COLUMN loginPw CHAR(70) NOT NULL;
+
 UPDATE `member`
 SET loginPw = SHA2(loginPw, 256);
