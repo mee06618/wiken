@@ -14,14 +14,10 @@
     <!-- 제이쿼리 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-    <!-- 사이트 공통 CSS -->
-    <link rel="stylesheet" href="/resource/dist.css">
-
-    <!-- 제이쿼리 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css">
 
     <!-- 토스트 에디터, 뷰어 시작 -->
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.0/purify.min.js"></script>
 
     <!-- 토스트 UI 에디터 코어 -->
@@ -86,8 +82,6 @@
     .toast-ui-viewer {
       padding-top:10px;
     }
-
-
     </style>
 
     <script>
@@ -364,7 +358,19 @@
     <!-- 토스트 에디터, 뷰어 끝 -->
 
     <!-- 사이트 공통 JS -->
-    <script src="/resource/common.js" defer></script>
+
+    <!-- 사이트 공통 CSS -->
+    <link rel="stylesheet" href="/resource/dist.css">
+
+    <script th:inline="javascript" defer>
+        const params = /*[[ ${param} ]]*/ null;
+
+        if ( params.toastMsg ) {
+            setTimeout(function() {
+                toastr["success"](params.toastMsg, 'Notification', {showDuration: 100, hideDuration: 100, timeOut:2000});
+             }, 500);
+        }
+    </script>
 
     <style>
         [(${blogCss})]
@@ -375,20 +381,20 @@
 
 <div class="site-wrap min-h-screen flex flex-col">
     <header class="flex-shrink-0 shadow font-bold">
-        <div th:if="${@rq.siteHeaderType == 'common'}" class="container mx-auto px-3 h-[50px] flex">
+        <div th:if="${@rq.siteHeaderType == 'common'}" class="container mx-auto px-[10px] h-[50px] flex">
             <a th:fragment="logo" href="/" class="logo flex items-center">
                 <span><i class="fas fa-file-alt"></i></span>
-                <span class="hidden sm:block">&nbsp;</span>
-                <span class="hidden sm:block">WIKEN</span>
+                <span>&nbsp;</span>
+                <span>WIKEN</span>
             </a>
             <a th:if="${@rq.currentPageCanGoViewCurrentKen}" th:href="|||/ken/${ken.id}|||"
-               class="h-full flex items-center hover:underline px-3 cursor-pointer">
+               class="h-full flex items-center hover:underline px-[10px] cursor-pointer">
                 <span><i class="far fa-eye"></i></span>
                 <span class="hidden sm:block">&nbsp;</span>
                 <span class="hidden sm:block">VIEW</span>
             </a>
 
-            <a th:if="${@rq.currentPageCanSaveKen}" class="h-full flex items-center hover:underline px-3 cursor-pointer"
+            <a th:if="${@rq.currentPageCanSaveKen}" class="h-full flex items-center hover:underline px-[10px] cursor-pointer"
                onclick="if ( KenWrite__submit ) KenWrite__submit();">
                 <span><i class="far fa-save"></i></span>
                 <span class="hidden sm:block">&nbsp;</span>
@@ -396,14 +402,14 @@
             </a>
 
             <a th:if="${@rq.currentPageCanGoEditCurrentKen}" th:href="|||/ken/${ken.id}/edit|||"
-               class="h-full flex items-center hover:underline px-3 cursor-pointer">
+               class="h-full flex items-center hover:underline px-[10px] cursor-pointer">
                 <span><i class="far fa-edit"></i></span>
                 <span class="hidden sm:block">&nbsp;</span>
                 <span class="hidden sm:block">EDIT</span>
             </a>
 
             <a th:if="${@rq.currentPageCanDeleteCurrentKen}" th:href="|||/ken/doDelete?id=${ken.id}|||"
-               class="h-full flex items-center hover:underline px-3 cursor-pointer" onclick="if ( confirm('정말로 삭제하시겠습니까?') == false ) return false;">
+               class="h-full flex items-center hover:underline px-[10px] cursor-pointer" onclick="if ( confirm('정말로 삭제하시겠습니까?') == false ) return false;">
                 <span><i class="far fa-trash-alt"></i></span>
                 <span class="hidden sm:block">&nbsp;</span>
                 <span class="hidden sm:block">DELETE</span>
@@ -413,70 +419,70 @@
 
             </div>
 
-            <ul class="flex">
+            <ul class="flex mr-[-10px]">
                 <li th:if="false">
-                    <a href="/usr/home/main" class="h-full flex items-center hover:underline px-3">
+                    <a href="/usr/home/main" class="h-full flex items-center hover:underline px-[10px]">
                         <span><i class="far fa-list-alt"></i></span>
-                        <span class="hidden sm:block">&nbsp;</span>
-                        <span class="hidden sm:block">ALL KENS</span>
+                        <span class="hidden lg:block">&nbsp;</span>
+                        <span class="hidden lg:block">ALL KENS</span>
                     </a>
                 </li>
 
                 <li th:unless="${@rq.logined}">
-                    <a href="/member/join" class="h-full flex items-center hover:underline px-3">
+                    <a href="/member/join" class="h-full flex items-center hover:underline px-[10px]">
                         <span><i class="fas fa-user-plus"></i></span>
-                        <span class="hidden sm:block">&nbsp;</span>
-                        <span class="hidden sm:block">JOIN</span>
+                        <span class="hidden lg:block">&nbsp;</span>
+                        <span class="hidden lg:block">JOIN</span>
                     </a>
                 </li>
 
                 <li th:unless="${@rq.logined}">
-                    <a href="/member/login" class="h-full flex items-center hover:underline px-3">
+                    <a href="/member/login" class="h-full flex items-center hover:underline px-[10px]">
                         <span><i class="fas fa-sign-in-alt"></i></span>
-                        <span class="hidden sm:block">&nbsp;</span>
-                        <span class="hidden sm:block">LOGIN</span>
+                        <span class="hidden lg:block">&nbsp;</span>
+                        <span class="hidden lg:block">LOGIN</span>
                     </a>
                 </li>
 
                 <li th:if="${@rq.logined}">
-                    <a href="/member/doLogout" class="h-full flex items-center hover:underline px-3">
+                    <a href="/member/doLogout" class="h-full flex items-center hover:underline px-[10px]">
                         <span><i class="fas fa-sign-out-alt"></i></span>
-                        <span class="hidden sm:block">&nbsp;</span>
-                        <span class="hidden sm:block">LOGOUT</span>
+                        <span class="hidden lg:block">&nbsp;</span>
+                        <span class="hidden lg:block">LOGOUT</span>
                     </a>
                 </li>
 
                 <li th:if="${@rq.logined}">
-                    <a href="/ken/mine" class="h-full flex items-center hover:underline px-3">
+                    <a href="/ken/mine" class="h-full flex items-center hover:underline px-[10px]">
                         <span><i class="fas fa-user-edit"></i></span>
-                        <span class="hidden sm:block">&nbsp;</span>
-                        <span class="hidden sm:block">[[${@rq.loginedMember.nickname}]]'s KENS</span>
+                        <span class="hidden lg:block">&nbsp;</span>
+                        <span class="hidden lg:block">[[${@rq.loginedMember.nickname}]]'s KENS</span>
                     </a>
                 </li>
 
                 <li th:if="${@rq.logined}">
-                    <a href="/ken" class="h-full flex items-center hover:underline px-3">
+                    <a href="/ken" class="h-full flex items-center hover:underline px-[10px]">
                         <span><i class="fas fa-pen"></i></span>
-                        <span class="hidden sm:block">&nbsp;</span>
-                        <span class="hidden sm:block">NEW KEN</span>
+                        <span class="hidden lg:block">&nbsp;</span>
+                        <span class="hidden lg:block">NEW KEN</span>
                     </a>
                 </li>
 
             </ul>
         </div>
 
-        <div th:if="${@rq.siteHeaderType == 'blog'}" class="container mx-auto px-3 h-[50px] flex">
+        <div th:if="${@rq.siteHeaderType == 'blog'}" class="container mx-auto px-[10px] h-[50px] flex">
             블로그
         </div>
     </header>
 
-    <main class="flex-grow h-0" layout:fragment="main">
+    <main class="flex-grow flex flex-col" layout:fragment="main">
 
     </main>
 
     <!--
     <footer class="flex-shrink-0 shadow font-bold">
-      <div class="container mx-auto px-3 h-[50px] flex">
+      <div class="container mx-auto px-[10px] h-[50px] flex">
         <div class="flex-grow"></div>
         <th:block th:replace="~{usr/common/layout :: logo}"></th:block>
         <div class="flex-grow"></div>

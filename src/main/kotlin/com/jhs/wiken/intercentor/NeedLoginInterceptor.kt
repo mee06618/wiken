@@ -16,7 +16,7 @@ class NeedLoginInterceptor : HandlerInterceptor {
     override fun preHandle(req: HttpServletRequest, resp: HttpServletResponse, handler: Any): Boolean {
         if (rq.isLogined() == false) {
             rq.respUtf8()
-            rq.printReplaceJs("로그인 후 이용해주세요.", "/member/login?afterLoginUri=${rq.getEncodedAfterLoginUri()}")
+            rq.printReplaceJs("", "/member/login?afterLoginUri=${rq.getEncodedAfterLoginUri()}&toastMsg=Please Sign In First.")
 
             return false
         }

@@ -7,10 +7,11 @@
 </head>
 
 <main layout:fragment="main">
-    <section class="section section-login h-full flex items-center justify-center">
+    <section class="section section-login flex-grow flex items-center justify-center">
 
-        <div class="flex-grow max-w-md px-3">
-            <h1>Sign in</h1>
+        <div class="flex-grow max-w-md px-2">
+            <h1 class="font-bold text-lg">Sign in</h1>
+
             <form action="/member/doLogin" method="POST" class="flex flex-col">
                 <input type="hidden" name="replaceUri" th:value="${param.afterLoginUri}">
 
@@ -18,18 +19,24 @@
                     <label class="label">
                         <span class="label-text">Username</span>
                     </label>
-                    <input type="text" name="loginId" placeholder="username" class="input input-bordered">
+                    <input type="text" name="loginId" placeholder="Username" class="input input-bordered" maxlength="20">
                 </div>
 
                 <div class="form-control">
                     <label class="label">
                         <span class="label-text">Password</span>
                     </label>
-                    <input type="password" name="loginPw" placeholder="password" class="input input-bordered">
+                    <input type="password" name="loginPw" placeholder="Password" class="input input-bordered" maxlength="20">
                 </div>
 
-                <div class="btns">
-                    <input class="btn btn-link" type="submit" value="SIGN IN">
+                <div class="btns mt-3 flex justify-center px-1">
+                    <input class="btn btn-primary w-1/2" type="submit" value="SIGN IN">
+                    <div class="w-2 flex-shrink-0"></div>
+                    <a class="btn  btn-secondary btn-outline w-1/2">SIGN UP</a>
+                </div>
+
+                <div class="btns mt-3 flex justify-center">
+                    <a class="btn btn-link">FORGOT PASSWORD?</a>
                 </div>
             </form>
         </div>
