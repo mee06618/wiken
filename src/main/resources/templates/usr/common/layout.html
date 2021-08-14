@@ -1,33 +1,38 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <title layout:title-pattern="$LAYOUT_TITLE | $CONTENT_TITLE">[[#{common.logoText}]]</title>
+  <title layout:title-pattern="$LAYOUT_TITLE | $CONTENT_TITLE">[[#{common.logoText}]]</title>
 
-    <!-- 폰트어썸 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <!-- 폰트어썸 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
-    <!-- 제이쿼리 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <!-- 제이쿼리 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css">
+  <!-- 토스틀, alert 와 confirm을 대체할 목적으로 사용 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css">
 
-    <!-- 토스트 에디터, 뷰어 시작 -->
+  <th:block th:if="${@rq.currentPageUseToastUiEditor}">
+    <!-- 토스트 에디터에 사용될 새너타이즈 도구 -->
+    <!-- 이게 있어서, 토스트에디터에서 유튜브, repl, codepn 플러그인 사용가능 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.0/purify.min.js"></script>
 
     <!-- 토스트 UI 에디터 코어 -->
     <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css"/>
 
-    <!-- 토스트 UI 에디터 플러그인, 컬러피커 -->
+    <!-- 토스트 UI 컬러피커 -->
     <link rel="stylesheet" href="https://uicdn.toast.com/tui-color-picker/latest/tui-color-picker.css"/>
     <script src="https://uicdn.toast.com/tui-color-picker/latest/tui-color-picker.min.js"></script>
 
+    <!-- 토스트 UI 컬러피커를 토스트 UI 에디터에 연결 -->
     <link rel="stylesheet"
           href="https://uicdn.toast.com/editor-plugin-color-syntax/latest/toastui-editor-plugin-color-syntax.min.css"/>
     <script src="https://uicdn.toast.com/editor-plugin-color-syntax/latest/toastui-editor-plugin-color-syntax.min.js"></script>
@@ -35,466 +40,179 @@
     <!-- 토스트 UI 차트 -->
     <link rel="stylesheet" href="https://uicdn.toast.com/chart/latest/toastui-chart.css">
     <script src="https://uicdn.toast.com/chart/latest/toastui-chart.js"></script>
-    <!-- 토스트 UI 차트와 토스트 UI 에디터를 연결  -->
+
+    <!-- 토스트 UI 차트를 토스트 UI 에디터에 연결  -->
     <script src="https://uicdn.toast.com/editor-plugin-chart/latest/toastui-editor-plugin-chart.min.js"></script>
 
-    <!-- 토스트 UI 에디터 플러그인, 코드 신텍스 하이라이터 -->
+    <!-- 코드 신택스 하이라이터, 프리즈마의 기본 CSS -->
+    <!-- 코드 신택스 하이라이터, 프리즈마의 기본 JS는 아래 스크립트에 의해 자동으로 불러와지기 때문에 안불러와도 됨 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css">
+
+    <!-- 외부 신택스 하이라이터를 토스트 UI 에디터에 연결 -->
     <link rel="stylesheet"
           href="https://uicdn.toast.com/editor-plugin-code-syntax-highlight/latest/toastui-editor-plugin-code-syntax-highlight.min.css">
+    <!-- 프리즈마 JS가 아래 스크립트에 내장되어 있음 -->
     <script src="https://uicdn.toast.com/editor-plugin-code-syntax-highlight/latest/toastui-editor-plugin-code-syntax-highlight-all.min.js"></script>
 
     <!-- 토스트 UI 에디터 플러그인, 테이블 셀 병합 -->
     <script src="https://uicdn.toast.com/editor-plugin-table-merged-cell/latest/toastui-editor-plugin-table-merged-cell.min.js"></script>
 
-    <!-- 토스트 UI 에디터 플러그인, katex -->
+    <!-- 수학수식 표현 라이브러리 katex -->
+    <!-- 토스트 UI 에디터에 넣기 위해서 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.13/katex.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.13/katex.min.css">
 
     <!-- 토스트 UI 에디터 플러그인, UML -->
     <script src="https://uicdn.toast.com/editor-plugin-uml/latest/toastui-editor-plugin-uml.min.js"></script>
 
-    <style>
-    .ratio-16\/9::after {
-      content:"";
-      display:block;
-      padding-top:calc(100% / 16 * 9);
-    }
+    <!-- 토스트 UI 에디터 관련 CSS -->
+    <link rel="stylesheet" href="/resource/toast_ui_editor_custom.css">
+    <!-- 토스트 UI 에디터 관련 JS -->
+    <script src="/resource/toast_ui_editor_custom.js"></script>
+  </th:block>
 
-    .ratio-9\/16::after {
-      content:"";
-      display:block;
-      padding-top:calc(100% / 9 * 16);
-    }
+  <!-- 커스텀 CSS -->
+  <link rel="stylesheet" href="/resource/dist.css">
 
-    html .toastui-editor-contents,
-    html .ProseMirror {
-      font-size:15px;
-    }
+  <script th:inline="javascript" defer>
+    const params = /*[[ ${param} ]]*/ null;
 
-    html .toastui-editor-contents>div>div:first-of-type h1,
-    html .toastui-editor-contents>h1:first-of-type,
-    html .toastui-editor-contents>div>div:first-of-type h2,
-    html .toastui-editor-contents>h2:first-of-type{
-      margin-top:0;
-    }
-
-    .toast-ui-viewer {
-      padding-top:10px;
-    }
-
-    </style>
-
-    <script>
-    function getUriParams(uri) {
-      uri = uri.trim();
-      uri = uri.replaceAll('&amp;', '&');
-      if ( uri.indexOf('#') !== -1 ) {
-        let pos = uri.indexOf('#');
-        uri = uri.substr(0, pos);
-      }
-
-      let params = {};
-
-      uri.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { params[key] = value; });
-      return params;
-    }
-
-    function codepenPlugin() {
-      const toHTMLRenderers = {
-        codepen(node) {
-          const html = renderCodepen(node.literal);
-
-          return [
-            { type: 'openTag', tagName: 'div', outerNewLine: true },
-            { type: 'html', content: html },
-            { type: 'closeTag', tagName: 'div', outerNewLine: true }
-          ];
-        }
-      }
-
-      function renderCodepen(uri) {
-        let uriParams = getUriParams(uri);
-
-        let height = 400;
-
-        let preview = '';
-
-        if ( uriParams.height ) {
-          height = uriParams.height;
-        }
-
-        let width = '100%';
-
-        if ( uriParams.width ) {
-          width = uriParams.width;
-        }
-
-        if ( !isNaN(width) ) {
-          width += 'px';
-        }
-
-        let iframeUri = uri;
-
-        if ( iframeUri.indexOf('#') !== -1 ) {
-          let pos = iframeUri.indexOf('#');
-          iframeUri = iframeUri.substr(0, pos);
-        }
-
-        return '<iframe height="' + height + '" style="width: ' + width + ';" scrolling="no" title="" src="' + iframeUri + '" frameborder="no" allowtransparency="true" allowfullscreen="true"></iframe>';
-      }
-
-      return { toHTMLRenderers }
-    }
-    // 유튜브 플러그인 끝
-
-    // repl 플러그인 시작
-    function replPlugin() {
-      const toHTMLRenderers = {
-        repl(node) {
-          const html = renderRepl(node.literal);
-
-          return [
-            { type: 'openTag', tagName: 'div', outerNewLine: true },
-            { type: 'html', content: html },
-            { type: 'closeTag', tagName: 'div', outerNewLine: true }
-          ];
-        }
-      }
-
-      function renderRepl(uri) {
-        var uriParams = getUriParams(uri);
-
-        var height = 400;
-
-        if ( uriParams.height ) {
-          height = uriParams.height;
-        }
-
-        return '<iframe frameborder="0" width="100%" height="' + height +'px" src="' + uri + '"></iframe>';
-      }
-
-      return { toHTMLRenderers }
-    }
-
-    function youtubePlugin() {
-      const toHTMLRenderers = {
-        youtube(node) {
-          const html = renderYoutube(node.literal);
-
-          return [
-            { type: 'openTag', tagName: 'div', outerNewLine: true },
-            { type: 'html', content: html },
-            { type: 'closeTag', tagName: 'div', outerNewLine: true }
-          ];
-        }
-      }
-
-      function renderYoutube(uri) {
-        uri = uri.replace('https://www.youtube.com/watch?v=', '');
-        uri = uri.replace('http://www.youtube.com/watch?v=', '');
-        uri = uri.replace('www.youtube.com/watch?v=', '');
-        uri = uri.replace('youtube.com/watch?v=', '');
-        uri = uri.replace('https://youtu.be/', '');
-        uri = uri.replace('http://youtu.be/', '');
-        uri = uri.replace('youtu.be/', '');
-
-        let uriParams = getUriParams(uri);
-
-        let width = '100%';
-        let height = '100%';
-
-        let maxWidth = 500;
-
-        if ( !uriParams['max-width'] && uriParams['ratio'] == '9/16' ) {
-          uriParams['max-width'] = 300;
-        }
-
-        if ( uriParams['max-width'] ) {
-          maxWidth = uriParams['max-width'];
-        }
-
-        let ratio = '16/9';
-
-        if ( uriParams['ratio'] ) {
-          ratio = uriParams['ratio'];
-        }
-
-        let marginLeft = 'auto';
-
-        if ( uriParams['margin-left'] ) {
-          marginLeft = uriParams['margin-left'];
-        }
-
-        let marginRight = 'auto';
-
-        if ( uriParams['margin-right'] ) {
-          marginRight = uriParams['margin-right'];
-        }
-
-        let youtubeId = uri;
-
-        if ( youtubeId.indexOf('?') !== -1 ) {
-          let pos = uri.indexOf('?');
-          youtubeId = youtubeId.substr(0, pos);
-        }
-
-        return '<div style="max-width:' + maxWidth + 'px; margin-left:' + marginLeft + '; margin-right:' + marginRight + ';" class="ratio-' + ratio + ' relative"><iframe class="absolute top-0 left-0 w-full" width="' + width + '" height="' + height + '" src="https://www.youtube.com/embed/' + youtubeId + '" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>';
-      }
-      // 유튜브 플러그인 끝
-
-      return { toHTMLRenderers }
-    }
-
-    // katex 플러그인
-    function katexPlugin() {
-      const toHTMLRenderers = {
-        katex(node) {
-          let html = katex.renderToString(node.literal, {
-            throwOnError: false
-          });
-
-          return [
-            { type: 'openTag', tagName: 'div', outerNewLine: true },
-            { type: 'html', content: html },
-            { type: 'closeTag', tagName: 'div', outerNewLine: true }
-          ];
-        },
-      }
-
-      return { toHTMLRenderers }
-    }
-
-    const ToastEditor__chartOptions = {
-      minWidth: 100,
-      maxWidth: 600,
-      minHeight: 100,
-      maxHeight: 300
-    };
-
-    // config 플러그인
-    function configPlugin() {
-      const toHTMLRenderers = {
-        config(node) {
-          return [
-            { type: 'openTag', tagName: 'div', outerNewLine: true },
-            { type: 'html', content: '' },
-            { type: 'closeTag', tagName: 'div', outerNewLine: true }
-          ];
-        }
-      }
-
-      return { toHTMLRenderers }
-    }
-
-    function ToastEditor__init() {
-      $('.toast-ui-editor').each(function(index, node) {
-        const $node = $(node);
-        const $initialValueEl = $node.find(' > script');
-        const initialValue = $initialValueEl.length == 0 ? '' : $initialValueEl.html().trim();
-
-        const editor = new toastui.Editor({
-          el: node,
-          previewStyle: 'vertical',
-          initialValue: initialValue,
-          height:'600px',
-          plugins: [
-            [toastui.Editor.plugin.chart, ToastEditor__chartOptions],
-            [toastui.Editor.plugin.codeSyntaxHighlight, {highlighter:Prism}],
-            toastui.Editor.plugin.colorSyntax,
-            toastui.Editor.plugin.tableMergedCell,
-            toastui.Editor.plugin.uml,
-            katexPlugin,
-            youtubePlugin,
-            codepenPlugin,
-            replPlugin,
-            configPlugin
-          ],
-          customHTMLSanitizer: html => {
-            return DOMPurify.sanitize(html, { ADD_TAGS: ["iframe"], ADD_ATTR: ['width', 'height', 'allow', 'allowfullscreen', 'frameborder', 'scrolling', 'style', 'title', 'loading', 'allowtransparency'] }) || ''
-          }
+    if (params.toastMsg) {
+      setTimeout(function() {
+        toastr["success"](params.toastMsg, 'Notification', {
+          showDuration: 100,
+          hideDuration: 100,
+          timeOut: 2000
         });
-
-        $node.data('data-toast-editor', editor);
-      });
+      }, 500);
     }
+  </script>
 
-    function ToastEditorView__init() {
-      $('.toast-ui-viewer').each(function(index, node) {
-        const $node = $(node);
-        const $initialValueEl = $node.find(' > script');
-        const initialValue = $initialValueEl.length == 0 ? '' : $initialValueEl.html().trim();
-        $node.empty();
-
-        let viewer = new toastui.Editor.factory({
-          el: node,
-          initialValue: initialValue,
-          viewer:true,
-          plugins: [
-            [toastui.Editor.plugin.codeSyntaxHighlight, {highlighter:Prism}],
-            toastui.Editor.plugin.colorSyntax,
-            toastui.Editor.plugin.tableMergedCell,
-            toastui.Editor.plugin.uml,
-            katexPlugin,
-            youtubePlugin,
-            codepenPlugin,
-            replPlugin,
-            configPlugin
-          ],
-          customHTMLSanitizer: html => {
-            return DOMPurify.sanitize(html, { ADD_TAGS: ["iframe"], ADD_ATTR: ['width', 'height', 'allow', 'allowfullscreen', 'frameborder', 'scrolling', 'style', 'title', 'loading', 'allowtransparency'] }) || ''
-          }
-        });
-
-        $node.data('data-toast-editor', viewer);
-      });
-    }
-
-    $(function() {
-      ToastEditor__init();
-      ToastEditorView__init();
-    });
-
-    </script>
-
-    <!-- 토스트 에디터, 뷰어 끝 -->
-
-    <!-- 사이트 공통 JS -->
-
-    <!-- 사이트 공통 CSS -->
-    <link rel="stylesheet" href="/resource/dist.css">
-
-    <script th:inline="javascript" defer>
-        const params = /*[[ ${param} ]]*/ null;
-
-        if ( params.toastMsg ) {
-            setTimeout(function() {
-                toastr["success"](params.toastMsg, 'Notification', {showDuration: 100, hideDuration: 100, timeOut:2000});
-             }, 500);
-        }
-
-    </script>
-
-    <style>
-        [(${blogCss})]
-
-    </style>
+  <style>
+    [(${blogCss})]
+  </style>
 </head>
 
 <body>
 
 <div class="site-wrap min-h-screen flex flex-col">
-    <header class="flex-shrink-0 shadow font-bold">
-        <div th:if="${@rq.siteHeaderType == 'common'}" class="container mx-auto px-[10px] h-[50px] flex">
-            <a th:fragment="logo" href="/" class="logo flex items-center">
-                <span><i class="fas fa-file-alt"></i></span>
-                <span>&nbsp;</span>
-                <span>WIKEN</span>
-            </a>
-            <a th:if="${@rq.currentPageCanGoViewCurrentKen}" th:href="|||/ken/${ken.id}|||"
-               class="h-full flex items-center hover:underline px-[10px] cursor-pointer">
-                <span><i class="far fa-eye"></i></span>
-                <span class="hidden sm:block">&nbsp;</span>
-                <span class="hidden sm:block">VIEW</span>
-            </a>
-
-            <a th:if="${@rq.currentPageCanSaveKen}"
-               class="h-full flex items-center hover:underline px-[10px] cursor-pointer"
-               onclick="if ( KenWrite__submit ) KenWrite__submit();">
-                <span><i class="far fa-save"></i></span>
-                <span class="hidden sm:block">&nbsp;</span>
-                <span class="hidden sm:block">SAVE</span>
-            </a>
-
-            <a th:if="${@rq.currentPageCanGoEditCurrentKen}" th:href="|||/ken/${ken.id}/edit|||"
-               class="h-full flex items-center hover:underline px-[10px] cursor-pointer">
-                <span><i class="far fa-edit"></i></span>
-                <span class="hidden sm:block">&nbsp;</span>
-                <span class="hidden sm:block">EDIT</span>
-            </a>
-
-            <a th:if="${@rq.currentPageCanDeleteCurrentKen}" th:href="|||/ken/doDelete?id=${ken.id}|||"
-               class="h-full flex items-center hover:underline px-[10px] cursor-pointer"
-               onclick="if ( confirm('정말로 삭제하시겠습니까?') == false ) return false;">
-                <span><i class="far fa-trash-alt"></i></span>
-                <span class="hidden sm:block">&nbsp;</span>
-                <span class="hidden sm:block">DELETE</span>
-            </a>
-
-            <div class="flex-grow">
-
-            </div>
-
-            <ul class="flex mr-[-10px]">
-                <li th:if="false">
-                    <a href="/usr/home/main" class="h-full flex items-center hover:underline px-[10px]">
-                        <span><i class="far fa-list-alt"></i></span>
-                        <span class="hidden lg:block">&nbsp;</span>
-                        <span class="hidden lg:block">ALL KENS</span>
-                    </a>
-                </li>
-
-                <li th:unless="${@rq.logined}">
-                    <a href="/member/join" class="h-full flex items-center hover:underline px-[10px]">
-                        <span><i class="fas fa-user-plus"></i></span>
-                        <span class="hidden lg:block">&nbsp;</span>
-                        <span class="hidden lg:block">JOIN</span>
-                    </a>
-                </li>
-
-                <li th:unless="${@rq.logined}">
-                    <a href="/member/login" class="h-full flex items-center hover:underline px-[10px]">
-                        <span><i class="fas fa-sign-in-alt"></i></span>
-                        <span class="hidden lg:block">&nbsp;</span>
-                        <span class="hidden lg:block">LOGIN</span>
-                    </a>
-                </li>
-
-                <li th:if="${@rq.logined}">
-                    <a href="/member/doLogout" class="h-full flex items-center hover:underline px-[10px]">
-                        <span><i class="fas fa-sign-out-alt"></i></span>
-                        <span class="hidden lg:block">&nbsp;</span>
-                        <span class="hidden lg:block">LOGOUT</span>
-                    </a>
-                </li>
-
-                <li th:if="${@rq.logined}">
-                    <a href="/ken/mine" class="h-full flex items-center hover:underline px-[10px]">
-                        <span><i class="fas fa-user-edit"></i></span>
-                        <span class="hidden lg:block">&nbsp;</span>
-                        <span class="hidden lg:block">[[${@rq.loginedMember.nickname}]]'s KENS</span>
-                    </a>
-                </li>
-
-                <li th:if="${@rq.logined}">
-                    <a href="/ken" class="h-full flex items-center hover:underline px-[10px]">
-                        <span><i class="fas fa-pen"></i></span>
-                        <span class="hidden lg:block">&nbsp;</span>
-                        <span class="hidden lg:block">NEW KEN</span>
-                    </a>
-                </li>
-
-            </ul>
-        </div>
-
-        <div th:if="${@rq.siteHeaderType == 'blog'}" class="container mx-auto px-[10px] h-[50px] flex">
-            블로그
-        </div>
-    </header>
-
-    <main class="flex-grow flex flex-col" layout:fragment="main">
-
-    </main>
-
-    <!--
-    <footer class="flex-shrink-0 shadow font-bold">
+  <header class="flex-shrink-0">
+    <div th:if="${@rq.currentPageSiteHeaderType == 'common'}" class="shadow font-bold">
       <div class="container mx-auto px-[10px] h-[50px] flex">
-        <div class="flex-grow"></div>
-        <th:block th:replace="~{usr/common/layout :: logo}"></th:block>
-        <div class="flex-grow"></div>
+        <a th:fragment="logo" href="/" class="logo flex items-center">
+          <span><i class="fas fa-file-alt"></i></span>
+          <span>&nbsp;</span>
+          <span>WIKEN</span>
+        </a>
+        <a th:if="${@rq.currentPageCanGoViewCurrentKen}" th:href="|||/ken/${ken.id}|||"
+           class="h-full flex items-center hover:underline px-[10px] cursor-pointer">
+          <span><i class="far fa-eye"></i></span>
+          <span class="hidden sm:block">&nbsp;</span>
+          <span class="hidden sm:block">VIEW</span>
+        </a>
+
+        <a th:if="${@rq.currentPageCanSaveKen}"
+           class="h-full flex items-center hover:underline px-[10px] cursor-pointer"
+           onclick="if ( KenWrite__submit ) KenWrite__submit();">
+          <span><i class="far fa-save"></i></span>
+          <span class="hidden sm:block">&nbsp;</span>
+          <span class="hidden sm:block">SAVE</span>
+        </a>
+
+        <a th:if="${@rq.currentPageCanGoEditCurrentKen}" th:href="|||/ken/${ken.id}/edit|||"
+           class="h-full flex items-center hover:underline px-[10px] cursor-pointer">
+          <span><i class="far fa-edit"></i></span>
+          <span class="hidden sm:block">&nbsp;</span>
+          <span class="hidden sm:block">EDIT</span>
+        </a>
+
+        <a th:if="${@rq.currentPageCanDeleteCurrentKen}" th:href="|||/ken/doDelete?id=${ken.id}|||"
+           class="h-full flex items-center hover:underline px-[10px] cursor-pointer"
+           onclick="if ( confirm('정말로 삭제하시겠습니까?') == false ) return false;">
+          <span><i class="far fa-trash-alt"></i></span>
+          <span class="hidden sm:block">&nbsp;</span>
+          <span class="hidden sm:block">DELETE</span>
+        </a>
+
+        <div class="flex-grow">
+
+        </div>
+
+        <ul class="flex mr-[-10px]">
+          <li th:if="false">
+            <a href="/usr/home/main" class="h-full flex items-center hover:underline px-[10px]">
+              <span><i class="far fa-list-alt"></i></span>
+              <span class="hidden lg:block">&nbsp;</span>
+              <span class="hidden lg:block">ALL KENS</span>
+            </a>
+          </li>
+
+          <li th:unless="${@rq.logined}">
+            <a href="/member/join" class="h-full flex items-center hover:underline px-[10px]">
+              <span><i class="fas fa-user-plus"></i></span>
+              <span class="hidden lg:block">&nbsp;</span>
+              <span class="hidden lg:block">JOIN</span>
+            </a>
+          </li>
+
+          <li th:unless="${@rq.logined}">
+            <a href="/member/login" class="h-full flex items-center hover:underline px-[10px]">
+              <span><i class="fas fa-sign-in-alt"></i></span>
+              <span class="hidden lg:block">&nbsp;</span>
+              <span class="hidden lg:block">LOGIN</span>
+            </a>
+          </li>
+
+          <li th:if="${@rq.logined}">
+            <a href="/member/doLogout" class="h-full flex items-center hover:underline px-[10px]">
+              <span><i class="fas fa-sign-out-alt"></i></span>
+              <span class="hidden lg:block">&nbsp;</span>
+              <span class="hidden lg:block">LOGOUT</span>
+            </a>
+          </li>
+
+          <li th:if="${@rq.logined}">
+            <a href="/ken/mine" class="h-full flex items-center hover:underline px-[10px]">
+              <span><i class="fas fa-user-edit"></i></span>
+              <span class="hidden lg:block">&nbsp;</span>
+              <span class="hidden lg:block">[[${@rq.loginedMember.nickname}]]'s KENS</span>
+            </a>
+          </li>
+
+          <li th:if="${@rq.logined}">
+            <a href="/ken" class="h-full flex items-center hover:underline px-[10px]">
+              <span><i class="fas fa-pen"></i></span>
+              <span class="hidden lg:block">&nbsp;</span>
+              <span class="hidden lg:block">NEW KEN</span>
+            </a>
+          </li>
+
+        </ul>
       </div>
-    </footer>
-    -->
+    </div>
+
+    <div th:if="${@rq.currentPageSiteHeaderType == 'blog'}" class="">
+      <div class="container mx-auto px-[10px] h-[50px] flex">
+
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow flex flex-col" layout:fragment="main">
+
+  </main>
+
+  <!--
+  <footer class="flex-shrink-0 shadow font-bold">
+    <div class="container mx-auto px-[10px] h-[50px] flex">
+      <div class="flex-grow"></div>
+      <th:block th:replace="~{usr/common/layout :: logo}"></th:block>
+      <div class="flex-grow"></div>
+    </div>
+  </footer>
+  -->
+
 </div>
 </body>
+
 </html>

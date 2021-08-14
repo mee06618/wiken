@@ -13,9 +13,6 @@ class Rq(
     val req: HttpServletRequest,
     val resp: HttpServletResponse
 ) {
-    // 사이트 헤더 타입
-    var siteHeaderType = "common"
-
     // 로그인 된 회원
     var loginedMember: Member = Member.empty()
 
@@ -26,6 +23,12 @@ class Rq(
 
     // 로그인 여부
     var isLogined: Boolean = false
+
+    // 사이트 헤더 타입
+    var currentPageSiteHeaderType = "common"
+
+    // 현재 페이지가 토스트 UI 에디터를 사용하는지 여부
+    var currentPageUseToastUiEditor = false
 
     // 현재 페이지에서 Ken 을 저장할 수 있는지 여부
     var currentPageCanSaveKen: Boolean = false

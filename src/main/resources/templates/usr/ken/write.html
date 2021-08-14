@@ -34,11 +34,11 @@
     }
   </script>
   <form name="ken-write-form" th:action="${ken == null ? '/ken/doWrite' : '/ken/doModify'}" method="POST" onsubmit="KenWrite__submit(); return false;"
-        class="h-full flex flex-col">
+        class="flex-grow flex flex-col">
     <input type="hidden" name="id" th:value="${ken != null ? ken.id : 0}">
     <input type="hidden" name="source">
     <input type="hidden" name="result">
-    <div class="flex-grow">
+    <div class="flex-grow h-0">
       <div class="toast-ui-editor toast-ui-editor--body h-full" data-toast-editor-height="100%;"
            data-toast-editor-placeholder="note ..">
         <script th:if="${ken != null}" type="text/x-template">

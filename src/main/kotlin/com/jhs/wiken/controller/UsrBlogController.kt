@@ -18,7 +18,7 @@ class UsrBlogController(
 
     @RequestMapping("/b/{id}")
     fun showArticles(@PathVariable("id") id: Int, model: Model): String {
-        rq.siteHeaderType = "blog"
+        rq.currentPageSiteHeaderType = "blog"
 
         val ken = kenService.getKen(id) ?: return rq.historyBackJsOnTemplate("존재하지 않는 blog 입니다.")
         val kenSourceInterpreter = ken.genSourceInterpreter()
