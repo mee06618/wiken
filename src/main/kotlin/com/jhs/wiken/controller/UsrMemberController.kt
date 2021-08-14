@@ -21,17 +21,27 @@ class UsrMemberController(private val memberService: MemberService) {
 
     @RequestMapping("/member/doJoin")
     @ResponseBody
-    fun doJoin(loginId: String, loginPw: String, @RequestParam(defaultValue = "/ken") replaceUri: String): String {
-        val oldMember = memberService.getMemberByLoginId(loginId)
+    fun doJoin(
+        loginId: String,
+        loginPw: String,
+        email: String,
+        @RequestParam(defaultValue = "/ken") replaceUri: String
+    ): String {
+        var oldMember = memberService.getMemberByLoginId(loginId)
 
-        if ( oldMember != null ) {
+        if (oldMember != null) {
             return rq.historyBackJs("이미 사용중인 로그인 아이디 입니다.")
+        }
+
+        oldMember = memberService.getMemberByEmail(email)
+
+        if (oldMember != null) {
+            return rq.historyBackJs("이미 사용중인 이메일입니다.")
         }
 
         val name = loginId
         val nickname = loginId
         val cellphoneNo = loginId
-        val email = loginId
 
         val joinRd = memberService.join(loginId, loginPw, name, nickname, cellphoneNo, email)
         val id = joinRd.getData()
@@ -53,7 +63,7 @@ class UsrMemberController(private val memberService: MemberService) {
         val member = memberService.getMemberByLoginId(loginId)
             ?: return rq.historyBackJs("${loginId}(은)는 존재하지 않는 로그인아이디 입니다.")
 
-        if ( member.loginPw != loginPw ) {
+        if (member.loginPw != loginPw) {
             return rq.historyBackJs("비밀번호가 일치하지 않습니다.")
         }
 

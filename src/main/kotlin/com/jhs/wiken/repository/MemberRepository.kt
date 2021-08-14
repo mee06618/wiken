@@ -55,4 +55,14 @@ interface MemberRepository {
     )
     fun getMemberById(@Param("id") id: Int): Member?
 
+    @Select(
+        """
+        SELECT *
+        FROM `member` AS M
+        WHERE M.email = #{email}
+        LIMIT 1
+    """
+    )
+    fun getMemberByEmail(email: String): Member?
+
 }

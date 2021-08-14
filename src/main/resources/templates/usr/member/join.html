@@ -1,78 +1,101 @@
 <!doctype html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
-      layout:decorate="~{usr/common/layout}">
+			layout:decorate="~{usr/common/layout}">
 
 <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
-
-    <title>회원가입</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
+	
+	<title>회원가입</title>
 </head>
 
 <main layout:fragment="main">
-    <section class="section section-login flex-grow flex items-center justify-center">
-
-        <div class="flex-grow max-w-md px-2">
-            <h1 class="font-bold text-lg">Sign up</h1>
-
-            <script>
-                let MemberJoin__submitDone = false;
-                function MemberJoin__submit(form) {
-                    if ( MemberJoin__submitDone ) {
-                        return;
-                    }
-
-                    form.loginId.value = form.loginId.value.trim();
-
-                    if ( form.loginId.value.length == 0 ) {
-                        alert('로그인아이디를 입력해주세요.');
-                        form.loginId.focus();
-
-                        return;
-                    }
-
-                    form.loginPwInput.value = form.loginPwInput.value.trim();
-
-                    if ( form.loginPwInput.value.length == 0 ) {
-                        alert('로그인비밀번호를 입력해주세요.');
-                        form.loginPwInput.focus();
-
-                        return;
-                    }
-
-                    form.loginPw.value = sha256(form.loginPwInput.value);
-		            form.loginPwInput.value = '';
-
-		            form.submit();
-		            MemberJoin__submitDone = true;
-                }
-            </script>
-
-            <form action="/member/doJoin" method="POST" class="flex flex-col" onsubmit="MemberJoin__submit(this); return false;">
-                <input type="hidden" name="loginPw">
-                <input type="hidden" name="replaceUri" th:value="${param.afterLoginUri}">
-
-                <div class="form-control">
-                    <label class="label">
-                        <span class="label-text">Username</span>
-                    </label>
-                    <input type="text" name="loginId" placeholder="Username" class="input input-bordered">
-                </div>
-
-                <div class="form-control">
-                    <label class="label">
-                        <span class="label-text">Password</span>
-                    </label>
-                    <input type="password" name="loginPwInput" placeholder="Password" class="input input-bordered">
-                </div>
-
-                <div class="btns mt-3 flex justify-center px-1">
-                    <input class="btn btn-primary w-1/2" type="submit" value="SIGN UP">
-                    <div class="w-2 flex-shrink-0"></div>
-                    <a href="/member/login" class="btn  btn-secondary btn-outline w-1/2">SIGN IN</a>
-                </div>
-            </form>
-        </div>
-    </section>
+	<section class="section section-login flex-grow flex items-center justify-center">
+		
+		<div class="flex-grow max-w-md px-2">
+			<h1 class="font-bold text-lg">회원가입</h1>
+			
+			<script>
+				let MemberJoin__submitDone = false;
+				function MemberJoin__submit(form) {
+					if (MemberJoin__submitDone) {
+						return;
+					}
+				
+					form.loginId.value = form.loginId.value.trim();
+				
+					if (form.loginId.value.length == 0) {
+						toastWarning("로그인아이디를 입력해주세요.");
+						form.loginId.focus();
+				
+						return;
+					}
+				
+					form.loginPwInput.value = form.loginPwInput.value.trim();
+				
+					if (form.loginPwInput.value.length == 0) {
+						toastWarning("로그인비밀번호를 입력해주세요.");
+						form.loginPwInput.focus();
+				
+						return;
+					}
+					
+					form.email.value = form.email.value.trim();
+				
+					if (form.email.value.length == 0) {
+						toastWarning("이메일을 입력해주세요.");
+						form.email.focus();
+				
+						return;
+					}
+				
+					form.loginPw.value = sha256(form.loginPwInput.value);
+					form.loginPwInput.value = "";
+				
+					form.submit();
+					MemberJoin__submitDone = true;
+				}
+    
+			</script>
+			
+			<form action="/member/doJoin" method="POST" class="flex flex-col"
+						onsubmit="MemberJoin__submit(this); return false;">
+				<input type="hidden" name="loginPw">
+				<input type="hidden" name="replaceUri" th:value="${param.afterLoginUri}">
+				
+				<div class="form-control">
+					<label class="label">
+						<span class="label-text">로그인아이디</span>
+					</label>
+					<input type="text" name="loginId" placeholder="로그인아이디" class="input input-bordered">
+				</div>
+				
+				<div class="form-control">
+					<label class="label">
+						<span class="label-text">로그인비밀번호</span>
+					</label>
+					<input type="password" name="loginPwInput" placeholder="로그인비밀번호" class="input input-bordered">
+				</div>
+				
+				<div class="form-control">
+					<label class="label">
+						<span class="label-text">이메일</span>
+					</label>
+					<input type="email" name="email" placeholder="이메일" class="input input-bordered">
+				</div>
+				
+				<div class="btns mt-3 flex justify-center px-1">
+					<input class="btn btn-primary w-1/2" type="submit" value="회원가입">
+					<div class="w-2 flex-shrink-0"></div>
+					<a href="/member/login" class="btn  btn-secondary btn-outline w-1/2">로그인</a>
+				</div>
+				
+				<div class="btns mt-3 flex justify-center">
+					<a class="btn btn-link">아이디찾기</a>
+					<a class="btn btn-link">비밀번호 찾기</a>
+				</div>
+			</form>
+		</div>
+	</section>
 </main>
 
 </html>

@@ -28,4 +28,8 @@ class MemberService(private val memberRepository: MemberRepository) {
 
         return ResultData.from("S-1", "${nickname}님 환영합니다.", "id", id)
     }
+
+    fun getMemberByEmail(email: String): Member? {
+        return memberRepository.getMemberByEmail(email)
+    }
 }
