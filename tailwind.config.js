@@ -5,7 +5,7 @@ module.exports = {
     "./src/main/resources/templates/**/*.{js,html}",
     "./src/main/resources/static/**/*.{js,html}",
   ],
-  darkMode: false, // or 'media' or 'class'
+  darkMode: 'class', // or 'media' or 'class'
   theme: {
     extend: {},
   },
@@ -15,4 +15,10 @@ module.exports = {
   plugins: [
     require('daisyui'),
   ],
+  daisyui: {
+    themes: [
+      'light', // first one will be the default theme
+      'dark',
+    ],
+  }
 };
