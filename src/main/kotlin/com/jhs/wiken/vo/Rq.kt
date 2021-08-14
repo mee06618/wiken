@@ -75,13 +75,20 @@ class Rq(
     fun replaceJs(msg: String, uri: String): String {
         return """
             <script>
+            let uri = '${uri}';
+            
             const msg = '${msg}'.trim();
             
             if ( msg.length > 0 ) {
-                alert(msg);
+                if ( uri.indexOf('?') !== -1 ) {
+                    uri += '&';
+                }
+                else {
+                    uri += '?';
+                }
+                
+                uri += 'toastMsg=' + msg + '&toastMsgJsUnixTimestamp=JS_UNIX_TIMESTAMP';
             }
-            
-            let uri = '${uri}';
             
             uri = uri.replace('JS_UNIX_TIMESTAMP', new Date().getTime());
             

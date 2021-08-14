@@ -18,8 +18,8 @@ class NeedLoginInterceptor : HandlerInterceptor {
         if (!rq.isLogined) {
             rq.respUtf8()
             rq.printReplaceJs(
-                "",
-                "/member/login?afterLoginUri=${rq.encodedAfterLoginUri}&toastMsg=로그인 후 이용해주세요.&toastMsgJsUnixTimestamp=JS_UNIX_TIMESTAMP"
+                "로그인 후 이용해주세요.",
+                "/member/login?afterLoginUri=${rq.encodedAfterLoginUri}"
             )
 
             return false
