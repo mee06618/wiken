@@ -76,13 +76,34 @@
 
   <script th:inline="javascript" defer>
     const params = /*[[ ${param} ]]*/ null;
+    
+    toastr.options = {
+			"closeButton": true,
+			"debug": false,
+			"newestOnTop": true,
+			"progressBar": true,
+			"positionClass": "toast-top-right",
+			"preventDuplicates": false,
+			"onclick": null,
+			"showDuration": "300",
+			"hideDuration": "1000",
+			"timeOut": "5000",
+			"extendedTimeOut": "1000",
+			"showEasing": "swing",
+			"hideEasing": "linear",
+			"showMethod": "fadeIn",
+			"hideMethod": "fadeOut"
+		}
 
     if (params.toastMsg) {
-      setTimeout(function() {
-        toastr["success"](params.toastMsg, '알림', {
-        
-        });
-      }, 500);
+    	const toastMsgJsUnixTimestamp = parseInt(params.toastMsgJsUnixTimestamp);
+    	const currentJsUnixTimestamp = new Date().getTime();
+    	
+    	if ( toastMsgJsUnixTimestamp + 5000 > currentJsUnixTimestamp ) {
+    	  setTimeout(function() {
+          toastr["success"](params.toastMsg, '알림', {});
+        }, 500);
+    	}
     }
   </script>
 

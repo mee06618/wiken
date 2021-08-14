@@ -5,10 +5,15 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import java.net.URLEncoder
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatterBuilder
 import javax.servlet.http.HttpSession
 
 class Ut {
     companion object {
+        val nowDateStr: String
+            get() = LocalDateTime.now().toString().replace("T", " ").split(".")[0]
+
         inline fun <reified T> getObjFromJsonStr(jsonStr: String): T {
             val mapper = ObjectMapper().registerKotlinModule()
 

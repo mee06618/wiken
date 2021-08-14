@@ -81,7 +81,11 @@ class Rq(
                 alert(msg);
             }
             
-            location.replace('${uri}');
+            let uri = '${uri}';
+            
+            uri = uri.replace('JS_UNIX_TIMESTAMP', new Date().getTime());
+            
+            location.replace(uri);
             </script>
         """.trimIndent()
     }
