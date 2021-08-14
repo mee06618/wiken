@@ -18,7 +18,7 @@ class NeedLoginInterceptor : HandlerInterceptor {
             rq.respUtf8()
             rq.printReplaceJs(
                 "",
-                "/member/login?afterLoginUri=${rq.encodedAfterLoginUri}&toastMsg=Please Sign In First."
+                "/member/login?afterLoginUri=${rq.encodedAfterLoginUri}&toastMsg=로그인 후 이용해주세요."
             )
 
             return false

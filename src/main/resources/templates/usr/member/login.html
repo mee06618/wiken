@@ -12,7 +12,7 @@
     <section class="section section-login flex-grow flex items-center justify-center">
 
         <div class="flex-grow max-w-md px-2">
-            <h1 class="font-bold text-lg">Sign in</h1>
+            <h1 class="font-bold text-lg">로그인</h1>
 
             <script>
                 let MemberLogin__submitDone = false;
@@ -53,27 +53,31 @@
 
                 <div class="form-control">
                     <label class="label">
-                        <span class="label-text">Username</span>
+                        <span class="label-text">로그인아이디</span>
                     </label>
-                    <input type="text" name="loginId" placeholder="Username" class="input input-bordered" maxlength="20">
+                    <input type="text" name="loginId" placeholder="로그인아이디" class="input input-bordered" maxlength="20">
                 </div>
 
                 <div class="form-control">
                     <label class="label">
-                        <span class="label-text">Password</span>
+                        <span class="label-text">로그인비밀번호</span>
                     </label>
-                    <input type="password" name="loginPwInput" placeholder="Password" class="input input-bordered" maxlength="20">
+                    <input type="password" name="loginPwInput" placeholder="로그인비밀번호" class="input input-bordered" maxlength="20">
                 </div>
 
                 <div class="btns mt-3 flex justify-center px-1">
-                    <input class="btn btn-primary w-1/2" type="submit" value="SIGN IN">
+                    <input class="btn btn-primary w-1/2" type="submit" value="로그인">
                     <div class="w-2 flex-shrink-0"></div>
-                    <a href="/member/join" class="btn btn-secondary btn-outline w-1/2">SIGN UP</a>
+                    <a href="/member/join" class="btn btn-secondary btn-outline w-1/2">가입하기</a>
                 </div>
 
                 <div class="btns mt-3 flex justify-center">
-                    <a class="btn btn-link">FORGOT PASSWORD?</a>
+                    <a class="btn btn-link">비밀번호를 잊어버리셨나요?</a>
                 </div>
+							<div class="btns mt-3 flex justify-center">
+								<a class="btn btn-link">아이디찾기</a>
+								<a class="btn btn-link">비밀번호 찾기</a>
+							</div>
             </form>
         </div>
     </section>

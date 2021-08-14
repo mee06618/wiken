@@ -79,10 +79,8 @@
 
     if (params.toastMsg) {
       setTimeout(function() {
-        toastr["success"](params.toastMsg, 'Notification', {
-          showDuration: 100,
-          hideDuration: 100,
-          timeOut: 2000
+        toastr["success"](params.toastMsg, '알림', {
+        
         });
       }, 500);
     }
