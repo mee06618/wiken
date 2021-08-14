@@ -96,14 +96,38 @@ class Rq(
 
     fun historyBackJs(msg: String): String {
         return """
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <!-- 제이쿼리 -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+            
+            <!-- 토스틀, alert 와 confirm을 대체할 목적으로 사용 -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css">
+            
+            <script src="/resource/toastr_custom.js"></script>
+            
+            <style>
+            .toast-center-center {
+                top:50%;
+                left:50%;
+                transform:translate(-50%, -50%);
+            }
+            </style>
+            
             <script>
             const msg = '${msg}'.trim();
             
             if ( msg.length > 0 ) {
-                alert(msg);
+                toastr.options.onHidden = function() { history.back(); }
+                toastr.options.positionClass = "toast-center-center";
+                setTimeout(function() {
+                    toastWarning(msg);
+                }, 100);
             }
-            
-            history.back();
+            else {
+                history.back();
+            }
             </script>
         """.trimIndent()
     }
