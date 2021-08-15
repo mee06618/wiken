@@ -6,8 +6,6 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import java.net.URLEncoder
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatterBuilder
-import javax.servlet.http.HttpSession
 
 class Ut {
     companion object {
@@ -39,6 +37,44 @@ class Ut {
             } catch (e: Exception) {
                 uri
             }
+        }
+
+        fun getNewUriRemoved(uri: String, paramName: String): String {
+            var uri = uri
+            val deleteStrStarts = "$paramName="
+            val delStartPos = uri.indexOf(deleteStrStarts)
+            if (delStartPos != -1) {
+                var delEndPos = uri.indexOf("&", delStartPos)
+                uri = if (delEndPos != -1) {
+                    delEndPos++
+                    uri.substring(0, delStartPos) + uri.substring(delEndPos, uri.length)
+                } else {
+                    uri.substring(0, delStartPos)
+                }
+            }
+            if (uri[uri.length - 1] == '?') {
+                uri = uri.substring(0, uri.length - 1)
+            }
+            if (uri[uri.length - 1] == '&') {
+                uri = uri.substring(0, uri.length - 1)
+            }
+            return uri
+        }
+
+        fun getNewUri(uri: String, paramName: String, paramValue: String): String? {
+            var uri = uri
+            uri = getNewUriRemoved(uri, paramName)
+            uri += if (uri.contains("?")) {
+                "&$paramName=$paramValue"
+            } else {
+                "?$paramName=$paramValue"
+            }
+            uri = uri.replace("?&", "?")
+            return uri
+        }
+
+        fun getNewUriAndEncoded(uri: String, paramName: String, pramValue: String): String? {
+            return getUriEncoded(getNewUri(uri, paramName, pramValue)!!)
         }
     }
 }

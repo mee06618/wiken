@@ -73,6 +73,8 @@ class Rq(
     }
 
     fun replaceJs(msg: String, uri: String): String {
+        var uri = Ut.getNewUriRemoved(uri, "toastMsg")
+        uri = Ut.getNewUriRemoved(uri, "toastMsgJsUnixTimestamp")
         return """
             <script>
             let uri = '${uri}';
