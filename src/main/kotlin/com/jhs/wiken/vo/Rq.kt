@@ -13,8 +13,18 @@ class Rq(
     val req: HttpServletRequest,
     val resp: HttpServletResponse
 ) {
+    var themeName: String = "light"
+
+    private var _loginedMember: Member? = null;
+
     // 로그인 된 회원
-    var loginedMember: Member = Member.empty()
+    val loginedMember: Member by lazy {
+        if (_loginedMember != null) {
+            _loginedMember!!
+        } else {
+            Member.empty()
+        }
+    }
 
     val loginedMemberId: Int
         get() {
@@ -54,7 +64,7 @@ class Rq(
         val loginedMemberJsonStr = req.session.getAttribute("loginedMemberJsonStr") as String
 
         isLogined = true
-        loginedMember = Ut.getObjFromJsonStr(loginedMemberJsonStr)
+        _loginedMember = Ut.getObjFromJsonStr(loginedMemberJsonStr)
     }
 
     // 로그인 처리

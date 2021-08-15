@@ -244,7 +244,7 @@ function ToastEditor__init() {
       initialValue: initialValue,
       height: "100%",
       placeholder: 'Please enter text.',
-      theme: 'dark',
+      theme: siteThemeName,
       plugins: [
         [toastui.Editor.plugin.chart, ToastEditor__chartOptions],
         [toastui.Editor.plugin.codeSyntaxHighlight, { highlighter: Prism }],
@@ -294,7 +294,7 @@ function ToastEditorView__init() {
       el: node,
       initialValue: initialValue,
       viewer: true,
-      theme: 'dark',
+      theme: siteThemeName,
       plugins: [
         [toastui.Editor.plugin.codeSyntaxHighlight, { highlighter: Prism }],
         toastui.Editor.plugin.colorSyntax,

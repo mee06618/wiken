@@ -6,7 +6,10 @@ import com.jhs.wiken.vo.ResultData
 import org.springframework.stereotype.Service
 
 @Service
-class MemberService(private val memberRepository: MemberRepository) {
+class MemberService(
+    private val memberRepository: MemberRepository,
+    private val attrService: AttrService
+) {
     fun getMemberByLoginId(loginId: String): Member? {
         return memberRepository.getMemberByLoginId(loginId)
     }
@@ -31,5 +34,15 @@ class MemberService(private val memberRepository: MemberRepository) {
 
     fun getMemberByEmail(email: String): Member? {
         return memberRepository.getMemberByEmail(email)
+    }
+
+    fun changeTheme(actor: Member, themeName: String): ResultData<String> {
+        attrService.setValue("member", actor.id, "extra", "themeName", themeName)
+
+        return ResultData.from("S-1", "테마가 변경되었습니다.", "themeName", themeName);
+    }
+
+    fun getThemeName(actor: Member): String {
+        return attrService.getValue("member", actor.id, "extra", "themeName") ?: "light"
     }
 }

@@ -1,9 +1,11 @@
 package com.jhs.wiken.controller
 
 import com.jhs.wiken.service.MemberService
+import com.jhs.wiken.vo.ResultData
 import com.jhs.wiken.vo.Rq
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
@@ -78,5 +80,12 @@ class UsrMemberController(private val memberService: MemberService) {
         rq.logout()
 
         return rq.replaceJs("", "/ken")
+    }
+
+    @RequestMapping("/member/doChangeTheme")
+    @ResponseBody
+    fun doChangeTheme(@RequestBody params: Map<String, Any>): ResultData<String> {
+        val themeName = params["themeName"] as String
+        return memberService.changeTheme(rq.loginedMember, themeName)
     }
 }
