@@ -10,10 +10,9 @@ import javax.servlet.http.HttpServletResponse
 
 
 @Component
-class NeedLoginInterceptor : HandlerInterceptor {
-    @Autowired
-    private lateinit var rq: Rq;
-
+class NeedLoginInterceptor(
+    private val rq: Rq
+) : HandlerInterceptor {
     override fun preHandle(req: HttpServletRequest, resp: HttpServletResponse, handler: Any): Boolean {
         if (!rq.isLogined) {
             rq.respUtf8()
