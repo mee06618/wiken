@@ -5,7 +5,6 @@ import com.jhs.wiken.vo.ResultData
 import com.jhs.wiken.vo.Rq
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
@@ -82,10 +81,15 @@ class UsrMemberController(private val memberService: MemberService) {
         return rq.replaceJs("", "/ken")
     }
 
+    data class DoChangeThemeParam(
+        val themeName: String
+    )
+
     @RequestMapping("/member/doChangeTheme")
     @ResponseBody
-    fun doChangeTheme(@RequestBody params: Map<String, Any>): ResultData<String> {
-        val themeName = params["themeName"] as String
+    fun doChangeTheme(params: DoChangeThemeParam): ResultData<String> {
+        val themeName = params.themeName
         return memberService.changeTheme(rq.loginedMember, themeName)
     }
 }
+

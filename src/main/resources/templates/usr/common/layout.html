@@ -1,89 +1,95 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml" class="${@rq.themeName}" data-theme="${@rq.themeName}">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
+			class="${@rq.themeName}" data-theme="${@rq.themeName}">
 
 <head>
 	<script th:inline="javascript">
     const siteThemeName = /*[[ ${@rq.themeName} ]]*/ null;
-  </script>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-  <title layout:title-pattern="$LAYOUT_TITLE | $CONTENT_TITLE">[[#{common.logoText}]]</title>
-
-  <!-- 폰트어썸 -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-
-  <!-- 제이쿼리 -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  
+    
+	</script>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+				content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	
-  <!-- RXJS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/7.3.0/rxjs.umd.min.js"></script>
-
-  <!-- 토스틀, alert 와 confirm을 대체할 목적으로 사용 -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css">
-
-  <th:block th:if="${@rq.currentPageUseToastUiEditor}">
-    <!-- 토스트 에디터에 사용될 새너타이즈 도구 -->
-    <!-- 이게 있어서, 토스트에디터에서 유튜브, repl, codepn 플러그인 사용가능 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.0/purify.min.js"></script>
-
-    <!-- 토스트 UI 에디터 코어 -->
-    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
-    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css"/>
+	<title layout:title-pattern="$LAYOUT_TITLE | $CONTENT_TITLE">[[#{common.logoText}]]</title>
+	
+	<!-- 폰트어썸 -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+	
+	<!-- 제이쿼리 -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	
+	<!-- RXJS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/7.3.0/rxjs.umd.min.js"></script>
+	
+	<!-- 토스틀, alert 와 confirm을 대체할 목적으로 사용 -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css">
+	
+	<th:block th:if="${@rq.currentPageUseToastUiEditor}">
+		<!-- 토스트 에디터에 사용될 새너타이즈 도구 -->
+		<!-- 이게 있어서, 토스트에디터에서 유튜브, repl, codepn 플러그인 사용가능 -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.0/purify.min.js"></script>
+		
+		<!-- 토스트 UI 에디터 코어 -->
+		<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+		<link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css"/>
 		<link rel="stylesheet" href="https://nhn.github.io/tui.editor/latest/dist/cdn/theme/toastui-editor-dark.css">
-
-    <!-- 토스트 UI 컬러피커 -->
-    <link rel="stylesheet" href="https://uicdn.toast.com/tui-color-picker/latest/tui-color-picker.css"/>
-    <script src="https://uicdn.toast.com/tui-color-picker/latest/tui-color-picker.min.js"></script>
-
-    <!-- 토스트 UI 컬러피커를 토스트 UI 에디터에 연결 -->
-    <link rel="stylesheet"
-          href="https://uicdn.toast.com/editor-plugin-color-syntax/latest/toastui-editor-plugin-color-syntax.min.css"/>
-    <script src="https://uicdn.toast.com/editor-plugin-color-syntax/latest/toastui-editor-plugin-color-syntax.min.js"></script>
-
-    <!-- 토스트 UI 차트 -->
-    <link rel="stylesheet" href="https://uicdn.toast.com/chart/latest/toastui-chart.css">
-    <script src="https://uicdn.toast.com/chart/latest/toastui-chart.js"></script>
-
-    <!-- 토스트 UI 차트를 토스트 UI 에디터에 연결  -->
-    <script src="https://uicdn.toast.com/editor-plugin-chart/latest/toastui-editor-plugin-chart.min.js"></script>
-
-    <!-- 코드 신택스 하이라이터, 프리즈마의 기본 CSS -->
-    <!-- 코드 신택스 하이라이터, 프리즈마의 기본 JS는 아래 스크립트에 의해 자동으로 불러와지기 때문에 안불러와도 됨 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css">
-
-    <!-- 외부 신택스 하이라이터를 토스트 UI 에디터에 연결 -->
-    <link rel="stylesheet"
-          href="https://uicdn.toast.com/editor-plugin-code-syntax-highlight/latest/toastui-editor-plugin-code-syntax-highlight.min.css">
-    <!-- 프리즈마 JS가 아래 스크립트에 내장되어 있음 -->
-    <script src="https://uicdn.toast.com/editor-plugin-code-syntax-highlight/latest/toastui-editor-plugin-code-syntax-highlight-all.min.js"></script>
-
-    <!-- 토스트 UI 에디터 플러그인, 테이블 셀 병합 -->
-    <script src="https://uicdn.toast.com/editor-plugin-table-merged-cell/latest/toastui-editor-plugin-table-merged-cell.min.js"></script>
-
-    <!-- 수학수식 표현 라이브러리 katex -->
-    <!-- 토스트 UI 에디터에 넣기 위해서 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.13/katex.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.13/katex.min.css">
-
-    <!-- 토스트 UI 에디터 플러그인, UML -->
-    <script src="https://uicdn.toast.com/editor-plugin-uml/latest/toastui-editor-plugin-uml.min.js"></script>
-
-    <!-- 토스트 UI 에디터 관련 CSS -->
-    <link rel="stylesheet" href="/resource/toast_ui_editor_custom.css">
-    <!-- 토스트 UI 에디터 관련 JS -->
-    <script src="/resource/toast_ui_editor_custom.js"></script>
-  </th:block>
-
-  <!-- 커스텀 CSS -->
+		
+		<!-- 토스트 UI 컬러피커 -->
+		<link rel="stylesheet" href="https://uicdn.toast.com/tui-color-picker/latest/tui-color-picker.css"/>
+		<script src="https://uicdn.toast.com/tui-color-picker/latest/tui-color-picker.min.js"></script>
+		
+		<!-- 토스트 UI 컬러피커를 토스트 UI 에디터에 연결 -->
+		<link rel="stylesheet"
+					href="https://uicdn.toast.com/editor-plugin-color-syntax/latest/toastui-editor-plugin-color-syntax.min.css"/>
+		<script
+			src="https://uicdn.toast.com/editor-plugin-color-syntax/latest/toastui-editor-plugin-color-syntax.min.js"></script>
+		
+		<!-- 토스트 UI 차트 -->
+		<link rel="stylesheet" href="https://uicdn.toast.com/chart/latest/toastui-chart.css">
+		<script src="https://uicdn.toast.com/chart/latest/toastui-chart.js"></script>
+		
+		<!-- 토스트 UI 차트를 토스트 UI 에디터에 연결  -->
+		<script src="https://uicdn.toast.com/editor-plugin-chart/latest/toastui-editor-plugin-chart.min.js"></script>
+		
+		<!-- 코드 신택스 하이라이터, 프리즈마의 기본 CSS -->
+		<!-- 코드 신택스 하이라이터, 프리즈마의 기본 JS는 아래 스크립트에 의해 자동으로 불러와지기 때문에 안불러와도 됨 -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css">
+		
+		<!-- 외부 신택스 하이라이터를 토스트 UI 에디터에 연결 -->
+		<link rel="stylesheet"
+					href="https://uicdn.toast.com/editor-plugin-code-syntax-highlight/latest/toastui-editor-plugin-code-syntax-highlight.min.css">
+		<!-- 프리즈마 JS가 아래 스크립트에 내장되어 있음 -->
+		<script
+			src="https://uicdn.toast.com/editor-plugin-code-syntax-highlight/latest/toastui-editor-plugin-code-syntax-highlight-all.min.js"></script>
+		
+		<!-- 토스트 UI 에디터 플러그인, 테이블 셀 병합 -->
+		<script
+			src="https://uicdn.toast.com/editor-plugin-table-merged-cell/latest/toastui-editor-plugin-table-merged-cell.min.js"></script>
+		
+		<!-- 수학수식 표현 라이브러리 katex -->
+		<!-- 토스트 UI 에디터에 넣기 위해서 -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.13/katex.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.13/katex.min.css">
+		
+		<!-- 토스트 UI 에디터 플러그인, UML -->
+		<script src="https://uicdn.toast.com/editor-plugin-uml/latest/toastui-editor-plugin-uml.min.js"></script>
+		
+		<!-- 토스트 UI 에디터 관련 CSS -->
+		<link rel="stylesheet" href="/resource/toast_ui_editor_custom.css">
+		<!-- 토스트 UI 에디터 관련 JS -->
+		<script src="/resource/toast_ui_editor_custom.js"></script>
+	</th:block>
+	
+	<!-- 커스텀 CSS -->
 	<script src="/resource/toastr_custom.js"></script>
 	
-  <link rel="stylesheet" href="/resource/dist.css">
-
-  <script th:inline="javascript" defer>
+	<link rel="stylesheet" href="/resource/dist.css">
+	
+	<script th:inline="javascript" defer>
     const params = /*[[ ${param} ]]*/ null;
     
     if (params.toastMsg) {
@@ -96,87 +102,92 @@
         }, 500);
     	}
     }
-  </script>
-
-  <style>
+  
+    
+	</script>
+	
+	<style>
     [(${blogCss})]
-  </style>
+	</style>
 </head>
 
 <body>
 
 <div class="site-wrap min-h-screen flex flex-col">
-  <header class="flex-shrink-0">
-    <div th:if="${@rq.currentPageSiteHeaderType == 'common'}" class="shadow font-bold">
-      <div class="container mx-auto px-[10px] h-[50px] flex">
-        <a th:fragment="logo" href="/" class="logo flex items-center">
-          <span><i class="fas fa-file-alt"></i></span>
-          <span>&nbsp;</span>
-          <span>WIKEN</span>
-        </a>
-        <a th:if="${@rq.currentPageCanGoViewCurrentKen}" th:href="|||/ken/${ken.id}|||"
-           class="h-full flex items-center hover:underline px-[10px] cursor-pointer">
-          <span><i class="far fa-eye"></i></span>
-          <span class="hidden sm:block">&nbsp;</span>
-          <span class="hidden sm:block">VIEW</span>
-        </a>
-
-        <a th:if="${@rq.currentPageCanSaveKen}"
-           class="h-full flex items-center hover:underline px-[10px] cursor-pointer"
-           onclick="if ( KenWrite__submit ) KenWrite__submit();">
-          <span><i class="far fa-save"></i></span>
-          <span class="hidden sm:block">&nbsp;</span>
-          <span class="hidden sm:block">SAVE</span>
-        </a>
-
-        <a th:if="${@rq.currentPageCanGoEditCurrentKen}" th:href="|||/ken/${ken.id}/edit|||"
-           class="h-full flex items-center hover:underline px-[10px] cursor-pointer">
-          <span><i class="far fa-edit"></i></span>
-          <span class="hidden sm:block">&nbsp;</span>
-          <span class="hidden sm:block">EDIT</span>
-        </a>
-
-        <a th:if="${@rq.currentPageCanDeleteCurrentKen}" th:href="|||/ken/doDelete?id=${ken.id}|||"
-           class="h-full flex items-center hover:underline px-[10px] cursor-pointer"
-           onclick="if ( confirm('정말로 삭제하시겠습니까?') == false ) return false;">
-          <span><i class="far fa-trash-alt"></i></span>
-          <span class="hidden sm:block">&nbsp;</span>
-          <span class="hidden sm:block">DELETE</span>
-        </a>
-
-        <div class="flex-grow">
-
-        </div>
-
-        <ul class="flex mr-[-10px]">
-					<li th:if="${@rq.themeName != 'light'}">
-						<script>
-							function Theme__changeTo(themeName) {
-								const postResult = rxjs.ajax.ajax({url:`/member/doChangeTheme`, method: 'POST', body:{themeName}});
-								
-								postResult.subscribe(
-									res => { location.reload(); }
-								);
+	<header class="flex-shrink-0">
+		<div th:if="${@rq.currentPageSiteHeaderType == 'common'}" class="shadow font-bold">
+			<div class="container mx-auto px-[10px] h-[50px] flex">
+				<a th:fragment="logo" href="/" class="logo flex items-center">
+					<span><i class="fas fa-file-alt"></i></span>
+					<span>&nbsp;</span>
+					<span>WIKEN</span>
+				</a>
+				<a th:if="${@rq.currentPageCanGoViewCurrentKen}" th:href="|||/ken/${ken.id}|||"
+					 class="h-full flex items-center hover:underline px-[10px] cursor-pointer">
+					<span><i class="far fa-eye"></i></span>
+					<span class="hidden sm:block">&nbsp;</span>
+					<span class="hidden sm:block">VIEW</span>
+				</a>
+				
+				<a th:if="${@rq.currentPageCanSaveKen}"
+					 class="h-full flex items-center hover:underline px-[10px] cursor-pointer"
+					 onclick="if ( KenWrite__submit ) KenWrite__submit();">
+					<span><i class="far fa-save"></i></span>
+					<span class="hidden sm:block">&nbsp;</span>
+					<span class="hidden sm:block">SAVE</span>
+				</a>
+				
+				<a th:if="${@rq.currentPageCanGoEditCurrentKen}" th:href="|||/ken/${ken.id}/edit|||"
+					 class="h-full flex items-center hover:underline px-[10px] cursor-pointer">
+					<span><i class="far fa-edit"></i></span>
+					<span class="hidden sm:block">&nbsp;</span>
+					<span class="hidden sm:block">EDIT</span>
+				</a>
+				
+				<a th:if="${@rq.currentPageCanDeleteCurrentKen}" th:href="|||/ken/doDelete?id=${ken.id}|||"
+					 class="h-full flex items-center hover:underline px-[10px] cursor-pointer"
+					 onclick="if ( confirm('정말로 삭제하시겠습니까?') == false ) return false;">
+					<span><i class="far fa-trash-alt"></i></span>
+					<span class="hidden sm:block">&nbsp;</span>
+					<span class="hidden sm:block">DELETE</span>
+				</a>
+				
+				<div class="flex-grow">
+				
+				</div>
+				
+				<script>
+					function Theme__changeTo(themeName) {
+					  const body = new URLSearchParams();
+						body.set('themeName', themeName);
+					
+						const postResult = rxjs.ajax.ajax(
+							{
+								url:`/member/doChangeTheme`,
+								method: 'POST',
+								body,
 							}
-						</script>
-						<a onclick="Theme__changeTo('light');" class="h-full flex items-center hover:underline px-[10px] cursor-pointer">
+						);
+						
+						postResult.subscribe(
+							res => { location.reload(); }
+						);
+					}
+				</script>
+				
+				<ul class="flex mr-[-10px]">
+					<li th:if="${@rq.logined && @rq.themeName != 'light'}">
+						<a onclick="Theme__changeTo('light');"
+							 class="h-full flex items-center hover:underline px-[10px] cursor-pointer">
 							<span><i class="far fa-sun"></i></span>
 							<span class="hidden lg:block">&nbsp;</span>
 							<span class="hidden lg:block">LIGHT THEME</span>
 						</a>
 					</li>
-	
-					<li th:if="${@rq.themeName != 'dark'}">
-						<script>
-							function Theme__changeTo(themeName) {
-								const postResult = rxjs.ajax.ajax({url:`/member/doChangeTheme`, method: 'POST', body:{themeName}});
-								
-								postResult.subscribe(
-									res => { location.reload(); }
-								);
-							}
-						</script>
-						<a onclick="Theme__changeTo('dark');" class="h-full flex items-center hover:underline px-[10px] cursor-pointer">
+					
+					<li th:if="${@rq.logined && @rq.themeName != 'dark'}">
+						<a onclick="Theme__changeTo('dark');"
+							 class="h-full flex items-center hover:underline px-[10px] cursor-pointer">
 							<span><i class="far fa-moon"></i></span>
 							<span class="hidden lg:block">&nbsp;</span>
 							<span class="hidden lg:block">DARK THEME</span>
@@ -184,69 +195,69 @@
 					</li>
 					
 					<li th:unless="${@rq.logined}">
-            <a href="/member/join" class="h-full flex items-center hover:underline px-[10px]">
-              <span><i class="fas fa-user-plus"></i></span>
-              <span class="hidden lg:block">&nbsp;</span>
-              <span class="hidden lg:block">JOIN</span>
-            </a>
-          </li>
-
-          <li th:unless="${@rq.logined}">
-            <a href="/member/login" class="h-full flex items-center hover:underline px-[10px]">
-              <span><i class="fas fa-sign-in-alt"></i></span>
-              <span class="hidden lg:block">&nbsp;</span>
-              <span class="hidden lg:block">LOGIN</span>
-            </a>
-          </li>
-
-          <li th:if="${@rq.logined}">
-            <a href="/member/doLogout" class="h-full flex items-center hover:underline px-[10px]">
-              <span><i class="fas fa-sign-out-alt"></i></span>
-              <span class="hidden lg:block">&nbsp;</span>
-              <span class="hidden lg:block">LOGOUT</span>
-            </a>
-          </li>
-
-          <li th:if="${@rq.logined}">
-            <a href="/ken/mine" class="h-full flex items-center hover:underline px-[10px]">
-              <span><i class="fas fa-user-edit"></i></span>
-              <span class="hidden lg:block">&nbsp;</span>
-              <span class="hidden lg:block">[[${@rq.loginedMember.nickname}]]'s KENS</span>
-            </a>
-          </li>
-
-          <li th:if="${@rq.logined}">
-            <a href="/ken" class="h-full flex items-center hover:underline px-[10px]">
-              <span><i class="fas fa-pen"></i></span>
-              <span class="hidden lg:block">&nbsp;</span>
-              <span class="hidden lg:block">NEW KEN</span>
-            </a>
-          </li>
-
-        </ul>
-      </div>
-    </div>
-
-    <div th:if="${@rq.currentPageSiteHeaderType == 'blog'}" class="">
-      <div class="container mx-auto px-[10px] h-[50px] flex">
-
-      </div>
-    </div>
-  </header>
-
-  <main class="flex-grow flex flex-col" layout:fragment="main">
-
-  </main>
-
-  <!--
-  <footer class="flex-shrink-0 shadow font-bold">
-    <div class="container mx-auto px-[10px] h-[50px] flex">
-      <div class="flex-grow"></div>
-      <th:block th:replace="~{usr/common/layout :: logo}"></th:block>
-      <div class="flex-grow"></div>
-    </div>
-  </footer>
-  -->
+						<a href="/member/join" class="h-full flex items-center hover:underline px-[10px]">
+							<span><i class="fas fa-user-plus"></i></span>
+							<span class="hidden lg:block">&nbsp;</span>
+							<span class="hidden lg:block">JOIN</span>
+						</a>
+					</li>
+					
+					<li th:unless="${@rq.logined}">
+						<a href="/member/login" class="h-full flex items-center hover:underline px-[10px]">
+							<span><i class="fas fa-sign-in-alt"></i></span>
+							<span class="hidden lg:block">&nbsp;</span>
+							<span class="hidden lg:block">LOGIN</span>
+						</a>
+					</li>
+					
+					<li th:if="${@rq.logined}">
+						<a href="/member/doLogout" class="h-full flex items-center hover:underline px-[10px]">
+							<span><i class="fas fa-sign-out-alt"></i></span>
+							<span class="hidden lg:block">&nbsp;</span>
+							<span class="hidden lg:block">LOGOUT</span>
+						</a>
+					</li>
+					
+					<li th:if="${@rq.logined}">
+						<a href="/ken/mine" class="h-full flex items-center hover:underline px-[10px]">
+							<span><i class="fas fa-user-edit"></i></span>
+							<span class="hidden lg:block">&nbsp;</span>
+							<span class="hidden lg:block">[[${@rq.loginedMember.nickname}]]'s KENS</span>
+						</a>
+					</li>
+					
+					<li th:if="${@rq.logined}">
+						<a href="/ken" class="h-full flex items-center hover:underline px-[10px]">
+							<span><i class="fas fa-pen"></i></span>
+							<span class="hidden lg:block">&nbsp;</span>
+							<span class="hidden lg:block">NEW KEN</span>
+						</a>
+					</li>
+				
+				</ul>
+			</div>
+		</div>
+		
+		<div th:if="${@rq.currentPageSiteHeaderType == 'blog'}" class="">
+			<div class="container mx-auto px-[10px] h-[50px] flex">
+			
+			</div>
+		</div>
+	</header>
+	
+	<main class="flex-grow flex flex-col" layout:fragment="main">
+	
+	</main>
+	
+	<!--
+	<footer class="flex-shrink-0 shadow font-bold">
+		<div class="container mx-auto px-[10px] h-[50px] flex">
+			<div class="flex-grow"></div>
+			<th:block th:replace="~{usr/common/layout :: logo}"></th:block>
+			<div class="flex-grow"></div>
+		</div>
+	</footer>
+	-->
 
 </div>
 </body>
