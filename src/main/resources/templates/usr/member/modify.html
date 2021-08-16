@@ -48,7 +48,7 @@
 						return;
 					}
 				
-					form.loginPw.value = sha256(form.loginPwInput.value);
+					form.loginPw.value = form.loginPwInput.value.length > 0 ? sha256(form.loginPwInput.value) : "";
 					form.loginPwInput.value = "";
 					form.loginPwConfirm.value = "";
 				

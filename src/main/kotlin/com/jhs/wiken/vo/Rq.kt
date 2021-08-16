@@ -1,5 +1,6 @@
 package com.jhs.wiken.vo
 
+import com.jhs.wiken.service.MemberService
 import com.jhs.wiken.util.Ut
 import org.springframework.context.annotation.Scope
 import org.springframework.context.annotation.ScopedProxyMode
@@ -13,6 +14,7 @@ class Rq(
     val req: HttpServletRequest,
     val resp: HttpServletResponse
 ) {
+    var verifiedEmail = ""
     var themeName: String = "light"
 
     private var _loginedMember: Member? = null;
@@ -55,8 +57,13 @@ class Rq(
 
     var currentPageCanDeleteCurrentKen = false
 
-    fun init() {
+    fun init(memberService: MemberService) {
         setCurrentLoginInfo()
+
+        if ( isLogined ) {
+            themeName = memberService.getThemeName(loginedMember)
+            verifiedEmail = memberService.getVerifiedEmail(loginedMember)
+        }
     }
 
     // 로그인 정보를 세션에서 꺼내와서, rq객체에 정보를 세팅

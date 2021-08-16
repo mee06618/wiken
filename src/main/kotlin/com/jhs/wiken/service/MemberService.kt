@@ -51,4 +51,8 @@ class MemberService(
 
         return ResultData.from("S-1", "회원정보가 수정되었습니다.", "id", id)
     }
+
+    fun getVerifiedEmail(actor: Member): String {
+        return attrService.getValue("member", actor.id, "extra", "verifiedEmail").ifEmpty { "" }
+    }
 }

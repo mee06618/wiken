@@ -27,7 +27,7 @@ class UsrMemberController(private val memberService: MemberService) {
         email: String,
         @RequestParam(defaultValue = "/ken") replaceUri: String
     ): ResultData<Any> {
-        if ( email.isEmpty() ) {
+        if (email.isEmpty()) {
             return ResultData.from("F-1", "이메일을 입력해주세요.") as ResultData<Any>
         }
 
@@ -97,7 +97,21 @@ class UsrMemberController(private val memberService: MemberService) {
 
         rq.login(member)
 
-        return rq.replaceJs("${member.nickname}님 환영합니다.", replaceUri)
+        val verifiedEmail = memberService.getVerifiedEmail(member)
+
+        val msg = if (verifiedEmail.isEmpty()) {
+            "이메일 인증을 해주세요."
+        } else {
+            "${member.nickname}님 환영합니다."
+        }
+
+        val replaceUri = if (verifiedEmail.isEmpty()) {
+            "/member/modify"
+        } else {
+            replaceUri
+        }
+
+        return rq.replaceJs(msg, replaceUri)
     }
 
     @RequestMapping("/member/doLogout")

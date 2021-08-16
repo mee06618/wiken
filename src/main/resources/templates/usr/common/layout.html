@@ -221,10 +221,11 @@
 					</li>
 					
 					<li th:if="${@rq.logined}">
-						<a href="/member/modify" class="h-full flex items-center hover:underline px-[10px]">
+						<a href="/member/modify" class="h-full flex items-center hover:underline px-[10px] indicator">
 							<span><i class="fas fa-user-cog"></i></span>
 							<span class="hidden lg:block">&nbsp;</span>
 							<span class="hidden lg:block">MY PAPE</span>
+							<div class="indicator-item indicator-top indicator-center badge badge-secondary" style="transform:scale(0.5) translateY(10px)">1</div>
 						</a>
 					</li>
 					
