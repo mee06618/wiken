@@ -43,6 +43,6 @@ class MemberService(
     }
 
     fun getThemeName(actor: Member): String {
-        return attrService.getValue("member", actor.id, "extra", "themeName") ?: "light"
+        return attrService.getValue("member", actor.id, "extra", "themeName").ifEmpty { "light" }
     }
 }
