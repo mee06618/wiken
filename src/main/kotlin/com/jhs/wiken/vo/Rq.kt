@@ -15,8 +15,29 @@ class Rq(
     private val resp: HttpServletResponse,
     private val memberService: MemberService
 ) {
-    var verifiedEmail = ""
-    var themeName: String = "light"
+    var verifiedEmail: String
+        get() {
+            if (isLogined) {
+                return req.session.getAttribute("verifiedEmail") as String
+            }
+
+            return ""
+        }
+        set(value) {
+            req.session.setAttribute("verifiedEmail", value)
+        }
+
+    var themeName: String
+        get() {
+            if (isLogined) {
+                return req.session.getAttribute("themeName") as String
+            }
+
+            return "light"
+        }
+        set(value) {
+            req.session.setAttribute("themeName", value)
+        }
 
     val headerMenuItemIndicatorText = mutableMapOf<String, String>()
 
@@ -62,15 +83,6 @@ class Rq(
 
     fun init() {
         setCurrentLoginInfo()
-
-        if ( isLogined ) {
-            themeName = memberService.getThemeName(loginedMember)
-            verifiedEmail = memberService.getVerifiedEmail(loginedMember)
-
-            if ( verifiedEmail.isEmpty() ) {
-                headerMenuItemIndicatorText["myPage"] = "1";
-            }
-        }
     }
 
     // 로그인 정보를 세션에서 꺼내와서, rq객체에 정보를 세팅
@@ -88,6 +100,8 @@ class Rq(
     // 로그인 처리
     fun login(member: Member) {
         req.session.setAttribute("loginedMemberJsonStr", Ut.getJsonStrFromObj(member))
+        themeName = memberService.getThemeName(member)
+        verifiedEmail = memberService.getVerifiedEmail(member)
     }
 
     // 로그아웃 처리
@@ -221,12 +235,5 @@ class Rq(
 
     fun printJson(resultData: ResultData<String>) {
         print(Ut.getJsonStrFromObj(resultData))
-    }
-
-    fun reGenSessionInfo() {
-        // 세션 정보 다시 구성, 추후 구현
-        // 현재는 테마와, 회원이 이메일 인증을 했는지를 매번 쿼리
-        // 추후 세션에 한번 저장 하는 걸로 변경해야 함
-        // 그럴 때는 이 함수를 꼭 구현해야 함
     }
 }

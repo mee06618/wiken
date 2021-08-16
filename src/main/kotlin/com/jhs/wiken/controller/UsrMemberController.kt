@@ -49,12 +49,12 @@ class UsrMemberController(private val memberService: MemberService) {
     fun doVerifyEmail(id: Int, code: String, email: String): String {
         val checkEmailVerificationCodeRd = memberService.checkEmailVerificationCode(id, code, email)
 
-        if ( checkEmailVerificationCodeRd.isFail ) {
+        if (checkEmailVerificationCodeRd.isFail) {
             return rq.replaceJs(checkEmailVerificationCodeRd.msg, "/ken")
         }
 
-        if ( rq.isLogined ) {
-            rq.reGenSessionInfo()
+        if (rq.isLogined) {
+            rq.verifiedEmail = email
         }
 
         return rq.replaceJs(checkEmailVerificationCodeRd.msg, "/ken")
@@ -149,6 +149,9 @@ class UsrMemberController(private val memberService: MemberService) {
     @ResponseBody
     fun doChangeTheme(params: DoChangeThemeParam): ResultData<String> {
         val themeName = params.themeName
+
+        rq.themeName = themeName
+
         return memberService.changeTheme(rq.loginedMember, themeName)
     }
 }
