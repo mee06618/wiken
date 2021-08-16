@@ -159,6 +159,7 @@
 				<script>
 					function Theme__changeTo(themeName) {
 					  const body = new URLSearchParams();
+					  body.set('ajaxMode', 'Y');
 						body.set('themeName', themeName);
 					
 						const postResult = rxjs.ajax.ajax(
@@ -170,7 +171,10 @@
 						);
 						
 						postResult.subscribe(
-							res => { location.reload(); }
+							res => {
+								if ( res.response.success ) location.reload();
+								else toastWarning(res.response.msg);
+							}
 						);
 					}
 				</script>

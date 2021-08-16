@@ -40,6 +40,10 @@ class Ut {
         }
 
         fun getNewUriRemoved(uri: String, paramName: String): String {
+            if ( uri.isEmpty() ) {
+                return ""
+            }
+
             var uri = uri
             val deleteStrStarts = "$paramName="
             val delStartPos = uri.indexOf(deleteStrStarts)
@@ -52,6 +56,7 @@ class Ut {
                     uri.substring(0, delStartPos)
                 }
             }
+
             if (uri[uri.length - 1] == '?') {
                 uri = uri.substring(0, uri.length - 1)
             }

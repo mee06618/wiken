@@ -22,6 +22,7 @@ class MyWebMvcConfigurer(
             .excludePathPatterns("/error")
 
         registry.addInterceptor(needLoginInterceptor)
+            .addPathPatterns("/member/doChangeTheme")
             .addPathPatterns("/member/findLoginId")
             .addPathPatterns("/member/doFindLoginId")
             .addPathPatterns("/member/findLoginPw")

@@ -34,6 +34,10 @@ class Rq(
     // 로그인 여부
     var isLogined: Boolean = false
 
+    val isAjax by lazy {
+        req.getParameter("ajaxMode") != null && req.getParameter("ajaxMode") == "Y"
+    }
+
     // 사이트 헤더 타입
     var currentPageSiteHeaderType = "common"
 
@@ -166,7 +170,10 @@ class Rq(
 
     val afterLoginUri: String
         get() {
-            val afterLoginUri: String = getStrParam("afterLoginUri", "")
+            var afterLoginUri: String = getStrParam("afterLoginUri", "")
+            afterLoginUri = Ut.getNewUriRemoved(afterLoginUri, "toastMsg")
+            afterLoginUri = Ut.getNewUriRemoved(afterLoginUri, "toastMsgJsUnixTimestamp")
+
             return afterLoginUri.ifEmpty { currentUri }
         }
 
@@ -186,10 +193,19 @@ class Rq(
         resp.contentType = "text/html; charset=UTF-8"
     }
 
+    fun respUtf8Json() {
+        resp.characterEncoding = "UTF-8"
+        resp.contentType = "application/json; charset=UTF-8"
+    }
+
     fun historyBackJsOnTemplate(msg: String): String {
         req.setAttribute("historyBack", true)
         req.setAttribute("msg", msg)
 
         return "common/js"
+    }
+
+    fun printJson(resultData: ResultData<String>) {
+        print(Ut.getJsonStrFromObj(resultData))
     }
 }
