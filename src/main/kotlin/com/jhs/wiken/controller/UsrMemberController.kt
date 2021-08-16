@@ -26,25 +26,38 @@ class UsrMemberController(private val memberService: MemberService) {
         loginPw: String,
         email: String,
         @RequestParam(defaultValue = "/ken") replaceUri: String
-    ): ResultData<Any> {
+    ): ResultData<*> {
         if (email.isEmpty()) {
-            return ResultData.from("F-1", "이메일을 입력해주세요.") as ResultData<Any>
+            return ResultData.from("F-1", "이메일을 입력해주세요.")
         }
 
         val loginedMember = rq.loginedMember
-
         val modifyRd = memberService.modify(loginedMember.id, loginPw, email)
-
         val member = memberService.getMemberById(loginedMember.id)!!
-
         rq.login(member)
 
-        return modifyRd as ResultData<Any>
+        return modifyRd
     }
 
     @RequestMapping("/member/join")
     fun showJoin(): String {
         return "usr/member/join"
+    }
+
+    @RequestMapping("/member/doVerifyEmail")
+    @ResponseBody
+    fun doVerifyEmail(id: Int, code: String, email: String): String {
+        val checkEmailVerificationCodeRd = memberService.checkEmailVerificationCode(id, code, email)
+
+        if ( checkEmailVerificationCodeRd.isFail ) {
+            return rq.replaceJs(checkEmailVerificationCodeRd.msg, "/ken")
+        }
+
+        if ( rq.isLogined ) {
+            rq.reGenSessionInfo()
+        }
+
+        return rq.replaceJs(checkEmailVerificationCodeRd.msg, "/ken")
     }
 
     @RequestMapping("/member/doJoin")
@@ -61,6 +74,10 @@ class UsrMemberController(private val memberService: MemberService) {
             return rq.historyBackJs("이미 사용중인 로그인 아이디 입니다.")
         }
 
+        if (email.isEmpty()) {
+            return rq.historyBackJs("이메일을 입력해주세요.")
+        }
+
         oldMember = memberService.getMemberByEmail(email)
 
         if (oldMember != null) {
@@ -74,6 +91,8 @@ class UsrMemberController(private val memberService: MemberService) {
         val joinRd = memberService.join(loginId, loginPw, name, nickname, cellphoneNo, email)
         val id = joinRd.data
         val member = memberService.getMemberById(id)!!
+
+        memberService.notifyEmailVerificationLink(member)
 
         rq.login(member)
 

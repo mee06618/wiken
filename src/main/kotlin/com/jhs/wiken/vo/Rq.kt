@@ -11,11 +11,14 @@ import javax.servlet.http.HttpServletResponse
 @Component("rq")
 @Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
 class Rq(
-    val req: HttpServletRequest,
-    val resp: HttpServletResponse
+    private val req: HttpServletRequest,
+    private val resp: HttpServletResponse,
+    private val memberService: MemberService
 ) {
     var verifiedEmail = ""
     var themeName: String = "light"
+
+    val headerMenuItemIndicatorText = mutableMapOf<String, String>()
 
     private var _loginedMember: Member? = null;
 
@@ -57,12 +60,16 @@ class Rq(
 
     var currentPageCanDeleteCurrentKen = false
 
-    fun init(memberService: MemberService) {
+    fun init() {
         setCurrentLoginInfo()
 
         if ( isLogined ) {
             themeName = memberService.getThemeName(loginedMember)
             verifiedEmail = memberService.getVerifiedEmail(loginedMember)
+
+            if ( verifiedEmail.isEmpty() ) {
+                headerMenuItemIndicatorText["myPage"] = "1";
+            }
         }
     }
 
@@ -214,5 +221,12 @@ class Rq(
 
     fun printJson(resultData: ResultData<String>) {
         print(Ut.getJsonStrFromObj(resultData))
+    }
+
+    fun reGenSessionInfo() {
+        // 세션 정보 다시 구성, 추후 구현
+        // 현재는 테마와, 회원이 이메일 인증을 했는지를 매번 쿼리
+        // 추후 세션에 한번 저장 하는 걸로 변경해야 함
+        // 그럴 때는 이 함수를 꼭 구현해야 함
     }
 }

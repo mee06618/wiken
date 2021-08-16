@@ -1,4 +1,15 @@
 spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: jangka512@gmail.com
+    password: pxwczegttsjnghbr
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
   profiles:
     active: local # 기본적으로 local이 선택된다는 뜻
   datasource:
@@ -11,6 +22,9 @@ spring:
 mybatis:
   type-aliases-package: com.jhs.wiken.vo
 custom:
+  siteName : 위켄
+  siteMainUri: http://localhost:8077
+  notifyEmailFrom: no-reply@no-reply.com
   logging:
     dir: log
     level: debug
@@ -49,6 +63,7 @@ spring:
       flush-mode: on-save
       namespace: spring:session
 custom:
+  siteMainUri: https://wiken.io
   genFileDirPath: /opt/tomcat/latest/wiken.io-file
   logging:
     dir: /tmp/wiken-log

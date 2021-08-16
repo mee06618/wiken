@@ -225,7 +225,7 @@
 							<span><i class="fas fa-user-cog"></i></span>
 							<span class="hidden lg:block">&nbsp;</span>
 							<span class="hidden lg:block">MY PAPE</span>
-							<div class="indicator-item indicator-top indicator-center badge badge-secondary" style="transform:scale(0.5) translateY(10px)">1</div>
+							<div th:if="${@rq.headerMenuItemIndicatorText['myPage'] != null}" class="indicator-item indicator-top indicator-right badge badge-secondary" style="transform:scale(0.5) translateY(10px)">[[${@rq.headerMenuItemIndicatorText['myPage']}]]</div>
 						</a>
 					</li>
 					

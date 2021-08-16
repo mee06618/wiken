@@ -101,7 +101,7 @@
 					<label class="label">
 						<span class="label-text">이메일</span>
 					</label>
-					<input type="email" name="email" placeholder="이메일" class="input input-bordered" th:value="${@rq.loginedMember.email}">
+					<input th:readonly="${@rq.loginedMember.email != ''}" type="email" name="email" placeholder="이메일" class="input input-bordered" th:value="${@rq.loginedMember.email}">
 				</div>
 				
 				<div class="btns mt-3 flex">
