@@ -2,6 +2,7 @@ package com.jhs.wiken
 
 import com.jhs.wiken.intercentor.BeforeActionInterceptor
 import com.jhs.wiken.intercentor.NeedLoginInterceptor
+import com.jhs.wiken.intercentor.NeedLogoutInterceptor
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
@@ -11,7 +12,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 @Configuration
 class MyWebMvcConfigurer(
     private val beforeActionInterceptor: BeforeActionInterceptor,
-    private val needLoginInterceptor: NeedLoginInterceptor
+    private val needLoginInterceptor: NeedLoginInterceptor,
+    private val needLogoutInterceptor: NeedLogoutInterceptor
 ) : WebMvcConfigurer {
     // 이 함수는 앱이 실행되고 나서 딱 1번 실행된다. 즉 요청마다 실행되지 않는다.
     override fun addInterceptors(registry: InterceptorRegistry) {
@@ -23,13 +25,22 @@ class MyWebMvcConfigurer(
 
         registry.addInterceptor(needLoginInterceptor)
             .addPathPatterns("/member/doChangeTheme")
-            .addPathPatterns("/member/findLoginId")
-            .addPathPatterns("/member/doFindLoginId")
-            .addPathPatterns("/member/findLoginPw")
-            .addPathPatterns("/member/doFindLoginPw")
+            .addPathPatterns("/member/checkPassword")
+            .addPathPatterns("/member/doCheckPassword")
+            .addPathPatterns("/member/modify")
+            .addPathPatterns("/member/doModify")
             .addPathPatterns("/ken")
             .addPathPatterns("/ken/{id}/edit")
             .addPathPatterns("/ken/doWrite")
             .addPathPatterns("/ken/doModify")
+
+        registry.addInterceptor(needLogoutInterceptor)
+            .addPathPatterns("/member/login")
+            .addPathPatterns("/member/doLogin")
+            .addPathPatterns("/member/join")
+            .addPathPatterns("/member/doJoin")
+            .addPathPatterns("/member/doFindLoginPw")
+            .addPathPatterns("/member/checkPassword")
+            .addPathPatterns("/member/doCheckPassword")
     }
 }

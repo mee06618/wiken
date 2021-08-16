@@ -1,8 +1,8 @@
 package com.jhs.wiken.vo
 
 class ResultData<T>(
-    private val resultCode: String,
-    private val msg: String,
+    val resultCode: String,
+    val msg: String,
     private val data1Name: String,
     private val data1: T
 ) {
@@ -16,23 +16,12 @@ class ResultData<T>(
         }
     }
 
-    fun isSuccess(): Boolean {
-        return resultCode.startsWith("S-")
-    }
+    val isSuccess
+        get() = resultCode.startsWith("S-")
 
-    fun isFail(): Boolean {
-        return isSuccess() == false
-    }
+    val isFail
+        get() = !isSuccess
 
-    fun getMsg(): String {
-        return msg
-    }
-
-    fun getResultCode(): String {
-        return resultCode
-    }
-
-    fun getData(): T {
-        return data1
-    }
+    val data: T
+        get() = data1
 }

@@ -221,6 +221,14 @@
 					</li>
 					
 					<li th:if="${@rq.logined}">
+						<a href="/member/modify" class="h-full flex items-center hover:underline px-[10px]">
+							<span><i class="fas fa-user-cog"></i></span>
+							<span class="hidden lg:block">&nbsp;</span>
+							<span class="hidden lg:block">MY PAPE</span>
+						</a>
+					</li>
+					
+					<li th:if="${@rq.logined}">
 						<a href="/ken/mine" class="h-full flex items-center hover:underline px-[10px]">
 							<span><i class="fas fa-user-edit"></i></span>
 							<span class="hidden lg:block">&nbsp;</span>

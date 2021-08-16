@@ -15,6 +15,33 @@ class UsrMemberController(private val memberService: MemberService) {
     @Autowired
     private lateinit var rq: Rq;
 
+    @RequestMapping("/member/modify")
+    fun showModify(): String {
+        return "usr/member/modify"
+    }
+
+    @RequestMapping("/member/doModify")
+    @ResponseBody
+    fun doModify(
+        loginPw: String,
+        email: String,
+        @RequestParam(defaultValue = "/ken") replaceUri: String
+    ): ResultData<Any> {
+        if ( email.isEmpty() ) {
+            return ResultData.from("F-1", "이메일을 입력해주세요.") as ResultData<Any>
+        }
+
+        val loginedMember = rq.loginedMember
+
+        val modifyRd = memberService.modify(loginedMember.id, loginPw, email)
+
+        val member = memberService.getMemberById(loginedMember.id)!!
+
+        rq.login(member)
+
+        return modifyRd as ResultData<Any>
+    }
+
     @RequestMapping("/member/join")
     fun showJoin(): String {
         return "usr/member/join"
@@ -45,12 +72,12 @@ class UsrMemberController(private val memberService: MemberService) {
         val cellphoneNo = loginId
 
         val joinRd = memberService.join(loginId, loginPw, name, nickname, cellphoneNo, email)
-        val id = joinRd.getData()
+        val id = joinRd.data
         val member = memberService.getMemberById(id)!!
 
         rq.login(member)
 
-        return rq.replaceJs(joinRd.getMsg(), replaceUri)
+        return rq.replaceJs(joinRd.msg, replaceUri)
     }
 
     @RequestMapping("/member/login")

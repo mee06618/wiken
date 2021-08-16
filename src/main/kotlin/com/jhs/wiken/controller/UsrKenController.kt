@@ -43,7 +43,7 @@ class UsrKenController(
         val title = kenSourceInterpreter.title
 
         val resultData = kenService.write(rq.loginedMemberId, title, source, result)
-        val id = resultData.getData()
+        val id = resultData.data
 
         return rq.replaceJs("", "../ken/${id}/edit")
     }
@@ -94,7 +94,7 @@ class UsrKenController(
 
         val resultData = kenService.delete(id)
 
-        return rq.replaceJs(resultData.getMsg(), "/ken")
+        return rq.replaceJs(resultData.msg, "/ken")
     }
 
     @RequestMapping("/ken/{id}/edit")

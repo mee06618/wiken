@@ -63,6 +63,25 @@ interface MemberRepository {
         LIMIT 1
     """
     )
-    fun getMemberByEmail(email: String): Member?
+    fun getMemberByEmail(@Param("email") email: String): Member?
+
+    @Insert(
+        """
+        <script>
+        UPDATE `member`
+        <set>
+            updateDate = NOW(),
+            <if test="loginPw != ''">
+                loginPw = #{loginPw},
+            </if>
+            <if test="email != ''">
+                email = #{email}
+            </if>
+        </set>
+        WHERE id = #{id}
+        </script>
+    """
+    )
+    fun modify(@Param("id") id: Int, @Param("loginPw") loginPw: String, @Param("email") email: String)
 
 }

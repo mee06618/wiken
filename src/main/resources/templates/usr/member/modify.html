@@ -1,0 +1,116 @@
+<!doctype html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
+			layout:decorate="~{usr/common/layout}">
+
+<head>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
+	
+	<title>회원정보수정</title>
+</head>
+
+<main layout:fragment="main">
+	<section class="section section-login flex-grow flex items-center justify-center">
+		
+		<div class="flex-grow max-w-md px-2">
+			<h1 class="font-bold text-lg">회원정보수정</h1>
+			
+			<script>
+				let MemberModify__submitDone = false;
+				function MemberModify__submit(form) {
+					if (MemberModify__submitDone) {
+						return;
+					}
+					
+					form.loginPwInput.value = form.loginPwInput.value.trim();
+					
+					if ( form.loginPwInput.value.length > 0 ) {
+						form.loginPwConfirm.value = form.loginPwConfirm.value.trim();
+					
+						if (form.loginPwConfirm.value.length == 0) {
+							toastWarning("새 로그인비밀번호 확인을 입력해주세요.");
+							form.loginPwConfirm.focus();
+					
+							return;
+						}
+						
+						if ( form.loginPwInput.value != form.loginPwConfirm.value ) {
+							toastWarning("새 로그인비밀번호 확인이 일치하지 않습니다.");
+							form.loginPwConfirm.focus();
+						}
+				  }
+					
+					form.email.value = form.email.value.trim();
+				
+					if (form.email.value.length == 0) {
+						toastWarning("이메일을 입력해주세요.");
+						form.email.focus();
+				
+						return;
+					}
+				
+					form.loginPw.value = sha256(form.loginPwInput.value);
+					form.loginPwInput.value = "";
+					form.loginPwConfirm.value = "";
+				
+					const postResult = rxjs.ajax.ajax(
+						{
+							url:`/member/doModify`,
+							method: 'POST',
+							body: new FormData(form),
+						}
+					);
+					
+					postResult.subscribe(
+						res => {
+							if ( res.response.success ) location.replace('/ken?toastMsg=' + res.response.msg + '&toastMsgJsUnixTimestamp=' + new Date().getTime());
+							else toastWarning(res.response.msg);
+						}
+					);
+				
+					MemberModify__submitDone = true;
+				}
+    
+			</script>
+			
+			<form action="/member/doModify" method="POST" class="flex flex-col"
+						onsubmit="MemberModify__submit(this); return false;">
+				<input type="hidden" name="loginPw">
+				
+				<div class="form-control">
+					<label class="label">
+						<span class="label-text">로그인아이디</span>
+					</label>
+					<div class="badge badge-primary">[[${@rq.loginedMember.loginId}]]</div>
+				</div>
+				
+				<div class="form-control">
+					<label class="label">
+						<span class="label-text">새 로그인비밀번호</span>
+					</label>
+					<input type="password" name="loginPwInput" placeholder="새 로그인비밀번호" class="input input-bordered">
+				</div>
+				
+				<div class="form-control">
+					<label class="label">
+						<span class="label-text">새 로그인비밀번호 확인</span>
+					</label>
+					<input type="password" name="loginPwConfirm" placeholder="새 로그인비밀번호 확인" class="input input-bordered">
+				</div>
+				
+				<div class="form-control">
+					<label class="label">
+						<span class="label-text">이메일</span>
+					</label>
+					<input type="email" name="email" placeholder="이메일" class="input input-bordered" th:value="${@rq.loginedMember.email}">
+				</div>
+				
+				<div class="btns mt-3 flex">
+					<input class="btn btn-primary" type="submit" value="회원정보수정">
+					<div class="w-2 flex-shrink-0"></div>
+				</div>
+			</form>
+		</div>
+	</section>
+</main>
+
+</html>

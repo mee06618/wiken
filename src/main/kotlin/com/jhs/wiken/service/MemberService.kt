@@ -45,4 +45,10 @@ class MemberService(
     fun getThemeName(actor: Member): String {
         return attrService.getValue("member", actor.id, "extra", "themeName").ifEmpty { "light" }
     }
+
+    fun modify(id: Int, loginPw: String, email: String): ResultData<Int> {
+        memberRepository.modify(id, loginPw, email);
+
+        return ResultData.from("S-1", "회원정보가 수정되었습니다.", "id", id)
+    }
 }
