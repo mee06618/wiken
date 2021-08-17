@@ -5,6 +5,8 @@ import com.jhs.wiken.vo.ResultData
 import com.jhs.wiken.vo.Rq
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
+import org.springframework.ui.set
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
@@ -111,6 +113,35 @@ class UsrMemberController(private val memberService: MemberService) {
             ?: return ResultData.from("F-1", "일치하는 아이디가 존재하지 않습니다.")
 
         return ResultData.from("S-1", "해당 회원의 로그인아이디는 ${member.loginId} 입니다.", "loginId", member.loginId)
+    }
+
+    @RequestMapping("/member/findLoginPw")
+    fun showFindLoginPw(): String {
+        return "usr/member/findLoginPw"
+    }
+
+    @RequestMapping("/member/doFindLoginPw")
+    @ResponseBody
+    fun doFindLoginPw(email: String): ResultData<*> {
+        val member = memberService.getMemberByEmail(email)
+            ?: return ResultData.from("F-1", "일치하는 아이디가 존재하지 않습니다.")
+
+        return memberService.notifyPasswordResetLink(member)
+    }
+
+    @RequestMapping("/member/modifyPasswordByResetAuthCode")
+    fun showModifyPasswordByResetAuthCode(id: Int, email: String, code: String, model: Model): String {
+        val checkPasswordResetAuthCodeRd = memberService.checkPasswordResetAuthCode(id, code)
+
+        if ( checkPasswordResetAuthCodeRd.isFail ) {
+            model["errorMsg"] = checkPasswordResetAuthCodeRd.msg
+        }
+
+        val member = memberService.getMemberById(id)!!
+
+        model["member"] = member
+
+        return "usr/member/modifyPasswordByResetAuthCode"
     }
 
     @RequestMapping("/member/login")

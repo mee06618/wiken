@@ -114,4 +114,42 @@ class MemberService(
 
         return ResultData.from("F-1", "인증코드가 올바르지 않거나 만료되었습니다.")
     }
+
+    fun notifyPasswordResetLink(actor: Member): ResultData<*> {
+        val title = "[${siteName}] 비밀번호 변경"
+
+        val passwordResetAuthCode = genPasswordResetAuthCode(actor)
+        val link = "${siteMainUri}/member/modifyPasswordByResetAuthCode?code=${passwordResetAuthCode}&id=${actor.id}&email=${actor.email}"
+
+        val body = """<a href="${link}" target="_blank">${link} 비밀번호 변경</a>"""
+
+        emailService.send(actor.email, title, body)
+
+        return ResultData.from("S-1", "해당 메일로 비밀번호 변경가능한 링크가 발송되었습니다.")
+    }
+
+    private fun genPasswordResetAuthCode(actor: Member): Any {
+        val code = Ut.getTempPassword(6)
+
+        attrService.setValue(
+            "member",
+            actor.id,
+            "extra",
+            "passwordResetAuthCode",
+            code,
+            Ut.getDateStrLater(60 * 60 * 24)
+        )
+
+        return code
+    }
+
+    fun checkPasswordResetAuthCode(id: Int, code: String): ResultData<*> {
+        val checkPasswordResetAuthCode = attrService.getValue("member", id, "extra", "passwordResetAuthCode")
+
+        if (code == checkPasswordResetAuthCode) {
+            return ResultData.from("S-1", "인증성공")
+        }
+
+        return ResultData.from("F-1", "인증코드가 올바르지 않거나 만료되었습니다.")
+    }
 }
