@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: local # 기본적으로 local이 선택된다는 뜻
   mail:
     host: smtp.gmail.com
     port: 587
@@ -10,8 +12,6 @@ spring:
           auth: true
           starttls:
             enable: true
-  profiles:
-    active: local # 기본적으로 local이 선택된다는 뜻
   datasource:
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
     url: jdbc:log4jdbc:mariadb://127.0.0.1:3306/wikenDevelopment?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull
@@ -33,38 +33,3 @@ custom:
     include-stacktrace: always
     include-message: always
     include-binding-errors: always
-
----
-
-spring:
-  profiles: local
-server:
-  port: 8077
-
----
-
-spring:
-  profiles: production
-  servlet:
-    multipart:
-      location: /tmp
-  datasource:
-    username: sbsstLocal
-    password: sbslocal123414
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://127.0.0.1:3306/wikenProduction?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull
-  redis:
-    host: 127.0.0.1
-    port: 6379
-  session:
-    timeout: 6000
-    store-type: redis
-    redis:
-      flush-mode: on-save
-      namespace: spring:session
-custom:
-  siteMainUri: https://wiken.io
-  genFileDirPath: /opt/tomcat/latest/wiken.io-file
-  logging:
-    dir: /tmp/wiken-log
-    level: info
