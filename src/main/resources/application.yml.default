@@ -1,6 +1,9 @@
 spring:
   profiles:
     active: local # 기본적으로 local이 선택된다는 뜻
+  cache:
+    jcache:
+      config: classpath:ehcache.xml
   mail:
     host: smtp.gmail.com
     port: 587

@@ -3,6 +3,7 @@ package com.jhs.wiken.controller
 import com.jhs.wiken.service.KenService
 import com.jhs.wiken.vo.KenSourceInterpreter
 import com.jhs.wiken.vo.Rq
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.ui.set
@@ -122,5 +123,14 @@ class UsrKenController(
         val ken = kenService.getKen(id) ?: return rq.historyBackJsOnTemplate("존재하지 않는 ken 입니다.")
         model["ken"] = ken
         return "usr/ken/detail"
+    }
+
+    var id = 1;
+
+    @RequestMapping("/ken/test")
+    @ResponseBody
+    @Cacheable(cacheNames = ["UsrKenController__showTest"])
+    fun showTest(): String {
+        return "${id++}"
     }
 }
