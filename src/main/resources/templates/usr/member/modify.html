@@ -74,6 +74,7 @@
 			
 			<form action="/member/doModify" method="POST" class="flex flex-col"
 						onsubmit="MemberModify__submit(this); return false;">
+				<input type="hidden" name="ajaxMode" value="Y">
 				<input type="hidden" name="loginPw">
 				
 				<div class="form-control">
@@ -105,7 +106,7 @@
 				</div>
 				
 				<div class="btns mt-3 flex">
-					<input class="btn btn-primary" type="submit" value="회원정보수정">
+					<input class="btn btn-primary w-full" type="submit" value="회원정보수정">
 					<div class="w-2 flex-shrink-0"></div>
 				</div>
 			</form>

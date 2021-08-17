@@ -99,6 +99,20 @@ class UsrMemberController(private val memberService: MemberService) {
         return rq.replaceJs(joinRd.msg, replaceUri)
     }
 
+    @RequestMapping("/member/findLoginId")
+    fun showFindLoginId(): String {
+        return "usr/member/findLoginId"
+    }
+
+    @RequestMapping("/member/doFindLoginId")
+    @ResponseBody
+    fun doFindLoginId(email: String): ResultData<*> {
+        val member = memberService.getMemberByEmail(email)
+            ?: return ResultData.from("F-1", "일치하는 아이디가 존재하지 않습니다.")
+
+        return ResultData.from("S-1", "해당 회원의 로그인아이디는 ${member.loginId} 입니다.", "loginId", member.loginId)
+    }
+
     @RequestMapping("/member/login")
     fun showLogin(): String {
         return "usr/member/login"

@@ -1,0 +1,76 @@
+<!doctype html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
+			layout:decorate="~{usr/common/layout}">
+
+<head>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
+	
+	<title>아이디찾기</title>
+</head>
+
+<main layout:fragment="main">
+	<section class="section section-login flex-grow flex items-center justify-center">
+		
+		<div class="flex-grow max-w-md px-2">
+			<h1 class="font-bold text-lg">아이디찾기</h1>
+			
+			<script>
+				let MemberFindLoginId__submitDone = false;
+				function MemberFindLoginId__submit(form) {
+					if ( MemberFindLoginId__submitDone ) {
+						return;
+					}
+
+					form.email.value = form.email.value.trim();
+
+					if ( form.email.value.length == 0 ) {
+						toastWarning('이메일을 입력해주세요.');
+						form.email.focus();
+
+						return;
+					}
+
+					const postResult = rxjs.ajax.ajax(
+						{
+							url:`/member/doFindLoginId`,
+							method: 'POST',
+							body: new FormData(form),
+						}
+					);
+
+					postResult.subscribe(
+						res => {
+							MemberFindLoginId__submitDone = false;
+							if ( res.response.success ) location.replace('/member/login?loginId=' + res.response.data + '&toastMsg=' + res.response.msg + '&toastMsgJsUnixTimestamp=' + new Date().getTime());
+							else toastWarning(res.response.msg);
+						}
+					);
+
+					MemberFindLoginId__submitDone = true;
+				}
+			</script>
+			
+			<form action="/member/doFindLoginId" method="POST" class="flex flex-col"
+						onsubmit="MemberFindLoginId__submit(this); return false;">
+				<input type="hidden" name="ajaxMode" value="Y">
+				<div class="form-control">
+					<label class="label">
+						<span class="label-text">이메일</span>
+					</label>
+					<input type="email" name="email" placeholder="이메일" class="input input-bordered" maxlength="20">
+				</div>
+
+				<div class="btns mt-3 flex justify-end">
+					<input class="btn btn-primary w-full" type="submit" value="아이디 찾기">
+				</div>
+				
+				<div class="btns mt-3 flex justify-center">
+					<a href="/member/login" class="btn btn-link">로그인</a>
+					<a href="/member/findLoginPw" class="btn btn-link">비밀번호 찾기</a>
+				</div>
+			</form>
+		</div>
+	</section>
+</main>
+
+</html>
