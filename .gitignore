@@ -42,3 +42,4 @@ LOG_PATH_IS_UNDEFINED/
 
 ### custom ###
 src/main/resources/static/resource/dist.css
+src/main/resources/application.yml
