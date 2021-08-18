@@ -40,12 +40,14 @@
 
 					postResult.subscribe(
 						res => {
+						  $(form.submit1).removeClass('loading');
 							MemberFindLoginPw__submitDone = false;
-							if ( res.response.success ) location.replace('/member/login?loginId=' + res.response.data + '&toastMsg=' + res.response.msg + '&toastMsgJsUnixTimestamp=' + new Date().getTime());
+							if ( res.response.success ) toastNotice(res.response.msg);
 							else toastWarning(res.response.msg);
 						}
 					);
 
+					$(form.submit1).addClass('loading');
 					MemberFindLoginPw__submitDone = true;
 				}
 			</script>
@@ -61,7 +63,7 @@
 				</div>
 
 				<div class="btns mt-3 flex justify-end">
-					<input class="btn btn-primary w-full" type="submit" value="비밀번호 찾기">
+					<button name="submit1" class="btn btn-primary w-full" type="submit">비밀번호 찾기</button>
 				</div>
 				
 				<div class="btns mt-3 flex justify-center">

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import java.net.URLEncoder
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 class Ut {
@@ -136,5 +137,8 @@ class Ut {
             val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
             return format.format(System.currentTimeMillis() + seconds * 1000)
         }
+
+        fun localDateTimeFromStr(dateStr: String) =
+            LocalDateTime.parse(dateStr.substring(0..18), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 }

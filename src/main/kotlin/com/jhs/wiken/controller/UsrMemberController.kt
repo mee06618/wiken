@@ -1,6 +1,7 @@
 package com.jhs.wiken.controller
 
 import com.jhs.wiken.service.MemberService
+import com.jhs.wiken.util.Ut
 import com.jhs.wiken.vo.ResultData
 import com.jhs.wiken.vo.Rq
 import org.springframework.beans.factory.annotation.Autowired
@@ -10,7 +11,10 @@ import org.springframework.ui.set
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 import javax.servlet.http.HttpSession
+
 
 @Controller
 class UsrMemberController(private val memberService: MemberService) {
@@ -126,6 +130,18 @@ class UsrMemberController(private val memberService: MemberService) {
         val member = memberService.getMemberByEmail(email)
             ?: return ResultData.from("F-1", "일치하는 아이디가 존재하지 않습니다.")
 
+        val attr = memberService.getPasswordResetAuthCodeAttr(member)
+
+        if (attr != null) {
+            val updateLocalDateTime = Ut.localDateTimeFromStr(attr.updateDate)
+            val minutes = ChronoUnit.MINUTES.between(updateLocalDateTime, LocalDateTime.now())
+            val minDelayMinutes = 5
+            if (minutes < minDelayMinutes) {
+                val restMinutes = minDelayMinutes - minutes
+                return ResultData.from("F-2", "이미 링크가 이메일로 발송되었습니다. 링크 재발송은 ${restMinutes}분 뒤에 가능합니다.")
+            }
+        }
+
         return memberService.notifyPasswordResetLink(member)
     }
 
@@ -133,7 +149,7 @@ class UsrMemberController(private val memberService: MemberService) {
     fun showModifyPasswordByResetAuthCode(id: Int, email: String, code: String, model: Model): String {
         val checkPasswordResetAuthCodeRd = memberService.checkPasswordResetAuthCode(id, code)
 
-        if ( checkPasswordResetAuthCodeRd.isFail ) {
+        if (checkPasswordResetAuthCodeRd.isFail) {
             model["errorMsg"] = checkPasswordResetAuthCodeRd.msg
         }
 

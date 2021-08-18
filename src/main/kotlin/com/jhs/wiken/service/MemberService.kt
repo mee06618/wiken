@@ -2,6 +2,7 @@ package com.jhs.wiken.service
 
 import com.jhs.wiken.repository.MemberRepository
 import com.jhs.wiken.util.Ut
+import com.jhs.wiken.vo.Attr
 import com.jhs.wiken.vo.Member
 import com.jhs.wiken.vo.ResultData
 import org.springframework.beans.factory.annotation.Value
@@ -67,7 +68,7 @@ class MemberService(
 
         val member = getMemberById(id)!!
 
-        if ( oldEmail != email ) {
+        if (oldEmail != email) {
             notifyEmailVerificationLink(member)
         }
 
@@ -82,7 +83,8 @@ class MemberService(
         val title = "[${siteName}] 이메일 인증"
 
         val emailVerificationCode = genEmailVerificationCode(actor)
-        val link = "${siteMainUri}/member/doVerifyEmail?code=${emailVerificationCode}&id=${actor.id}&email=${actor.email}"
+        val link =
+            "${siteMainUri}/member/doVerifyEmail?code=${emailVerificationCode}&id=${actor.id}&email=${actor.email}"
 
         val body = """<a href="${link}" target="_blank">${link} 이메일 인증</a>"""
 
@@ -119,7 +121,8 @@ class MemberService(
         val title = "[${siteName}] 비밀번호 변경"
 
         val passwordResetAuthCode = genPasswordResetAuthCode(actor)
-        val link = "${siteMainUri}/member/modifyPasswordByResetAuthCode?code=${passwordResetAuthCode}&id=${actor.id}&email=${actor.email}"
+        val link =
+            "${siteMainUri}/member/modifyPasswordByResetAuthCode?code=${passwordResetAuthCode}&id=${actor.id}&email=${actor.email}"
 
         val body = """<a href="${link}" target="_blank">${link} 비밀번호 변경</a>"""
 
@@ -131,6 +134,13 @@ class MemberService(
     private fun genPasswordResetAuthCode(actor: Member): Any {
         val code = Ut.getTempPassword(6)
 
+        attrService.remove(
+            "member",
+            actor.id,
+            "extra",
+            "passwordResetAuthCode"
+        )
+
         attrService.setValue(
             "member",
             actor.id,
@@ -141,6 +151,15 @@ class MemberService(
         )
 
         return code
+    }
+
+    fun getPasswordResetAuthCodeAttr(actor: Member): Attr? {
+        return attrService.get(
+            "member",
+            actor.id,
+            "extra",
+            "passwordResetAuthCode",
+        )
     }
 
     fun checkPasswordResetAuthCode(id: Int, code: String): ResultData<*> {
