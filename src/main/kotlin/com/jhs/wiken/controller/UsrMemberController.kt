@@ -167,12 +167,12 @@ class UsrMemberController(private val memberService: MemberService) {
 
     @RequestMapping("/member/doLogin")
     @ResponseBody
-    fun doLogin(loginId: String, loginPw: String, @RequestParam(defaultValue = "/ken") replaceUri: String): String {
+    fun doLogin(loginId: String, loginPw: String): ResultData<*> {
         val member = memberService.getMemberByLoginId(loginId)
-            ?: return rq.historyBackJs("${loginId}(은)는 존재하지 않는 로그인아이디 입니다.")
+            ?: return ResultData.from("F-1", "${loginId}(은)는 존재하지 않는 로그인아이디 입니다.")
 
         if (member.loginPw != loginPw) {
-            return rq.historyBackJs("비밀번호가 일치하지 않습니다.")
+            return ResultData.from("F-2", "비밀번호가 일치하지 않습니다.")
         }
 
         rq.login(member)
@@ -185,13 +185,7 @@ class UsrMemberController(private val memberService: MemberService) {
             "${member.nickname}님 환영합니다."
         }
 
-        val replaceUri = if (verifiedEmail.isEmpty()) {
-            "/member/modify"
-        } else {
-            replaceUri
-        }
-
-        return rq.replaceJs(msg, replaceUri)
+        return ResultData.from("S-1", msg)
     }
 
     @RequestMapping("/member/doLogout")

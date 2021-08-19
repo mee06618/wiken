@@ -42,15 +42,34 @@
 					form.loginPw.value = sha256(form.loginPwInput.value);
 					form.loginPwInput.value = '';
 
-					form.submit();
+					const post$ = rxjs.ajax.ajax.post(
+						'/member/doLogin',
+						new FormData(form)
+					);
+					
 					MemberLogin__submitDone = true;
+					
+					post$.subscribe(
+						res => {
+							if ( params.afterLoginUri.indexOf('?') === -1 ) {
+								params.afterLoginUri += '?dummy=dummy';
+							}
+							
+							if ( res.response.success ) {
+								location.replace(params.afterLoginUri + '&toastMsg=' + res.response.msg + '&toastMsgJsUnixTimestamp=' + new Date().getTime());
+							}
+							else {
+								MemberLogin__submitDone = false;
+								toastWarning(res.response.msg);
+							}
+						}
+					);
 				}
 			</script>
 			
-			<form action="/member/doLogin" method="POST" class="flex flex-col"
+			<form class="flex flex-col"
 						onsubmit="MemberLogin__submit(this); return false;">
 				<input type="hidden" name="loginPw">
-				<input type="hidden" name="replaceUri" th:value="${param.afterLoginUri}">
 				
 				<div class="form-control">
 					<label class="label">
