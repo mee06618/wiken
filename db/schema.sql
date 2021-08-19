@@ -169,7 +169,7 @@ CREATE TABLE hashTag (
 );
 
 # 인덱스 걸기
-ALTER TABLE `wikenDevelopment`.`hashTag` ADD INDEX (`relTypeCode`, `relId`);
+ALTER TABLE `hashTag` ADD INDEX (`relTypeCode`, `relId`);
 
 # 켄 그룹아이템 추가
 CREATE TABLE kenGroupItem (
