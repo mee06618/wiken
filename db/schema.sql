@@ -157,3 +157,34 @@ ALTER TABLE `attr` ADD INDEX (`relTypeCode`, `typeCode`, `type2Code`);
 # attr에 만료날짜 추가
 ALTER TABLE `attr` ADD COLUMN `expireDate` DATETIME NULL AFTER `value`;
 
+# 해시태그 추가
+CREATE TABLE hashTag (
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME NOT NULL,
+    updateDate DATETIME NOT NULL,
+    `relTypeCode` CHAR(40) NOT NULL,
+    `relId` INT(10) UNSIGNED NOT NULL,
+    `typeCode` CHAR(30) NOT NULL,
+    `value` TEXT NOT NULL
+);
+
+# 인덱스 걸기
+ALTER TABLE `wikenDevelopment`.`hashTag` ADD INDEX (`relTypeCode`, `relId`);
+
+# 켄 그룹아이템 추가
+CREATE TABLE kenGroupItem (
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME NOT NULL,
+    updateDate DATETIME NOT NULL,
+    `groupCode` CHAR(30) NOT NULL,
+    `relId` INT(10) UNSIGNED NOT NULL,
+    sortNo INT(10) UNSIGNED NOT NULL
+);
+
+ALTER TABLE `kenGroupItem` ADD INDEX (`groupCode`, `relId`);
+
+# 켄의 memberId에 인덱스 추가
+ALTER TABLE `ken` ADD INDEX (`memberId`);
+
+# 회원의 테이블에 loginId 유니크 인덱스 추가
+ALTER TABLE `member` ADD UNIQUE INDEX (`loginId`);
