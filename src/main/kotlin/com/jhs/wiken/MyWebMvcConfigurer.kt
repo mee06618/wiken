@@ -43,5 +43,7 @@ class MyWebMvcConfigurer(
             .addPathPatterns("/member/doFindLoginPw")
             .addPathPatterns("/member/checkPassword")
             .addPathPatterns("/member/doCheckPassword")
+            .addPathPatterns("/member/modifyPasswordByResetAuthCode")
+            .addPathPatterns("/member/doModifyPasswordByResetAuthCode")
     }
 }

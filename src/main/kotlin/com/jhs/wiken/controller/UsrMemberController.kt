@@ -1,7 +1,6 @@
 package com.jhs.wiken.controller
 
 import com.jhs.wiken.service.MemberService
-import com.jhs.wiken.util.Ut
 import com.jhs.wiken.vo.ResultData
 import com.jhs.wiken.vo.Rq
 import org.springframework.beans.factory.annotation.Autowired
@@ -11,8 +10,6 @@ import org.springframework.ui.set
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
-import java.time.LocalDateTime
-import java.time.temporal.ChronoUnit
 import javax.servlet.http.HttpSession
 
 
@@ -152,6 +149,18 @@ class UsrMemberController(private val memberService: MemberService) {
         model["member"] = member
 
         return "usr/member/modifyPasswordByResetAuthCode"
+    }
+
+    @RequestMapping("/member/doModifyPasswordByResetAuthCode")
+    @ResponseBody
+    fun doModifyPasswordByResetAuthCode(id: Int, email: String, code: String, loginPw: String): ResultData<*> {
+        val checkPasswordResetAuthCodeRd = memberService.checkPasswordResetAuthCode(id, code)
+
+        if (checkPasswordResetAuthCodeRd.isFail) {
+            return checkPasswordResetAuthCodeRd
+        }
+
+        return memberService.modify(id, loginPw, "")
     }
 
     @RequestMapping("/member/login")

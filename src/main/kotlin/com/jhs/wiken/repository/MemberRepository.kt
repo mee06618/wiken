@@ -75,7 +75,7 @@ interface MemberRepository {
                 loginPw = #{loginPw},
             </if>
             <if test="email != ''">
-                email = #{email}
+                email = #{email},
             </if>
         </set>
         WHERE id = #{id}
