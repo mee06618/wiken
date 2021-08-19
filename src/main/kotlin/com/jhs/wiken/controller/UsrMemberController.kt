@@ -119,6 +119,12 @@ class UsrMemberController(private val memberService: MemberService) {
         return ResultData.from("S-1", "해당 회원의 로그인아이디는 ${member.loginId} 입니다.", "loginId", member.loginId)
     }
 
+    @RequestMapping("/member/doResendEmailVerificationLink")
+    @ResponseBody
+    fun doResendEmailVerificationLink(): ResultData<*> {
+        return memberService.notifyEmailVerificationLink(rq.loginedMember)
+    }
+
     @RequestMapping("/member/findLoginPw")
     fun showFindLoginPw(): String {
         return "usr/member/findLoginPw"
@@ -129,18 +135,6 @@ class UsrMemberController(private val memberService: MemberService) {
     fun doFindLoginPw(email: String): ResultData<*> {
         val member = memberService.getMemberByEmail(email)
             ?: return ResultData.from("F-1", "일치하는 아이디가 존재하지 않습니다.")
-
-        val attr = memberService.getPasswordResetAuthCodeAttr(member)
-
-        if (attr != null) {
-            val updateLocalDateTime = Ut.localDateTimeFromStr(attr.updateDate)
-            val minutes = ChronoUnit.MINUTES.between(updateLocalDateTime, LocalDateTime.now())
-            val minDelayMinutes = 5
-            if (minutes < minDelayMinutes) {
-                val restMinutes = minDelayMinutes - minutes
-                return ResultData.from("F-2", "이미 링크가 이메일로 발송되었습니다. 링크 재발송은 ${restMinutes}분 뒤에 가능합니다.")
-            }
-        }
 
         return memberService.notifyPasswordResetLink(member)
     }

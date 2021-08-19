@@ -33,6 +33,7 @@ class MyWebMvcConfigurer(
             .addPathPatterns("/ken/{id}/edit")
             .addPathPatterns("/ken/doWrite")
             .addPathPatterns("/ken/doModify")
+            .addPathPatterns("/member/doResendEmailVerificationLink")
 
         registry.addInterceptor(needLogoutInterceptor)
             .addPathPatterns("/member/login")

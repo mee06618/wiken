@@ -7,6 +7,8 @@ import com.jhs.wiken.vo.Member
 import com.jhs.wiken.vo.ResultData
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 
 @Service
 class MemberService(
@@ -79,16 +81,37 @@ class MemberService(
         return attrService.getValue("member", actor.id, "extra", "verifiedEmail").ifEmpty { "" }
     }
 
-    fun notifyEmailVerificationLink(actor: Member) {
+    fun getEmailVerificationCodeAttr(actor: Member): Attr? {
+        return attrService.get("member", actor.id, "extra", "emailVerificationCode")
+    }
+
+    fun notifyEmailVerificationLink(actor: Member):ResultData<String> {
+        val verifiedEmail = getVerifiedEmail(actor)
+
+        if ( verifiedEmail == actor.email ) {
+            return ResultData.from("F-3", "이미 인증된 이메일 입니다.")
+        }
+
+        val attr = getEmailVerificationCodeAttr(actor)
+
+        if (attr != null) {
+            val updateLocalDateTime = Ut.localDateTimeFromStr(attr.updateDate)
+            val minutes = ChronoUnit.MINUTES.between(updateLocalDateTime, LocalDateTime.now())
+            val minDelayMinutes = 5
+            if (minutes < minDelayMinutes) {
+                val restMinutes = minDelayMinutes - minutes
+                return ResultData.from("F-2", "이미 링크가 이메일로 발송되었습니다. 링크 재발송은 ${restMinutes}분 뒤에 가능합니다.")
+            }
+        }
+
         val title = "[${siteName}] 이메일 인증"
 
         val emailVerificationCode = genEmailVerificationCode(actor)
-        val link =
-            "${siteMainUri}/member/doVerifyEmail?code=${emailVerificationCode}&id=${actor.id}&email=${actor.email}"
+        val link = "${siteMainUri}/member/doVerifyEmail?code=${emailVerificationCode}&id=${actor.id}&email=${actor.email}"
 
         val body = """<a href="${link}" target="_blank">${link} 이메일 인증</a>"""
 
-        emailService.send(actor.email, title, body)
+        return emailService.send(actor.email, title, body)
     }
 
     private fun genEmailVerificationCode(actor: Member): String {
@@ -118,6 +141,18 @@ class MemberService(
     }
 
     fun notifyPasswordResetLink(actor: Member): ResultData<*> {
+        val attr = getPasswordResetAuthCodeAttr(actor)
+
+        if (attr != null) {
+            val updateLocalDateTime = Ut.localDateTimeFromStr(attr.updateDate)
+            val minutes = ChronoUnit.MINUTES.between(updateLocalDateTime, LocalDateTime.now())
+            val minDelayMinutes = 5
+            if (minutes < minDelayMinutes) {
+                val restMinutes = minDelayMinutes - minutes
+                return ResultData.from("F-2", "이미 링크가 이메일로 발송되었습니다. 링크 재발송은 ${restMinutes}분 뒤에 가능합니다.")
+            }
+        }
+
         val title = "[${siteName}] 비밀번호 변경"
 
         val passwordResetAuthCode = genPasswordResetAuthCode(actor)
@@ -126,7 +161,11 @@ class MemberService(
 
         val body = """<a href="${link}" target="_blank">${link} 비밀번호 변경</a>"""
 
-        emailService.send(actor.email, title, body)
+        val sendRd = emailService.send(actor.email, title, body)
+
+        if ( sendRd.isFail ) {
+            return sendRd
+        }
 
         return ResultData.from("S-1", "해당 메일로 비밀번호 변경가능한 링크가 발송되었습니다.")
     }

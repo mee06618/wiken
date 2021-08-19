@@ -83,6 +83,10 @@ class Rq(
 
     fun init() {
         setCurrentLoginInfo()
+
+        if ( verifiedEmail.isEmpty() ) {
+            headerMenuItemIndicatorText["myPage"] = "1"
+        }
     }
 
     // 로그인 정보를 세션에서 꺼내와서, rq객체에 정보를 세팅

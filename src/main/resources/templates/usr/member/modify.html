@@ -12,6 +12,36 @@
 	<section class="section section-login flex-grow flex items-center justify-center">
 		
 		<div class="flex-grow max-w-md px-2">
+			<script>
+				function MemberResendEmailVerificationLink__submit() {
+					const post$ = rxjs.ajax.ajax(
+						{
+							url:`/member/doResendEmailVerificationLink`,
+							method: 'POST',
+							body: getFormData({
+								id: 10
+							}),
+						}
+					);
+					
+					post$.subscribe(
+						res => {
+							if ( res.response.success ) toastNotice(res.response.msg);
+							else toastWarning(res.response.msg);
+						}
+					);
+				}
+			</script>
+			
+			<div class="alert alert-error mb-3" th:if="${@rq.verifiedEmail == ''}">
+				<div class="flex-1">
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="w-6 h-6 mx-2 stroke-current">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path>
+					</svg>
+					<label><a class="link cursor-pointer" onclick="MemberResendEmailVerificationLink__submit()">[[${@rq.loginedMember.email}]](으)로 인증 메일 재발송 하기</a></label>
+				</div>
+			</div>
+			
 			<h1 class="font-bold text-lg">회원정보수정</h1>
 			
 			<script>
@@ -52,7 +82,7 @@
 					form.loginPwInput.value = "";
 					form.loginPwConfirm.value = "";
 				
-					const postResult = rxjs.ajax.ajax(
+					const post$ = rxjs.ajax.ajax(
 						{
 							url:`/member/doModify`,
 							method: 'POST',
@@ -60,7 +90,7 @@
 						}
 					);
 					
-					postResult.subscribe(
+					post$.subscribe(
 						res => {
 							if ( res.response.success ) location.replace('/ken?toastMsg=' + res.response.msg + '&toastMsgJsUnixTimestamp=' + new Date().getTime());
 							else toastWarning(res.response.msg);
@@ -69,7 +99,6 @@
 				
 					MemberModify__submitDone = true;
 				}
-    
 			</script>
 			
 			<form action="/member/doModify" method="POST" class="flex flex-col"
