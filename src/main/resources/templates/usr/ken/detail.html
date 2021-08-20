@@ -6,10 +6,11 @@
 </head>
 
 <main layout:fragment="main">
-  <div class="container min-h-full mx-auto px-3">
-    <div class="toast-ui-viewer min-h-full pb-10" data-toast-editor-height="100%;">
+  <div class="container min-h-full mx-auto px-[8px] py-10">
+    <h1 class="font-bold text-4xl">[(${ken.title})]</h1>
+    <div class="toast-ui-viewer mt-4">
       <script type="text/x-template">
-[(${ken.source})]
+        [(${ken.source})]
       </script>
     </div>
   </div>
