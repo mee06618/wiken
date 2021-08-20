@@ -3,6 +3,7 @@ package com.jhs.wiken.service
 import com.jhs.wiken.repository.MemberRepository
 import com.jhs.wiken.util.Ut
 import com.jhs.wiken.vo.Attr
+import com.jhs.wiken.vo.Ken
 import com.jhs.wiken.vo.Member
 import com.jhs.wiken.vo.ResultData
 import org.springframework.beans.factory.annotation.Value
@@ -22,14 +23,17 @@ class MemberService(
     @Value("\${custom.siteName}")
     private val siteName: String? = null
 
+    // 완벽
     fun getMemberByLoginId(loginId: String): Member? {
         return memberRepository.getMemberByLoginId(loginId)
     }
 
+    // 완벽
     fun getMemberById(id: Int): Member? {
         return memberRepository.getMemberById(id)
     }
 
+    // 완벽
     fun join(
         loginId: String,
         loginPw: String,
@@ -48,20 +52,24 @@ class MemberService(
         return ResultData.from("S-1", "${nickname}님 환영합니다.", "id", id)
     }
 
+    // 완벽
     fun getMemberByEmail(email: String): Member? {
         return memberRepository.getMemberByEmail(email)
     }
 
+    // 완벽
     fun changeTheme(actor: Member, themeName: String): ResultData<String> {
         attrService.setValue("member", actor.id, "extra", "themeName", themeName)
 
         return ResultData.from("S-1", "테마가 변경되었습니다.", "themeName", themeName);
     }
 
+    // 완벽
     fun getThemeName(actor: Member): String {
         return attrService.getValue("member", actor.id, "extra", "themeName").ifEmpty { "light" }
     }
 
+    // 완벽
     fun modify(id: Int, loginPw: String, email: String): ResultData<Int> {
         val oldMember = getMemberById(id)!!
         val oldEmail = oldMember.email
@@ -70,25 +78,36 @@ class MemberService(
 
         val member = getMemberById(id)!!
 
+        // 이메일이 달라졌다면
         if (oldEmail != email) {
+            // 기존의 인증된 메일정보는 삭제한다.
+            removeVerifiedEmail(member)
             notifyEmailVerificationLink(member)
         }
 
         return ResultData.from("S-1", "회원정보가 수정되었습니다.", "id", id)
     }
 
+    // 완벽
     fun getVerifiedEmail(actor: Member): String {
         return attrService.getValue("member", actor.id, "extra", "verifiedEmail").ifEmpty { "" }
     }
 
+    // 완벽
+    fun removeVerifiedEmail(actor: Member) {
+        return attrService.remove("member", actor.id, "extra", "verifiedEmail")
+    }
+
+    // 완벽
     fun getEmailVerificationCodeAttr(actor: Member): Attr? {
         return attrService.get("member", actor.id, "extra", "emailVerificationCode")
     }
 
-    fun notifyEmailVerificationLink(actor: Member):ResultData<String> {
+    // 완벽
+    fun notifyEmailVerificationLink(actor: Member): ResultData<String> {
         val verifiedEmail = getVerifiedEmail(actor)
 
-        if ( verifiedEmail == actor.email ) {
+        if (verifiedEmail == actor.email) {
             return ResultData.from("F-3", "이미 인증된 이메일 입니다.")
         }
 
@@ -107,13 +126,15 @@ class MemberService(
         val title = "[${siteName}] 이메일 인증"
 
         val emailVerificationCode = genEmailVerificationCode(actor)
-        val link = "${siteMainUri}/member/doVerifyEmail?code=${emailVerificationCode}&id=${actor.id}&email=${actor.email}"
+        val link =
+            "${siteMainUri}/member/doVerifyEmail?code=${emailVerificationCode}&id=${actor.id}&email=${actor.email}"
 
-        val body = """<a href="${link}" target="_blank">${link} 이메일 인증</a>"""
+        val body = """이메일 인증 : <a href="${link}" target="_blank">${link}</a>"""
 
         return emailService.send(actor.email, title, body)
     }
 
+    // 완벽
     private fun genEmailVerificationCode(actor: Member): String {
         val code = Ut.getTempPassword(6)
 
@@ -129,17 +150,26 @@ class MemberService(
         return code
     }
 
+    // 완벽
+    fun genVerifiedEmail(id: Int, email: String): ResultData<*> {
+        attrService.setValue("member", id, "extra", "verifiedEmail", email)
+
+        return ResultData.from("S-1", "인증된 메일로 저장했습니다.")
+    }
+
+    // 완벽
     fun checkEmailVerificationCode(id: Int, code: String, email: String): ResultData<*> {
         val emailVerificationCode = attrService.getValue("member", id, "extra", "emailVerificationCode")
 
         if (code == emailVerificationCode) {
-            attrService.setValue("member", id, "extra", "verifiedEmail", email)
             return ResultData.from("S-1", "인증성공")
         }
 
         return ResultData.from("F-1", "인증코드가 올바르지 않거나 만료되었습니다.")
     }
 
+    // 완벽
+    // 패스워드 재설정 링크를 메일로 보낸다.
     fun notifyPasswordResetLink(actor: Member): ResultData<*> {
         val attr = getPasswordResetAuthCodeAttr(actor)
 
@@ -159,26 +189,20 @@ class MemberService(
         val link =
             "${siteMainUri}/member/modifyPasswordByResetAuthCode?code=${passwordResetAuthCode}&id=${actor.id}&email=${actor.email}"
 
-        val body = """<a href="${link}" target="_blank">${link} 비밀번호 변경</a>"""
+        val body = """비밀번호 변경 : <a href="${link}" target="_blank">${link}</a>"""
 
         val sendRd = emailService.send(actor.email, title, body)
 
-        if ( sendRd.isFail ) {
+        if (sendRd.isFail) {
             return sendRd
         }
 
         return ResultData.from("S-1", "해당 메일로 비밀번호 변경가능한 링크가 발송되었습니다.")
     }
 
+    // 완벽
     private fun genPasswordResetAuthCode(actor: Member): Any {
         val code = Ut.getTempPassword(6)
-
-        attrService.remove(
-            "member",
-            actor.id,
-            "extra",
-            "passwordResetAuthCode"
-        )
 
         attrService.setValue(
             "member",
@@ -192,6 +216,7 @@ class MemberService(
         return code
     }
 
+    // 완벽
     fun getPasswordResetAuthCodeAttr(actor: Member): Attr? {
         return attrService.get(
             "member",
@@ -201,6 +226,7 @@ class MemberService(
         )
     }
 
+    // 완벽
     fun checkPasswordResetAuthCode(id: Int, code: String): ResultData<*> {
         val checkPasswordResetAuthCode = attrService.getValue("member", id, "extra", "passwordResetAuthCode")
 
@@ -209,5 +235,21 @@ class MemberService(
         }
 
         return ResultData.from("F-1", "인증코드가 올바르지 않거나 만료되었습니다.")
+    }
+
+    fun actorCanModify(actor: Member, ken: Ken): ResultData<*> {
+        if ( actor.id != ken.memberId ) {
+            return ResultData.from("F-1", "권한이 없습니다.")
+        }
+
+        return ResultData.from("S-1", "수정할 수 있습니다.")
+    }
+
+    fun actorCanDelete(actor: Member, ken: Ken): ResultData<*> {
+        if ( actor.id != ken.memberId ) {
+            return ResultData.from("F-1", "권한이 없습니다.")
+        }
+
+        return ResultData.from("S-1", "삭제할 수 있습니다.")
     }
 }

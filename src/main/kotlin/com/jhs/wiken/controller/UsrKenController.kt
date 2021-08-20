@@ -1,6 +1,7 @@
 package com.jhs.wiken.controller
 
 import com.jhs.wiken.service.KenService
+import com.jhs.wiken.service.MemberService
 import com.jhs.wiken.vo.KenSourceInterpreter
 import com.jhs.wiken.vo.Rq
 import org.springframework.cache.annotation.Cacheable
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody
 
 @Controller
 class UsrKenController(
+    private val memberService: MemberService,
     private val kenService: KenService,
     private val rq: Rq
 ) {
@@ -55,8 +57,10 @@ class UsrKenController(
     fun doModify(id: Int, source: String, result: String): String {
         val ken = kenService.getKen(id) ?: return rq.historyBackJs("존재하지 않는 ken 입니다.")
 
-        if (ken.memberId != rq.loginedMemberId) {
-            return rq.historyBackJs("권한이 없습니다.")
+        val actorCanModifyRd = memberService.actorCanModify(rq.loginedMember, ken)
+
+        if (actorCanModifyRd.isFail) {
+            return rq.historyBackJs(actorCanModifyRd.msg)
         }
 
         // 입력받은 소스를 새 소스로 설정한다.
@@ -83,14 +87,17 @@ class UsrKenController(
         return rq.replaceJs("", "../ken/${id}/edit")
     }
 
+    // 완벽
     // ken 삭제
     @RequestMapping("/ken/doDelete")
     @ResponseBody
     fun doDelete(id: Int): String {
         val ken = kenService.getKen(id) ?: return rq.historyBackJs("존재하지 않는 ken 입니다.")
 
-        if (ken.memberId != rq.loginedMemberId) {
-            return rq.historyBackJs("권한이 없습니다.")
+        val actorCanDeleteRd = memberService.actorCanDelete(rq.loginedMember, ken)
+
+        if (actorCanDeleteRd.isFail) {
+            return rq.historyBackJs(actorCanDeleteRd.msg)
         }
 
         val resultData = kenService.delete(id)
@@ -98,6 +105,7 @@ class UsrKenController(
         return rq.replaceJs(resultData.msg, "/ken")
     }
 
+    // 완벽
     @RequestMapping("/ken/{id}/edit")
     fun showModify(@PathVariable("id") id: Int, model: Model): String {
         val ken = kenService.getKen(id) ?: return rq.historyBackJsOnTemplate("존재하지 않는 ken 입니다.")
@@ -116,6 +124,7 @@ class UsrKenController(
         return "usr/ken/write"
     }
 
+    // 완벽
     @RequestMapping("/ken/{id}")
     fun showDetail(@PathVariable("id") id: Int, model: Model): String {
         rq.currentPageUseToastUiEditor = true
@@ -130,7 +139,8 @@ class UsrKenController(
     @RequestMapping("/ken/test")
     @ResponseBody
     @Cacheable(cacheNames = ["UsrKenController__showTest"])
-    fun showTest(): String {
-        return "${id++}"
+    fun showTest(name: String): String {
+        println("실행됨!!")
+        return "${name} / ${id++}"
     }
 }

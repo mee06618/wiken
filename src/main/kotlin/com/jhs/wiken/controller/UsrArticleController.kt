@@ -9,6 +9,7 @@ import org.springframework.ui.set
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
 
+// 점검완료, 2021-08-20 기준
 @Controller
 class UsrArticleController(
     private val articleService: ArticleService,

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
+// 이렇게 컴포넌트로 지정하면서, rq 라는 이름까지 지정하면, 타임리프에서 ${@rq.~~} 와 같은 식으로 접근가능
 @Component("rq")
 @Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
 class Rq(
@@ -15,6 +16,8 @@ class Rq(
     private val resp: HttpServletResponse,
     private val memberService: MemberService
 ) {
+    // 완벽
+    // 인증된 이메일
     var verifiedEmail: String
         get() {
             if (isLogined) {
@@ -27,6 +30,8 @@ class Rq(
             req.session.setAttribute("verifiedEmail", value)
         }
 
+    // 완벽
+    // 사용중인 테마이름
     var themeName: String
         get() {
             if (isLogined) {
@@ -39,10 +44,15 @@ class Rq(
             req.session.setAttribute("themeName", value)
         }
 
-    val headerMenuItemIndicatorText = mutableMapOf<String, String>()
+    // 완벽
+    // 각 헤더메뉴 아이템들의 인디케이터 텍스트
+    val headerMenuItemsIndicatorText = mutableMapOf<String, String>()
 
+    // 완벽
+    // 이 변수를 직접 참조하지 마세요.
     private var _loginedMember: Member? = null;
 
+    // 완벽
     // 로그인 된 회원
     val loginedMember: Member by lazy {
         if (_loginedMember != null) {
@@ -57,73 +67,105 @@ class Rq(
             return loginedMember.id
         }
 
+    // 완벽
     // 로그인 여부
-    var isLogined: Boolean = false
+    val isLogined: Boolean by lazy {
+        req.session.getAttribute("loginedMemberJsonStr") != null
+    }
 
+    // 완벽
+    val isNotLogined: Boolean by lazy {
+        !isLogined
+    }
+
+    // 완벽
+    // 현재 요청이 ajax 인지
     val isAjax by lazy {
         req.getParameter("ajaxMode") != null && req.getParameter("ajaxMode") == "Y"
     }
 
+    // 완벽
     // 사이트 헤더 타입
     var currentPageSiteHeaderType = "common"
 
+    // 완벽
     // 현재 페이지가 토스트 UI 에디터를 사용하는지 여부
     var currentPageUseToastUiEditor = false
 
+    // 완벽
     // 현재 페이지에서 Ken 을 저장할 수 있는지 여부
-    var currentPageCanSaveKen: Boolean = false
+    var currentPageCanSaveKen = false
 
+    // 완벽
     // 현재 페이지에서 현재 Ken을 수정하러 갈 수 있는 버튼이 노출될 수 있는지 여부
     var currentPageCanGoEditCurrentKen = false
 
+    // 완벽
     // 현재 페이지에서 현재 Ken의 상세페이지를 보러 갈 수 있는 버튼이 노출될 수 있는지 여부
     var currentPageCanGoViewCurrentKen = false
 
+    // 완벽
+    // 현재 페이지에서 현재 Ken을 삭제할 수 있는지 여부
     var currentPageCanDeleteCurrentKen = false
 
+    // 완벽
     fun init() {
-        setCurrentLoginInfo()
+        // 로그인 되어있다면, 로그인된 사용자 정보를 세션에서 가져온다.
+        loadLoginedMemberInfoFromSessionIfLogined()
 
-        if ( verifiedEmail.isEmpty() ) {
-            headerMenuItemIndicatorText["myPage"] = "1"
+        // 상단바 메뉴 아이템들의 인디케이터 텍스트 업데이트
+        updateHeaderMenuItemsIndicatorText()
+    }
+
+    // 완벽
+    fun updateHeaderMenuItemsIndicatorText() {
+        // 이메일인증이 안되었다면
+        if (verifiedEmail.isEmpty()) {
+            // 마이페이지에 1 표시
+            headerMenuItemsIndicatorText["myPage"] = "1"
         }
     }
 
+    // 완벽
     // 로그인 정보를 세션에서 꺼내와서, rq객체에 정보를 세팅
-    fun setCurrentLoginInfo() {
-        if (req.session.getAttribute("loginedMemberJsonStr") == null) {
+    fun loadLoginedMemberInfoFromSessionIfLogined() {
+        if (isNotLogined) {
             return
         }
 
         val loginedMemberJsonStr = req.session.getAttribute("loginedMemberJsonStr") as String
-
-        isLogined = true
         _loginedMember = Ut.getObjFromJsonStr(loginedMemberJsonStr)
     }
 
-    // 로그인 처리
-    fun login(member: Member) {
+    // 완벽
+    // 로그인에 관련된 정보를 세션에 생성한다.
+    fun genLoginInfoOnSession(member: Member) {
         req.session.setAttribute("loginedMemberJsonStr", Ut.getJsonStrFromObj(member))
         themeName = memberService.getThemeName(member)
         verifiedEmail = memberService.getVerifiedEmail(member)
     }
 
+    // 완벽
     // 로그아웃 처리
-    fun logout() {
+    fun clearLoginInfoOnSession() {
         req.session.removeAttribute("loginedMemberJsonStr")
+        req.session.removeAttribute("verifiedEmail")
+        req.session.removeAttribute("themeName")
     }
 
+    // 완벽
     // 유틸성 시작
     private fun print(str: String) {
         resp.writer.print(str)
     }
 
+    // 완벽
     fun replaceJs(msg: String, uri: String): String {
-        var uri = Ut.getNewUriRemoved(uri, "toastMsg")
-        uri = Ut.getNewUriRemoved(uri, "toastMsgJsUnixTimestamp")
+        var _uri = Ut.getNewUriRemoved(uri, "toastMsg")
+        _uri = Ut.getNewUriRemoved(_uri, "toastMsgJsUnixTimestamp")
         return """
             <script>
-            let uri = '${uri}';
+            let uri = '${_uri}';
             
             const msg = '${msg}'.trim();
             
@@ -145,10 +187,12 @@ class Rq(
         """.trimIndent()
     }
 
+    // 완벽
     fun printReplaceJs(msg: String, uri: String) {
         print(replaceJs(msg, uri))
     }
 
+    // 완벽
     fun historyBackJs(msg: String): String {
         return """
             <meta charset="UTF-8">
@@ -187,31 +231,41 @@ class Rq(
         """.trimIndent()
     }
 
-    val currentUri: String
-        get() {
-            var uri = req.requestURI
-            val queryStr = req.queryString
-            if (queryStr != null && queryStr.isNotEmpty()) {
-                uri += "?$queryStr"
-            }
-            return uri
+    val currentUri: String by lazy {
+        var uri = req.requestURI
+        val queryStr = req.queryString
+        if (queryStr != null && queryStr.isNotEmpty()) {
+            uri += "?${queryStr}"
         }
 
-    val encodedCurrentUri: String
-        get() = Ut.getUriEncoded(currentUri)
+        uri
+    }
 
-    val afterLoginUri: String
-        get() {
-            var afterLoginUri: String = getStrParam("afterLoginUri", "")
+    // 완벽
+    val encodedCurrentUri by lazy {
+        Ut.getUriEncoded(currentUri)
+    }
+
+    // 완벽
+    val afterLoginUri: String by lazy {
+        var afterLoginUri: String = getStrParam("afterLoginUri", "")
+
+        if (afterLoginUri.isEmpty()) {
+            currentUri
+        } else {
             afterLoginUri = Ut.getNewUriRemoved(afterLoginUri, "toastMsg")
             afterLoginUri = Ut.getNewUriRemoved(afterLoginUri, "toastMsgJsUnixTimestamp")
 
-            return afterLoginUri.ifEmpty { currentUri }
+            afterLoginUri
         }
+    }
 
-    val encodedAfterLoginUri: String
-        get() = Ut.getUriEncoded(afterLoginUri)
+    // 완벽
+    val encodedAfterLoginUri: String by lazy {
+        Ut.getUriEncoded(afterLoginUri)
+    }
 
+    // 완벽
     fun getStrParam(paramName: String, default: String): String {
         if (req.getParameter(paramName) == null) {
             return default
@@ -220,16 +274,19 @@ class Rq(
         return req.getParameter(paramName)
     }
 
+    // 완벽
     fun respUtf8() {
         resp.characterEncoding = "UTF-8"
         resp.contentType = "text/html; charset=UTF-8"
     }
 
+    // 완벽
     fun respUtf8Json() {
         resp.characterEncoding = "UTF-8"
         resp.contentType = "application/json; charset=UTF-8"
     }
 
+    // 완벽
     fun historyBackJsOnTemplate(msg: String): String {
         req.setAttribute("historyBack", true)
         req.setAttribute("msg", msg)
@@ -237,7 +294,14 @@ class Rq(
         return "common/js"
     }
 
+    // 완벽
     fun printJson(resultData: ResultData<String>) {
         print(Ut.getJsonStrFromObj(resultData))
+    }
+
+    // 완벽
+    fun regenLoginInfoOnSession() {
+        val member = memberService.getMemberById(loginedMemberId)!!
+        genLoginInfoOnSession(member)
     }
 }
