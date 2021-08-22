@@ -24,10 +24,10 @@
                         <th>수정날짜</th>
                     </tr>
                     </thead>
-                    <tr th:each="ken : ${kens}" th:object="${ken}">
-                        <td>
+                    <tr th:each="ken : ${kens}" th:object="${ken}" class="hover">
+                        <th>
                             <a class="btn btn-link" th:href="|||/ken/*{id}|||" th:text="*{id}"></a>
-                        </td>
+                        </th>
                         <td>
                             <a class="btn btn-link" th:href="|||/ken/*{id}|||" th:text="*{title}"></a>
                         </td>

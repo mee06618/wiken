@@ -33,7 +33,7 @@ class UsrKenController(
 
         model["kens"] = kens
 
-        return "usr/ken/my-list"
+        return "usr/ken/myList"
     }
 
     // ken 작성 처리
