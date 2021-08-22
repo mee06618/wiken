@@ -16,3 +16,8 @@ html > body .toastui-editor-contents {
 .toastui-editor-contents ul {
   margin-top:12px;
 }
+
+html.mydark .btn.btn-link {
+  color:white;
+  text-decoration:underline;
+}
