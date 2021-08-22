@@ -66,7 +66,7 @@ class MemberService(
 
     // 완벽
     fun getThemeName(actor: Member): String {
-        return attrService.getValue("member", actor.id, "extra", "themeName").ifEmpty { "light" }
+        return attrService.getValue("member", actor.id, "extra", "themeName").ifEmpty { "mylight" }
     }
 
     // 완벽

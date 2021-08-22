@@ -180,8 +180,8 @@
 				</script>
 				
 				<ul class="flex mr-[-10px]">
-					<li th:if="${@rq.logined && @rq.themeName != 'light'}">
-						<a onclick="Theme__changeTo('light');"
+					<li th:if="${@rq.logined && @rq.themeName != 'mylight'}">
+						<a onclick="Theme__changeTo('mylight');"
 							 class="h-full flex items-center hover:underline px-[10px] cursor-pointer">
 							<span><i class="far fa-sun"></i></span>
 							<span class="hidden lg:block">&nbsp;</span>
@@ -189,8 +189,8 @@
 						</a>
 					</li>
 					
-					<li th:if="${@rq.logined && @rq.themeName != 'dark'}">
-						<a onclick="Theme__changeTo('dark');"
+					<li th:if="${@rq.logined && @rq.themeName != 'mydark'}">
+						<a onclick="Theme__changeTo('mydark');"
 							 class="h-full flex items-center hover:underline px-[10px] cursor-pointer">
 							<span><i class="far fa-moon"></i></span>
 							<span class="hidden lg:block">&nbsp;</span>

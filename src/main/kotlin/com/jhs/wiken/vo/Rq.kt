@@ -38,7 +38,7 @@ class Rq(
                 return req.session.getAttribute("themeName") as String
             }
 
-            return "light"
+            return "mylight"
         }
         set(value) {
             req.session.setAttribute("themeName", value)
