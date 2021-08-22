@@ -4,7 +4,11 @@
 
 <head>
 	<script th:inline="javascript">
-    const siteThemeName = /*[[ ${@rq.themeName} ]]*/ null;
+    let toastUiThemeName = /*[[ ${@rq.themeName} ]]*/ null;
+    
+    if ( toastUiThemeName ) {
+    	toastUiThemeName = toastUiThemeName.replace('my', '');
+    }
 	</script>
 	<meta charset="UTF-8">
 	<meta name="viewport"
