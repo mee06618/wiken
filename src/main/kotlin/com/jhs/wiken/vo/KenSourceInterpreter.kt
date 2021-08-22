@@ -11,12 +11,15 @@ class KenSourceInterpreter(
             // 문서에 config이 들어있는지 확인
             val hasConfig = source.contains("$$" + "config")
 
-            val sourceConfig = if (hasConfig) {
+            var sourceConfig = if (hasConfig) {
                 val configBits = source.split("$$", limit = 3)
                 configBits[1].substring(6).trim()
             } else {
                 ""
             }
+
+            sourceConfig = sourceConfig.replace("[", "［")
+            sourceConfig = sourceConfig.replace("]", "］")
 
             val kenConfig = KenConfig.from(sourceConfig)
             return KenSourceInterpreter(kenConfig.isExists, source, kenConfig)
@@ -25,7 +28,12 @@ class KenSourceInterpreter(
 
     val title: String
         get() {
-            return kenConfig.title
+            var title = kenConfig.title
+
+            title = title.replace("［", "[")
+            title = title.replace("］", "]")
+
+            return title
         }
 
     fun getKenConfigSource(): String {
