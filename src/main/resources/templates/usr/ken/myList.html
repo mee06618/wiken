@@ -26,10 +26,10 @@
                     </thead>
                     <tr th:each="ken : ${kens}" th:object="${ken}" class="hover">
                         <th>
-                            <a class="btn btn-link" th:href="|||/ken/*{id}|||" th:text="*{id}"></a>
+                            <a class="link" th:href="|||/ken/*{id}|||" th:text="*{id}"></a>
                         </th>
                         <td>
-                            <a class="btn btn-link" th:href="|||/ken/*{id}|||" th:text="*{title}"></a>
+                            <a class="link" th:href="|||/ken/*{id}|||" th:text="*{title}"></a>
                         </td>
                         <td th:text="*{regDate.substring(2, 16)}"></td>
                         <td th:text="*{updateDate.substring(2, 16)}"></td>

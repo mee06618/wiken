@@ -1,5 +1,12 @@
 @charset "utf-8";
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+
+@font-face {
+  font-family: 'GmarketSansMedium';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
 
 @tailwind base;
 @tailwind components;
@@ -7,7 +14,7 @@
 
 html > body,
 html > body .toastui-editor-contents {
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: 'Roboto', 'GmarketSansMedium', sans-serif;
 }
 
 .toastui-editor-contents dir,
@@ -20,4 +27,18 @@ html > body .toastui-editor-contents {
 html.mydark .btn.btn-link {
   color:white;
   text-decoration:underline;
+}
+
+html .table tfoot td:first-child,
+html .table tfoot th:first-child,
+html .table thead td:first-child,
+html .table thead th:first-child {
+  border-bottom-left-radius: 0;
+}
+
+html .table tfoot td:last-child,
+html .table tfoot th:last-child,
+html .table thead td:last-child,
+html .table thead th:last-child {
+  border-bottom-right-radius: 0;
 }
