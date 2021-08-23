@@ -3,7 +3,6 @@ package com.jhs.wiken
 import com.jhs.wiken.intercentor.BeforeActionInterceptor
 import com.jhs.wiken.intercentor.NeedLoginInterceptor
 import com.jhs.wiken.intercentor.NeedLogoutInterceptor
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
@@ -22,6 +21,9 @@ class MyWebMvcConfigurer(
             .addPathPatterns("/**")
             .excludePathPatterns("/resource/**")
             .excludePathPatterns("/error")
+            .excludePathPatterns("/android-chrome-**")
+            .excludePathPatterns("/favicon**")
+            .excludePathPatterns("/**.webmanifest")
 
         registry.addInterceptor(needLoginInterceptor)
             .addPathPatterns("/member/doChangeTheme")

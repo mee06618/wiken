@@ -2,7 +2,6 @@ package com.jhs.wiken.intercentor
 
 import com.jhs.wiken.service.MemberService
 import com.jhs.wiken.vo.Rq
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.HandlerInterceptor
 import javax.servlet.http.HttpServletRequest
@@ -19,6 +18,8 @@ class BeforeActionInterceptor(
     override fun preHandle(req: HttpServletRequest, resp: HttpServletResponse, handler: Any): Boolean {
         // rq 객체를 세팅
         rq.init()
+
+        println("HIHI")
 
         return super.preHandle(req, resp, handler)
     }

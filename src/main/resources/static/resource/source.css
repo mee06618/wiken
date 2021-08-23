@@ -13,7 +13,8 @@
 @tailwind utilities;
 
 html > body,
-html > body .toastui-editor-contents {
+html > body .toastui-editor-contents,
+html > body .ProseMirror{
   font-family: 'Roboto', 'GmarketSansMedium', sans-serif;
 }
 
