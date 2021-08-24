@@ -1,9 +1,7 @@
 package com.jhs.wiken.repository
 
-import com.jhs.wiken.vo.Article
 import com.jhs.wiken.vo.Ken
 import org.apache.ibatis.annotations.*
-import org.springframework.http.HttpHeaders.FROM
 
 @Mapper
 interface KenRepository {

@@ -51,12 +51,18 @@
 					
 					post$.subscribe(
 						res => {
-							if ( params.afterLoginUri.indexOf('?') === -1 ) {
-								params.afterLoginUri += '?dummy=dummy';
+							let afterLoginUri = params.afterLoginUri;
+							
+							if ( !afterLoginUri ) {
+							  afterLoginUri = '/ken';
+							}
+							
+							if ( afterLoginUri.indexOf('?') === -1 ) {
+								afterLoginUri += '?dummy=dummy';
 							}
 							
 							if ( res.response.success ) {
-								location.replace(params.afterLoginUri + '&toastMsg=' + res.response.msg + '&toastMsgJsUnixTimestamp=' + new Date().getTime());
+								location.replace(afterLoginUri + '&toastMsg=' + res.response.msg + '&toastMsgJsUnixTimestamp=' + new Date().getTime());
 							}
 							else {
 								MemberLogin__submitDone = false;

@@ -7,7 +7,7 @@ import com.jhs.wiken.util.Ut
 data class KenConfig(
     val isExists: Boolean = true,
     val title: String,
-    val keywords: List<String>,
+    val keywords: List<String> = arrayListOf(),
     val typeCode: String = "doc", // doc, blog, series
     val articles: List<Int> = arrayListOf(),
     val blog: KenConfigBlog = KenConfigBlog()

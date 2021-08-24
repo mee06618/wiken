@@ -1,0 +1,42 @@
+<!doctype html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
+			layout:decorate="~{usr/common/layout}">
+<head>
+	<title>[[${blogName}]]</title>
+</head>
+
+<main layout:fragment="main">
+	<section class="section section-my-list">
+		<div class="container mx-auto px-3 pt-3">
+			<div class="overflow-x-auto">
+				<table class="table w-full">
+					<colgroup>
+						<col width="30">
+						<col>
+						<col width="100">
+						<col width="100">
+					</colgroup>
+					<thead>
+					<tr class="text-center">
+						<th>ID</th>
+						<th>제목</th>
+						<th>작성날짜</th>
+						<th>수정날짜</th>
+					</tr>
+					</thead>
+					<tr th:each="article : ${articles}" th:object="${article}" class="hover">
+						<th>
+							<a class="link" th:href="|||/b/${blogId}/*{id}|||" th:text="*{id}"></a>
+						</th>
+						<td>
+							<a class="link" th:href="|||/b/${blogId}/*{id}|||" th:text="*{title}"></a>
+						</td>
+						<td th:text="*{regDate.substring(2, 16)}"></td>
+						<td th:text="*{updateDate.substring(2, 16)}"></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</section>
+</main>
+</html>

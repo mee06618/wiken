@@ -16,30 +16,56 @@ class UsrBlogController(
     private val rq: Rq
 ) {
 
-    @RequestMapping("/b/{id}")
-    fun showArticles(@PathVariable("id") id: Int, model: Model): String {
+    @RequestMapping("/b/{blogId}")
+    fun showArticles(@PathVariable("blogId") blogId: Int, model: Model): String {
         rq.currentPageSiteHeaderType = "blog"
 
-        val ken = kenService.getKen(id) ?: return rq.historyBackJsOnTemplate("존재하지 않는 blog 입니다.")
-        val kenSourceInterpreter = ken.genSourceInterpreter()
-        val blogCss = kenSourceInterpreter.getCssSource(0)
-        val kenConfig = ken.getKenConfig()
+        val blogKen = kenService.getKen(blogId) ?: return rq.historyBackJsOnTemplate("존재하지 않는 blog 입니다.")
+        val blogKenSourceInterpreter = blogKen.genSourceInterpreter()
+        val blogCss = blogKenSourceInterpreter.getCssSource(0)
+        val blogKenConfig = blogKen.getKenConfig()
 
-        val kenConfigBlog = kenConfig.blog
-
-        val blogName = kenConfig.title
-        val articleIds = kenConfig.articles
+        val blogName = blogKenConfig.title
+        val articleIds = blogKenConfig.articles
 
         val articles = blogService.getArticlesByKenIds(articleIds)
 
+        model["blogId"] = blogId
         model["blogCss"] = blogCss
         model["blogName"] = blogName
-        model["ken"] = ken
+        model["blogKen"] = blogKen
         model["articles"] = articles
-        model["kenConfigBlog"] = kenConfigBlog
 
         rq.currentPageCanGoEditCurrentKen = true
 
-        return "usr/blog/article-list"
+        return "usr/blog/articleList"
+    }
+
+    @RequestMapping("/b/{blogId}/{id}")
+    fun showArticle(@PathVariable("blogId") blogId: Int, @PathVariable("id") id: Int, model: Model): String {
+        rq.currentPageUseToastUiEditor = true
+        rq.currentPageCanGoEditCurrentKen = true
+        rq.currentPageSiteHeaderType = "blog"
+
+        val blogKen = kenService.getKen(blogId) ?: return rq.historyBackJsOnTemplate("존재하지 않는 blog 입니다.")
+        val blogKenSourceInterpreter = blogKen.genSourceInterpreter()
+        val blogCss = blogKenSourceInterpreter.getCssSource(0)
+        val blogKenConfig = blogKen.getKenConfig()
+
+        val blogName = blogKenConfig.title
+        val articleIds = blogKenConfig.articles
+
+        val articles = blogService.getArticlesByKenIds(articleIds)
+
+        model["blogId"] = blogId
+        model["blogCss"] = blogCss
+        model["blogName"] = blogName
+        model["blogKen"] = blogKen
+        model["articles"] = articles
+
+        val ken = kenService.getKen(id) ?: return rq.historyBackJsOnTemplate("존재하지 않는 ken 입니다.")
+        model["ken"] = ken
+
+        return "usr/blog/articleDetail"
     }
 }

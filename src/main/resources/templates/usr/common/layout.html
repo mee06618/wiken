@@ -9,6 +9,7 @@
     if ( toastUiThemeName ) {
     	toastUiThemeName = toastUiThemeName.replace('my', '');
     }
+	
 	</script>
 	<meta charset="UTF-8">
 	<meta name="viewport"
@@ -59,8 +60,10 @@
 		
 		<!-- 코드 신택스 하이라이터, 프리즈마의 기본 CSS -->
 		<!-- 코드 신택스 하이라이터, 프리즈마의 기본 JS는 아래 스크립트에 의해 자동으로 불러와지기 때문에 안불러와도 됨 -->
-		<link th:if="${@rq.themeName == 'mylight'}" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css">
-		<link th:if="${@rq.themeName == 'mydark'}" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-okaidia.min.css">
+		<link th:if="${@rq.themeName == 'mylight'}" rel="stylesheet"
+					href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css">
+		<link th:if="${@rq.themeName == 'mydark'}" rel="stylesheet"
+					href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-okaidia.min.css">
 		
 		<!-- 외부 신택스 하이라이터를 토스트 UI 에디터에 연결 -->
 		<link rel="stylesheet"
@@ -107,13 +110,40 @@
         }, 500);
     	}
     }
-  
-    
+	
+	
 	</script>
 	
 	<style>
     [(${blogCss})]
+	
+	
 	</style>
+	
+	<script>
+		function Theme__changeTo(themeName) {
+			const body = new URLSearchParams();
+			body.set('ajaxMode', 'Y');
+			body.set('themeName', themeName);
+		
+			const postResult = rxjs.ajax.ajax(
+				{
+					url:`/member/doChangeTheme`,
+					method: 'POST',
+					body,
+				}
+			);
+			
+			postResult.subscribe(
+				res => {
+					if ( res.response.success ) location.reload();
+					else toastWarning(res.response.msg);
+				}
+			);
+		}
+	
+	
+	</script>
 </head>
 
 <body>
@@ -125,13 +155,13 @@
 				<a th:fragment="logo" href="/" class="logo flex items-center">
 					<span><i class="fas fa-file-alt"></i></span>
 					<span>&nbsp;</span>
-					<span>WIKEN</span>
+					<span>위켄</span>
 				</a>
 				<a th:if="${@rq.currentPageCanGoViewCurrentKen}" th:href="|||/ken/${ken.id}|||"
 					 class="h-full flex items-center hover:underline px-[10px] cursor-pointer">
 					<span><i class="far fa-eye"></i></span>
 					<span class="hidden sm:block">&nbsp;</span>
-					<span class="hidden sm:block">VIEW</span>
+					<span class="hidden sm:block">보기모드</span>
 				</a>
 				
 				<a th:if="${@rq.currentPageCanSaveKen}"
@@ -139,14 +169,14 @@
 					 onclick="if ( KenWrite__submit ) KenWrite__submit();">
 					<span><i class="far fa-save"></i></span>
 					<span class="hidden sm:block">&nbsp;</span>
-					<span class="hidden sm:block">SAVE</span>
+					<span class="hidden sm:block">저장</span>
 				</a>
 				
 				<a th:if="${@rq.currentPageCanGoEditCurrentKen}" th:href="|||/ken/${ken.id}/edit|||"
 					 class="h-full flex items-center hover:underline px-[10px] cursor-pointer">
 					<span><i class="far fa-edit"></i></span>
 					<span class="hidden sm:block">&nbsp;</span>
-					<span class="hidden sm:block">EDIT</span>
+					<span class="hidden sm:block">수정</span>
 				</a>
 				
 				<a th:if="${@rq.currentPageCanDeleteCurrentKen}" th:href="|||/ken/doDelete?id=${ken.id}|||"
@@ -154,35 +184,12 @@
 					 onclick="if ( confirm('정말로 삭제하시겠습니까?') == false ) return false;">
 					<span><i class="far fa-trash-alt"></i></span>
 					<span class="hidden sm:block">&nbsp;</span>
-					<span class="hidden sm:block">DELETE</span>
+					<span class="hidden sm:block">삭제</span>
 				</a>
 				
 				<div class="flex-grow">
 				
 				</div>
-				
-				<script>
-					function Theme__changeTo(themeName) {
-					  const body = new URLSearchParams();
-					  body.set('ajaxMode', 'Y');
-						body.set('themeName', themeName);
-					
-						const postResult = rxjs.ajax.ajax(
-							{
-								url:`/member/doChangeTheme`,
-								method: 'POST',
-								body,
-							}
-						);
-						
-						postResult.subscribe(
-							res => {
-								if ( res.response.success ) location.reload();
-								else toastWarning(res.response.msg);
-							}
-						);
-					}
-				</script>
 				
 				<ul class="flex mr-[-10px] overflow-x-auto">
 					<li th:if="${@rq.logined && @rq.themeName != 'mylight'}">
@@ -190,7 +197,7 @@
 							 class="h-full flex items-center hover:underline px-[10px] cursor-pointer">
 							<span><i class="far fa-sun"></i></span>
 							<span class="hidden lg:block">&nbsp;</span>
-							<span class="hidden lg:block">LIGHT THEME</span>
+							<span class="hidden lg:block">밝은</span>
 						</a>
 					</li>
 					
@@ -199,7 +206,7 @@
 							 class="h-full flex items-center hover:underline px-[10px] cursor-pointer">
 							<span><i class="far fa-moon"></i></span>
 							<span class="hidden lg:block">&nbsp;</span>
-							<span class="hidden lg:block">DARK THEME</span>
+							<span class="hidden lg:block">어두운</span>
 						</a>
 					</li>
 					
@@ -207,7 +214,7 @@
 						<a href="/member/join" class="h-full flex items-center hover:underline px-[10px]">
 							<span><i class="fas fa-user-plus"></i></span>
 							<span class="hidden lg:block">&nbsp;</span>
-							<span class="hidden lg:block">JOIN</span>
+							<span class="hidden lg:block">회원가입</span>
 						</a>
 					</li>
 					
@@ -215,7 +222,7 @@
 						<a href="/member/login" class="h-full flex items-center hover:underline px-[10px]">
 							<span><i class="fas fa-sign-in-alt"></i></span>
 							<span class="hidden lg:block">&nbsp;</span>
-							<span class="hidden lg:block">LOGIN</span>
+							<span class="hidden lg:block">로그인</span>
 						</a>
 					</li>
 					
@@ -223,7 +230,7 @@
 						<a href="/member/doLogout" class="h-full flex items-center hover:underline px-[10px]">
 							<span><i class="fas fa-sign-out-alt"></i></span>
 							<span class="hidden lg:block">&nbsp;</span>
-							<span class="hidden lg:block">LOGOUT</span>
+							<span class="hidden lg:block">로그아웃</span>
 						</a>
 					</li>
 					
@@ -231,8 +238,11 @@
 						<a href="/member/modify" class="h-full flex items-center hover:underline px-[10px] indicator">
 							<span><i class="fas fa-user-cog"></i></span>
 							<span class="hidden lg:block">&nbsp;</span>
-							<span class="hidden lg:block">MY PAPE</span>
-							<div th:if="${@rq.headerMenuItemsIndicatorText['myPage'] != null}" class="indicator-item indicator-top indicator-right badge badge-secondary" style="transform:scale(0.5) translateY(10px)">[[${@rq.headerMenuItemsIndicatorText['myPage']}]]</div>
+							<span class="hidden lg:block">내정보</span>
+							<div th:if="${@rq.headerMenuItemsIndicatorText['myPage'] != null}"
+									 class="indicator-item indicator-top indicator-right badge badge-secondary"
+									 style="transform:scale(0.5) translateY(10px)">[[${@rq.headerMenuItemsIndicatorText['myPage']}]]
+							</div>
 						</a>
 					</li>
 					
@@ -240,7 +250,7 @@
 						<a href="/ken/mine" class="h-full flex items-center hover:underline px-[10px]">
 							<span><i class="fas fa-user-edit"></i></span>
 							<span class="hidden lg:block">&nbsp;</span>
-							<span class="hidden lg:block">[[${@rq.loginedMember.nickname}]]'s KENS</span>
+							<span class="hidden lg:block">[[${@rq.loginedMember.nickname}]]'님의 켄</span>
 						</a>
 					</li>
 					
@@ -248,7 +258,7 @@
 						<a href="/ken" class="h-full flex items-center hover:underline px-[10px]">
 							<span><i class="fas fa-pen"></i></span>
 							<span class="hidden lg:block">&nbsp;</span>
-							<span class="hidden lg:block">NEW KEN</span>
+							<span class="hidden lg:block">새 켄</span>
 						</a>
 					</li>
 				
@@ -258,7 +268,40 @@
 		
 		<div th:if="${@rq.currentPageSiteHeaderType == 'blog'}" class="">
 			<div class="container mx-auto px-[10px] h-[50px] flex">
-			
+				<a th:href="|||/b/${blogId}|||" class="logo flex items-center">
+					<span>[[${blogName}]]</span>
+				</a>
+				
+				<a target="_blank"
+					 th:if="${@rq.currentPageCanGoEditCurrentKen && blogKen != null && @rq.loginedMemberId == blogKen.memberId}"
+					 th:href="|||/ken/${blogKen.id}/edit|||"
+					 class="h-full flex items-center hover:underline px-[10px] cursor-pointer">
+					<span><i class="far fa-edit"></i></span>
+					<span class="hidden sm:block">&nbsp;</span>
+					<span class="hidden sm:block">블로그 관리</span>
+				</a>
+				
+				<div class="flex-grow"></div>
+				
+				<ul class="flex mr-[-10px] overflow-x-auto">
+					<li th:if="${@rq.logined && @rq.themeName != 'mylight'}">
+						<a onclick="Theme__changeTo('mylight');"
+							 class="h-full flex items-center hover:underline px-[10px] cursor-pointer">
+							<span><i class="far fa-sun"></i></span>
+							<span class="hidden lg:block">&nbsp;</span>
+							<span class="hidden lg:block">밝은</span>
+						</a>
+					</li>
+					
+					<li th:if="${@rq.logined && @rq.themeName != 'mydark'}">
+						<a onclick="Theme__changeTo('mydark');"
+							 class="h-full flex items-center hover:underline px-[10px] cursor-pointer">
+							<span><i class="far fa-moon"></i></span>
+							<span class="hidden lg:block">&nbsp;</span>
+							<span class="hidden lg:block">어두운</span>
+						</a>
+					</li>
+				</ul>
 			</div>
 		</div>
 	</header>
@@ -267,15 +310,25 @@
 	
 	</main>
 	
-	<!--
 	<footer class="flex-shrink-0 shadow font-bold">
-		<div class="container mx-auto px-[10px] h-[50px] flex">
+		<div th:if="${@rq.currentPageSiteHeaderType == 'blog'}" class="container mx-auto px-[10px] h-[50px] flex">
+			
 			<div class="flex-grow"></div>
-			<th:block th:replace="~{usr/common/layout :: logo}"></th:block>
+			<a th:href="|||/b/${blogId}|||" class="logo flex items-center">
+				<span>[[${blogName}]]</span>
+			</a>
+			
+			<a target="_blank"
+				 th:if="${@rq.currentPageCanGoEditCurrentKen && ken != null && @rq.loginedMemberId == ken.memberId}"
+				 th:href="|||/ken/${ken.id}/edit|||"
+				 class="h-full flex items-center hover:underline px-[10px] cursor-pointer">
+				<span><i class="far fa-edit"></i></span>
+				<span class="hidden sm:block">&nbsp;</span>
+				<span class="hidden sm:block">글 수정</span>
+			</a>
 			<div class="flex-grow"></div>
 		</div>
 	</footer>
-	-->
 
 </div>
 </body>
