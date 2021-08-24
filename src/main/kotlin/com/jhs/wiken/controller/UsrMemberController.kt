@@ -206,10 +206,10 @@ class UsrMemberController(
 
     @RequestMapping("/member/doLogout")
     @ResponseBody
-    fun doLogout(session: HttpSession): String {
+    fun doLogout(session: HttpSession, replaceUri: String = "/ken"): String {
         rq.clearLoginInfoOnSession()
 
-        return rq.replaceJs("", "/ken")
+        return rq.replaceJs("", replaceUri)
     }
 
     // 완벽

@@ -266,24 +266,51 @@
 			</div>
 		</div>
 		
-		<div th:if="${@rq.currentPageSiteHeaderType == 'blog'}" class="">
+		<div th:if="${@rq.currentPageSiteHeaderType == 'blog'}" class="shadow font-bold">
 			<div class="container mx-auto px-[10px] h-[50px] flex">
 				<a th:href="|||/b/${blogId}|||" class="logo flex items-center">
 					<span>[[${blogName}]]</span>
 				</a>
 				
-				<a target="_blank"
-					 th:if="${@rq.currentPageCanGoEditCurrentKen && blogKen != null && @rq.loginedMemberId == blogKen.memberId}"
-					 th:href="|||/ken/${blogKen.id}/edit|||"
-					 class="h-full flex items-center hover:underline px-[10px] cursor-pointer">
-					<span><i class="far fa-edit"></i></span>
-					<span class="hidden sm:block">&nbsp;</span>
-					<span class="hidden sm:block">블로그 관리</span>
-				</a>
-				
 				<div class="flex-grow"></div>
 				
 				<ul class="flex mr-[-10px] overflow-x-auto">
+					<li th:unless="${@rq.logined}">
+						<a th:href="|||/member/join?afterLoginUri=${@rq.encodedCurrentUri}|||" class="h-full flex items-center hover:underline px-[10px]">
+							<span><i class="fas fa-user-plus"></i></span>
+							<span class="hidden lg:block">&nbsp;</span>
+							<span class="hidden lg:block">회원가입</span>
+						</a>
+					</li>
+					
+					<li th:unless="${@rq.logined}">
+						<a th:href="|||/member/login?afterLoginUri=${@rq.encodedCurrentUri}|||" class="h-full flex items-center hover:underline px-[10px]">
+							<span><i class="fas fa-sign-in-alt"></i></span>
+							<span class="hidden lg:block">&nbsp;</span>
+							<span class="hidden lg:block">로그인</span>
+						</a>
+					</li>
+					
+					<li th:if="${@rq.logined}">
+						<a th:href="|||/member/doLogout?replaceUri=${@rq.encodedCurrentUri}|||" class="h-full flex items-center hover:underline px-[10px]">
+							<span><i class="fas fa-sign-out-alt"></i></span>
+							<span class="hidden lg:block">&nbsp;</span>
+							<span class="hidden lg:block">로그아웃</span>
+						</a>
+					</li>
+					
+					<li th:if="${@rq.logined}">
+						<a target="_blank" href="/member/modify" class="h-full flex items-center hover:underline px-[10px] indicator">
+							<span><i class="fas fa-user-cog"></i></span>
+							<span class="hidden lg:block">&nbsp;</span>
+							<span class="hidden lg:block">내정보</span>
+							<div th:if="${@rq.headerMenuItemsIndicatorText['myPage'] != null}"
+									 class="indicator-item indicator-top indicator-right badge badge-secondary"
+									 style="transform:scale(0.5) translateY(10px)">[[${@rq.headerMenuItemsIndicatorText['myPage']}]]
+							</div>
+						</a>
+					</li>
+					
 					<li th:if="${@rq.logined && @rq.themeName != 'mylight'}">
 						<a onclick="Theme__changeTo('mylight');"
 							 class="h-full flex items-center hover:underline px-[10px] cursor-pointer">
@@ -314,18 +341,34 @@
 		<div th:if="${@rq.currentPageSiteHeaderType == 'blog'}" class="container mx-auto px-[10px] h-[50px] flex">
 			
 			<div class="flex-grow"></div>
-			<a th:href="|||/b/${blogId}|||" class="logo flex items-center">
+			<a th:href="|||/b/${blogId}|||" class="logo flex items-center px-[10px]">
 				<span>[[${blogName}]]</span>
+			</a>
+			
+			<a target="_blank"
+				 th:if="${@rq.currentPageCanGoEditCurrentKen && blogKen != null && @rq.loginedMemberId == blogKen.memberId}"
+				 th:href="|||/ken/${blogKen.id}/edit|||"
+				 class="flex items-center hover:underline px-[10px]">
+				<span><i class="far fa-edit"></i></span>
+				<span class="hidden sm:block">&nbsp;</span>
+				<span class="hidden sm:block">블로그 관리</span>
 			</a>
 			
 			<a target="_blank"
 				 th:if="${@rq.currentPageCanGoEditCurrentKen && ken != null && @rq.loginedMemberId == ken.memberId}"
 				 th:href="|||/ken/${ken.id}/edit|||"
-				 class="h-full flex items-center hover:underline px-[10px] cursor-pointer">
+				 class="flex items-center hover:underline px-[10px]">
 				<span><i class="far fa-edit"></i></span>
 				<span class="hidden sm:block">&nbsp;</span>
 				<span class="hidden sm:block">글 수정</span>
 			</a>
+			
+			<a  th:if="${@rq.logined}" target="_blank" href="/ken" class="flex items-center hover:underline px-[10px]">
+				<span><i class="fas fa-pen"></i></span>
+				<span class="hidden lg:block">&nbsp;</span>
+				<span class="hidden lg:block">새 글</span>
+			</a>
+			
 			<div class="flex-grow"></div>
 		</div>
 	</footer>
