@@ -46,3 +46,10 @@ html .table thead td:last-child,
 html .table thead th:last-child {
   border-bottom-right-radius: 0;
 }
+
+html .table tfoot td,
+html .table tfoot th,
+html .table thead td,
+html .table thead th {
+  font-size:0.85rem;
+}
