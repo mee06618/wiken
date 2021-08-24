@@ -59,7 +59,8 @@
 		
 		<!-- 코드 신택스 하이라이터, 프리즈마의 기본 CSS -->
 		<!-- 코드 신택스 하이라이터, 프리즈마의 기본 JS는 아래 스크립트에 의해 자동으로 불러와지기 때문에 안불러와도 됨 -->
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css">
+		<link th:if="${@rq.themeName == 'mylight'}" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css">
+		<link th:if="${@rq.themeName == 'mydark'}" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-okaidia.min.css">
 		
 		<!-- 외부 신택스 하이라이터를 토스트 UI 에디터에 연결 -->
 		<link rel="stylesheet"

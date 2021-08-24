@@ -1,5 +1,4 @@
 @charset "utf-8";
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
 
 @font-face {
   font-family: 'GmarketSansMedium';
@@ -14,8 +13,12 @@
 
 html > body,
 html > body .toastui-editor-contents,
-html > body .ProseMirror{
-  font-family: 'Roboto', 'GmarketSansMedium', sans-serif;
+html > body .ProseMirror,
+html > body .toastui-editor-md-code,
+html > body .toastui-editor-md-code-block
+{
+  font-family: 'GmarketSansMedium', sans-serif;
+  text-underline-position: under;
 }
 
 .toastui-editor-contents dir,
