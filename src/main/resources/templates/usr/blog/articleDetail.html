@@ -39,7 +39,7 @@
 					</thead>
 					<tr th:each="article : ${articles}" th:object="${article}" class="hover">
 						<th>
-							<a class="link" th:href="|||/b/${blogId}/*{id}|||" th:text="*{id}"></a>
+							<a th:class="|||${ken.id == article.id ? 'text-red-500' : ''}|||" th:href="|||/b/${blogId}/*{id}|||" th:text="*{id}"></a>
 						</th>
 						<td>
 							<a class="link" th:href="|||/b/${blogId}/*{id}|||" th:text="*{title}"></a>
