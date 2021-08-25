@@ -8,6 +8,6 @@ data class Attr(
     val relId: Int,
     val typeCode: String,
     val type2Code: String,
-    val value: String,
-    val expireDate: String?,
+    val value: String?,
+    val expireDate: String?, 
 )
